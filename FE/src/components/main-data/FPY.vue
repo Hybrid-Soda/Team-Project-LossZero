@@ -1,7 +1,7 @@
 <script setup></script>
 
 <template>
-  <div class="content-con con">
+  <div class="content-con con shadow">
     <img src="@/assets/img/FPY.svg" alt="공정 양품률" />
 
     <div class="title">
