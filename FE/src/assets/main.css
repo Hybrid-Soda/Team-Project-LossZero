@@ -1,8 +1,11 @@
 * {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
 }
-
+.con {
+  border-radius: 10px;
+}
 .title {
   margin-left: 20px;
 }
@@ -10,6 +13,40 @@
 .pre-t {
   font-family: "Pretendard-Regular";
   font-weight: 900;
+}
+
+.shadow {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.16), 0 1px 3px rgba(0, 0, 0, 0.23);
+}
+
+/* 메인 데이터 부분 */
+
+.content-con {
+  display: flex;
+  align-items: center;
+}
+
+.label {
+  font-size: 20px;
+}
+.value {
+  font-size: 40px;
+  align-items: end;
+}
+
+.label,
+.value {
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.spelling {
+  margin-left: 10px;
+}
+
+.mini-t {
+  font-size: 10px;
 }
 
 @font-face {

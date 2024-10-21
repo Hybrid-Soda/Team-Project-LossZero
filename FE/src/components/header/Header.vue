@@ -6,7 +6,7 @@ import UserInfo from "@/components/header/UserInfo.vue";
   <div class="header-con">
     <div class="left">
       <img src="@/assets/img/icon.svg" alt="아이콘" class="icon" />
-      <span class="pre-t title">Smarter</span>
+      <span class="pre-t title">불량 제로</span>
       <UserInfo />
     </div>
 
