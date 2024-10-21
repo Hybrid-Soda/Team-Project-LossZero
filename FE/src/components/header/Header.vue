@@ -4,9 +4,15 @@ import UserInfo from "@/components/header/UserInfo.vue";
 
 <template>
   <div class="header-con">
-    <img src="@/assets/img/icon.svg" alt="아이콘" class="icon" />
-    <span class="pre-t title">Smarter</span>
-    <UserInfo />
+    <div class="left">
+      <img src="@/assets/img/icon.svg" alt="아이콘" class="icon" />
+      <span class="pre-t title">Smarter</span>
+      <UserInfo />
+    </div>
+
+    <div class="right">
+      <button class="logout pre-t">로그아웃</button>
+    </div>
   </div>
 </template>
 
@@ -17,6 +23,7 @@ import UserInfo from "@/components/header/UserInfo.vue";
   margin-top: 10px;
 
   display: flex;
+  justify-content: space-between;
   align-items: center;
 }
 
@@ -25,5 +32,22 @@ import UserInfo from "@/components/header/UserInfo.vue";
 }
 .pre-t {
   font-size: 25px;
+}
+
+.left,
+.right {
+  display: flex;
+  align-items: center;
+}
+
+.logout {
+  width: 80px;
+  height: 40px;
+  font-size: 15px;
+  cursor: pointer;
+  background-color: white;
+  color: #4c7ef2;
+  border-color: #4c7ef2;
+  border-radius: 10px;
 }
 </style>
