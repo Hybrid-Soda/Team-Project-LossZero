@@ -1,15 +1,60 @@
 * {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
 }
-
+.con {
+  border-radius: 10px;
+  background-color: white;
+}
 .title {
   margin-left: 20px;
+}
+
+.box-row {
+  display: flex;
+  align-items: center;
 }
 
 .pre-t {
   font-family: "Pretendard-Regular";
   font-weight: 900;
+}
+
+.shadow {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.16), 0 1px 3px rgba(0, 0, 0, 0.23);
+}
+
+/* 메인 데이터 부분 */
+
+.content-con {
+  display: flex;
+  align-items: center;
+
+  padding: 10px 20px;
+}
+
+.label {
+  font-size: 15px;
+}
+.value {
+  font-size: 25px;
+  margin-top: 10px;
+  align-items: end;
+}
+
+.label,
+.value {
+  display: flex;
+  justify-content: space-between;
+}
+
+.spelling {
+  margin-left: 10px;
+}
+
+.mini-t {
+  font-size: 10px;
 }
 
 @font-face {
