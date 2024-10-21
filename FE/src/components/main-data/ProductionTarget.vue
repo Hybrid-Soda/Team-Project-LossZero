@@ -1,7 +1,7 @@
 <script setup></script>
 
 <template>
-  <div class="content-con">
+  <div class="content-con con">
     <img src="@/assets/img/production.svg" alt="목표 생산량" />
 
     <div class="title">

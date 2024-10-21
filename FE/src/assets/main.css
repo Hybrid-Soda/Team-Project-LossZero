@@ -5,9 +5,15 @@
 }
 .con {
   border-radius: 10px;
+  background-color: white;
 }
 .title {
   margin-left: 20px;
+}
+
+.box-row {
+  display: flex;
+  align-items: center;
 }
 
 .pre-t {
@@ -24,19 +30,21 @@
 .content-con {
   display: flex;
   align-items: center;
+
+  padding: 10px 20px;
 }
 
 .label {
-  font-size: 20px;
+  font-size: 15px;
 }
 .value {
-  font-size: 40px;
+  font-size: 25px;
+  margin-top: 10px;
   align-items: end;
 }
 
 .label,
 .value {
-  margin-top: 10px;
   display: flex;
   justify-content: space-between;
 }

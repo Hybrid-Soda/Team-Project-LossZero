@@ -1,7 +1,7 @@
 <script setup></script>
 
 <template>
-  <div class="content-con">
+  <div class="content-con con">
     <img src="@/assets/img/OEE.svg" alt="설비 종합 효율" />
 
     <div class="title">
