@@ -1,5 +1,6 @@
 <script setup>
 import Log from "@/components/sub-data/Log.vue";
+import MachineOperation from "@/components/sub-data/MachineOperation.vue";
 </script>
 
 <template>
@@ -9,6 +10,7 @@ import Log from "@/components/sub-data/Log.vue";
       <span class="title pre-bt">실시간 정보</span>
     </div>
     <Log />
+    <MachineOperation />
   </div>
 </template>
 

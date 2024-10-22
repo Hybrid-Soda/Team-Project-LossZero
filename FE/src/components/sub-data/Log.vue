@@ -38,14 +38,16 @@ function tempPlus() {
 
 <template>
   <div style="width: 100%">
-    <label for="">정상</label>
-    <input type="number" name="" id="" v-model="nomalCnt" />
-    <label for="">재사용</label>
-    <input type="number" name="" id="" v-model="recycleCnt" />
-    <label for="">불량</label>
-    <input type="number" name="" id="" v-model="faultyCnt" />
+    <div style="position: absolute; top: 20px; right: 520px">
+      <label for="">정상</label>
+      <input type="number" name="" id="" v-model="nomalCnt" />
+      <label for="">재사용</label>
+      <input type="number" name="" id="" v-model="recycleCnt" />
+      <label for="">불량</label>
+      <input type="number" name="" id="" v-model="faultyCnt" />
 
-    <button style="margin-left: 10px" @click="tempPlus">전송</button>
+      <button style="margin-left: 10px" @click="tempPlus">전송</button>
+    </div>
     <div class="log-con con shadow">
       <LogTime
         v-for="(logtime, index) in tempData"
