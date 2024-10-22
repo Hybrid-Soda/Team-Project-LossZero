@@ -1,9 +1,11 @@
 <script setup>
 import UserInfo from "@/components/header/UserInfo.vue";
+import LogIssue from "@/components/header/LogIssue.vue";
 </script>
 
 <template>
   <div class="header-con">
+    <LogIssue />
     <div class="left">
       <img src="@/assets/img/icon.svg" alt="아이콘" class="icon" />
       <span class="pre-t title">불량 제로</span>
@@ -25,6 +27,8 @@ import UserInfo from "@/components/header/UserInfo.vue";
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  position: relative;
 }
 
 .icon {
