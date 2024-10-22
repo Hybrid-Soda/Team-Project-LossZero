@@ -11,7 +11,7 @@ import UserInfo from "@/components/header/UserInfo.vue";
     </div>
 
     <div class="right">
-      <button class="logout pre-t">로그아웃</button>
+      <button class="logout pre-t btn">로그아웃</button>
     </div>
   </div>
 </template>
@@ -44,10 +44,6 @@ import UserInfo from "@/components/header/UserInfo.vue";
   width: 80px;
   height: 40px;
   font-size: 15px;
-  cursor: pointer;
-  background-color: white;
-  color: #4c7ef2;
-  border-color: #4c7ef2;
   border-radius: 10px;
 }
 </style>
