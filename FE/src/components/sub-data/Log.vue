@@ -1,18 +1,11 @@
 <script setup>
 import LogTime from "@/components/sub-data/LogTime.vue";
+import { useCounterStore } from "@/stores/counter";
 import { useLogStore } from "@/stores/logdata";
 import { ref } from "vue";
 
 const logStore = useLogStore();
-
-const tempData = ref([
-  {
-    id: 0,
-    nomal: 2,
-    recycle: 1,
-    faulty: 0,
-  },
-]);
+const cntStore = useCounterStore();
 
 let idx = 1;
 const nomalCnt = ref(0);
@@ -20,19 +13,20 @@ const recycleCnt = ref(0);
 const faultyCnt = ref(0);
 
 function tempPlus() {
-  tempData.value.unshift({
+  const logtime = {
     idx: idx,
     nomal: nomalCnt.value,
     recycle: recycleCnt.value,
     faulty: faultyCnt.value,
-  });
+  };
+
+  cntStore.updateProductCnt(nomalCnt.value, logtime);
+  logStore.createIssue();
 
   idx += 1;
   nomalCnt.value = 0;
   recycleCnt.value = 0;
   faultyCnt.value = 0;
-
-  logStore.createIssue();
 }
 </script>
 
@@ -50,7 +44,7 @@ function tempPlus() {
     </div>
     <div class="log-con con shadow">
       <LogTime
-        v-for="(logtime, index) in tempData"
+        v-for="(logtime, index) in cntStore.logData"
         :key="index"
         :log-data="logtime"
       />

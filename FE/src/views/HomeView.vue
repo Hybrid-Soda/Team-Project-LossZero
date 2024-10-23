@@ -22,5 +22,7 @@ import SubData from "@/components/sub-data/SubData.vue";
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  overflow: hidden;
 }
 </style>

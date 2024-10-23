@@ -8,8 +8,8 @@ import ProductionRecord from "@/components/sub-data/ProductionRecord.vue";
   <div class="sub-data-con">
     <RealTime />
     <div class="record-con">
-      <WeeklyRecord />
       <ProductionRecord />
+      <WeeklyRecord />
     </div>
   </div>
 </template>
