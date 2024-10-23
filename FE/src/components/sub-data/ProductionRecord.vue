@@ -13,28 +13,28 @@
 
     <div class="chart-container">
       <!-- 범례 -->
-      <div class="legend-box">
+      <div class="legend-box pre-t">
         <ul>
           <li>
             <span
               class="legend-color"
               style="background-color: rgb(54, 162, 235)"
             ></span>
-            정상품: {{ productionData[0] }}개
+            정상품: {{ cntStore.productData[0] }}개
           </li>
           <li>
             <span
               class="legend-color"
               style="background-color: rgb(255, 99, 132)"
             ></span>
-            불량품: {{ productionData[1] }}개
+            불량품: {{ cntStore.productData[2] }}개
           </li>
           <li>
             <span
               class="legend-color"
               style="background-color: rgb(255, 159, 64)"
             ></span>
-            재사용: {{ productionData[2] }}개
+            재사용: {{ cntStore.productData[1] }}개
           </li>
         </ul>
       </div>
@@ -42,7 +42,7 @@
       <!-- Bar chart 캔버스 -->
       <div class="chart-wrapper">
         <canvas id="myBarChart"></canvas>
-        <div class="chart-text">합계 : {{ total }}개</div>
+        <div class="chart-text pre-t">합계 : {{ cntStore.totalCnt }}개</div>
       </div>
 
       <!-- Donut 차트 캔버스 -->
@@ -54,34 +54,44 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watch } from "vue";
 import Chart from "chart.js/auto"; // Chart.js 자동 임포트
+import { useCounterStore } from "@/stores/counter";
 
-const total = ref(0); // 합계를 저장할 변수
-const productionData = [60, 30, 10]; // 데이터 값
+const cntStore = useCounterStore();
+
+watch(
+  () => [cntStore.totalCnt, cntStore.targetCnt],
+  () => {
+    // console.log("이슈!");
+    myBarChart.data.datasets[0].data = cntStore.productData;
+    myDonutChart.data.datasets[0].data = cntStore.doughnutData;
+    myBarChart.update();
+    myDonutChart.update();
+  }
+);
+
+let myBarChart = null;
+let myDonutChart = null;
 
 onMounted(() => {
-  const barCanvas = document.getElementById("myBarChart");
   const donutCanvas = document.getElementById("myDonutChart");
-
-  // 데이터의 합계를 계산하여 total에 저장
-  total.value = productionData.reduce((a, b) => a + b, 0);
-
+  const barCanvas = document.getElementById("myBarChart");
   // Bar Chart 생성
   if (barCanvas) {
     const ctx = barCanvas.getContext("2d");
-    new Chart(ctx, {
+    myBarChart = new Chart(ctx, {
       type: "bar",
       data: {
-        labels: ["정상품", "불량품", "재사용가능"],
+        labels: ["정상품", "재사용가능", "불량품"],
         datasets: [
           {
             label: "생산량",
-            data: productionData,
+            data: cntStore.productData,
             backgroundColor: [
               "rgb(54, 162, 235)",
-              "rgb(255, 99, 132)",
               "rgb(255, 159, 64)",
+              "rgb(255, 99, 132)",
             ],
             borderWidth: 0,
           },
@@ -89,8 +99,31 @@ onMounted(() => {
       },
       options: {
         maintainAspectRatio: false,
+        scales: {
+          x: {
+            ticks: {
+              font: {
+                size: 12,
+                family: "Pretendard-Regular",
+              },
+            },
+          },
+          y: {
+            ticks: {
+              font: {
+                size: 13,
+                family: "Pretendard-Regular",
+              },
+            },
+          },
+        },
         plugins: {
-          legend: { display: false },
+          legend: {
+            display: false,
+            labels: {
+              font: { size: 13, family: "Pretendard-Regular" },
+            },
+          },
           tooltip: {
             callbacks: {
               label: function (tooltipItem) {
@@ -102,17 +135,16 @@ onMounted(() => {
       },
     });
   }
-
   // Donut Chart 생성 (30/120 비율)
   if (donutCanvas) {
     const ctx = donutCanvas.getContext("2d");
-    new Chart(ctx, {
+    myDonutChart = new Chart(ctx, {
       type: "doughnut",
       data: {
         labels: ["완료", "미완료"],
         datasets: [
           {
-            data: [30, 120 - 30],
+            data: cntStore.doughnutData,
             backgroundColor: ["rgb(54, 162, 235)", "rgb(200, 200, 200)"],
             hoverBackgroundColor: ["rgb(54, 162, 235)", "rgb(220, 220, 220)"],
           },
@@ -124,6 +156,9 @@ onMounted(() => {
         plugins: {
           legend: {
             display: true, // 범례 표시
+            labels: {
+              font: { size: 13, family: "Pretendard-Regular" },
+            },
           },
         },
       },
@@ -202,7 +237,7 @@ onMounted(() => {
 .chart-wrapper {
   position: relative;
   width: 50%; /* 차트의 너비 조정 */
-  height: 180px;
+  height: 170px;
   padding-right: 20px;
 }
 
@@ -222,7 +257,7 @@ canvas {
 .chart-text {
   position: absolute;
   top: 80%;
-  left: -25%;
+  left: -30%;
   transform: translate(-50%, -50%);
   font-size: 20px;
   font-weight: bold;
