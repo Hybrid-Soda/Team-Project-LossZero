@@ -2,93 +2,108 @@
   <div class="production-record-con con shadow">
     <div class="icon-text">
       <div class="icon-box">
-        <img src="@/assets/img/mingcute_warning-line.svg" alt="Icon" class="icon-img" />
+        <img
+          src="@/assets/img/mingcute_warning-line.svg"
+          alt="Icon"
+          class="icon-img"
+        />
       </div>
       <h2 class="header-text">생산 정보</h2>
     </div>
 
     <!-- 차트 컨테이너 -->
-    <div class="chart-container">
+    <div class="chart-container pre-bt">
       <!-- 범례가 들어가는 부분 -->
-      <div class="legend-box">
+      <div class="legend-box pre-t">
         <ul>
           <li>
-            <span class="legend-color" style="background-color: rgb(54, 162, 235);"></span>
-            정상품: {{ (productionData[0])}}개
+            <span
+              class="legend-color"
+              style="background-color: rgb(54, 162, 235)"
+            ></span>
+            정상품: {{ productionData[0] }}개
           </li>
           <li>
-            <span class="legend-color" style="background-color: rgb(255, 99, 132);"></span>
-            불량품: {{ (productionData[1])}}개
+            <span
+              class="legend-color"
+              style="background-color: rgb(255, 99, 132)"
+            ></span>
+            불량품: {{ productionData[1] }}개
           </li>
           <li>
-            <span class="legend-color" style="background-color: rgb(255, 159, 64);"></span>
-            재사용: {{ (productionData[2])}}개
+            <span
+              class="legend-color"
+              style="background-color: rgb(255, 159, 64)"
+            ></span>
+            재사용: {{ productionData[2] }}개
           </li>
         </ul>
       </div>
       <!-- 차트 캔버스 및 중앙 텍스트 -->
       <div class="chart-wrapper">
         <canvas id="myChart"></canvas>
-        <div class="chart-text">
-          합계 : {{ total }}개
-        </div>
+        <div class="chart-text">합계 : {{ total }}개</div>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
-import Chart from 'chart.js/auto';  // Chart.js 자동 임포트
+import { ref, onMounted } from "vue";
+import Chart from "chart.js/auto"; // Chart.js 자동 임포트
 
-const total = ref(0);  // 합계를 저장할 변수
-const productionData = [60, 30, 10];  // 데이터 값
+const total = ref(0); // 합계를 저장할 변수
+const productionData = [60, 30, 10]; // 데이터 값
 
 onMounted(() => {
-  const canvas = document.getElementById('myChart');
+  const canvas = document.getElementById("myChart");
 
   // 데이터의 합계를 계산하여 total에 저장
   total.value = productionData.reduce((a, b) => a + b, 0);
 
   if (canvas) {
-    const ctx = canvas.getContext('2d');
-
+    const ctx = canvas.getContext("2d");
     // 차트 생성
     new Chart(ctx, {
-      type: 'bar',  // 도넛 차트로 설정
+      type: "bar", // 도넛 차트로 설정
       data: {
-        labels: ['정상품', '불량품', '재사용가능'],
+        labels: ["정상품", "불량품", "재사용가능"],
         datasets: [
           {
-            label: '생산량',
+            label: "생산량",
             data: productionData, // 데이터 값
             backgroundColor: [
-              'rgb(54, 162, 235)', // 파랑
-              'rgb(255, 99, 132)', // 빨강
-              'rgb(255, 159, 64)'  // 주황
+              "rgb(54, 162, 235)", // 파랑
+              "rgb(255, 99, 132)", // 빨강
+              "rgb(255, 159, 64)", // 주황
             ],
-            borderWidth: 0  // 경계선 제거
-          }
-        ]
+            borderWidth: 0, // 경계선 제거
+          },
+        ],
       },
       options: {
-        cutout: '75%',  // 중앙 부분을 더 넓게 비워 원형을 도넛 형태로 만듦
-        maintainAspectRatio: false,  // 차트 비율 유지 안함
+        cutout: "75%", // 중앙 부분을 더 넓게 비워 원형을 도넛 형태로 만듦
+        maintainAspectRatio: false, // 차트 비율 유지 안함
         plugins: {
           legend: {
-            display: false  // 범례 표시 끔 (우리가 따로 만듦)
+            display: false, // 범례 표시 끔 (우리가 따로 만듦)
+            labels: {
+              font: {
+                size: 25, // 범례 폰트 크기 설정
+              },
+            },
           },
           tooltip: {
-            enabled: true,  // 툴팁 활성화
+            enabled: true, // 툴팁 활성화
             callbacks: {
-              label: function(tooltipItem) {
+              label: function (tooltipItem) {
                 // 툴팁에 데이터를 추가 (소수점 2자리로 백분율 표시)
-                return `${tooltipItem.label}: ${(tooltipItem.raw)}개`;
-              }
-            }
-          }
-        }
-      }
+                return `${tooltipItem.label}: ${tooltipItem.raw}개`;
+              },
+            },
+          },
+        },
+      },
     });
   } else {
     console.error("Canvas element not found!");
@@ -100,7 +115,7 @@ onMounted(() => {
 .production-record-con {
   padding: 10px;
   width: 100%;
-  height: 240px;  /* 높이를 고정 */
+  height: 240px; /* 높이를 고정 */
   margin-top: 20px;
   background-color: #fff;
   border-radius: 8px;
@@ -140,7 +155,7 @@ onMounted(() => {
 }
 
 .legend-box {
-  width: 25%;  /* 범례의 너비 조정 */
+  width: 25%; /* 범례의 너비 조정 */
   padding-top: 20px;
   padding-left: 20px;
 }
@@ -172,8 +187,8 @@ onMounted(() => {
 }
 
 canvas {
-  width: 100% !important;  /* 캔버스 크기 고정 */
-  height: 100% !important;  /* 캔버스 크기 고정 */
+  width: 100% !important; /* 캔버스 크기 고정 */
+  height: 100% !important; /* 캔버스 크기 고정 */
   z-index: 1;
 }
 
