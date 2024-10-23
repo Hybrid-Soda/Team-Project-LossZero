@@ -41,7 +41,7 @@
 
 <script setup>
 import { useRouter } from 'vue-router'; // Vue Router 임포트
-import sampleImage from '@/assets/Login/Login_background_image.png';
+import sampleImage from '@/assets/Login/Login_background_image.svg';
 import logoImage from '@/assets/Login/Logo_icon.png';
 import idIcon from '@/assets/Login/Id_icon.png';
 import passwordIcon from '@/assets/Login/Password_icon.png';
