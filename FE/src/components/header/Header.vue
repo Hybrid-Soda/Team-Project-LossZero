@@ -1,6 +1,15 @@
 <script setup>
+import { useRouter } from "vue-router";
 import UserInfo from "@/components/header/UserInfo.vue";
 import LogIssue from "@/components/header/LogIssue.vue";
+
+// Vue Router 사용
+const router = useRouter();
+
+// 로그아웃 버튼 클릭 시 로그인 페이지로 이동
+function logout() {
+  router.push({ path: "/" });
+}
 </script>
 
 <template>
@@ -8,12 +17,13 @@ import LogIssue from "@/components/header/LogIssue.vue";
     <LogIssue />
     <div class="left">
       <img src="@/assets/img/icon.svg" alt="아이콘" class="icon" />
-      <span class="pre-t title">불량 제로</span>
+      <span class="pre-t title"></span>
       <UserInfo />
     </div>
 
     <div class="right">
-      <button class="logout pre-t btn">로그아웃</button>
+      <!-- 로그아웃 버튼 클릭 시 logout 함수 호출 -->
+      <button class="logout pre-t btn" @click="logout">로그아웃</button>
     </div>
   </div>
 </template>
