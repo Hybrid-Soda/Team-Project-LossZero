@@ -11,10 +11,9 @@
       <h2 class="header-text">생산 정보</h2>
     </div>
 
-    <!-- 차트 컨테이너 -->
-    <div class="chart-container pre-bt">
-      <!-- 범례가 들어가는 부분 -->
-      <div class="legend-box pre-t">
+    <div class="chart-container">
+      <!-- 범례 -->
+      <div class="legend-box">
         <ul>
           <li>
             <span
@@ -39,10 +38,16 @@
           </li>
         </ul>
       </div>
-      <!-- 차트 캔버스 및 중앙 텍스트 -->
+
+      <!-- Bar chart 캔버스 -->
       <div class="chart-wrapper">
-        <canvas id="myChart"></canvas>
+        <canvas id="myBarChart"></canvas>
         <div class="chart-text">합계 : {{ total }}개</div>
+      </div>
+
+      <!-- Donut 차트 캔버스 -->
+      <div class="donut-chart-wrapper">
+        <canvas id="myDonutChart"></canvas>
       </div>
     </div>
   </div>
@@ -56,48 +61,39 @@ const total = ref(0); // 합계를 저장할 변수
 const productionData = [60, 30, 10]; // 데이터 값
 
 onMounted(() => {
-  const canvas = document.getElementById("myChart");
+  const barCanvas = document.getElementById("myBarChart");
+  const donutCanvas = document.getElementById("myDonutChart");
 
   // 데이터의 합계를 계산하여 total에 저장
   total.value = productionData.reduce((a, b) => a + b, 0);
 
-  if (canvas) {
-    const ctx = canvas.getContext("2d");
-    // 차트 생성
+  // Bar Chart 생성
+  if (barCanvas) {
+    const ctx = barCanvas.getContext("2d");
     new Chart(ctx, {
-      type: "bar", // 도넛 차트로 설정
+      type: "bar",
       data: {
         labels: ["정상품", "불량품", "재사용가능"],
         datasets: [
           {
             label: "생산량",
-            data: productionData, // 데이터 값
+            data: productionData,
             backgroundColor: [
-              "rgb(54, 162, 235)", // 파랑
-              "rgb(255, 99, 132)", // 빨강
-              "rgb(255, 159, 64)", // 주황
+              "rgb(54, 162, 235)",
+              "rgb(255, 99, 132)",
+              "rgb(255, 159, 64)",
             ],
-            borderWidth: 0, // 경계선 제거
+            borderWidth: 0,
           },
         ],
       },
       options: {
-        cutout: "75%", // 중앙 부분을 더 넓게 비워 원형을 도넛 형태로 만듦
-        maintainAspectRatio: false, // 차트 비율 유지 안함
+        maintainAspectRatio: false,
         plugins: {
-          legend: {
-            display: false, // 범례 표시 끔 (우리가 따로 만듦)
-            labels: {
-              font: {
-                size: 25, // 범례 폰트 크기 설정
-              },
-            },
-          },
+          legend: { display: false },
           tooltip: {
-            enabled: true, // 툴팁 활성화
             callbacks: {
               label: function (tooltipItem) {
-                // 툴팁에 데이터를 추가 (소수점 2자리로 백분율 표시)
                 return `${tooltipItem.label}: ${tooltipItem.raw}개`;
               },
             },
@@ -105,8 +101,33 @@ onMounted(() => {
         },
       },
     });
-  } else {
-    console.error("Canvas element not found!");
+  }
+
+  // Donut Chart 생성 (30/120 비율)
+  if (donutCanvas) {
+    const ctx = donutCanvas.getContext("2d");
+    new Chart(ctx, {
+      type: "doughnut",
+      data: {
+        labels: ["완료", "미완료"],
+        datasets: [
+          {
+            data: [30, 120 - 30],
+            backgroundColor: ["rgb(54, 162, 235)", "rgb(200, 200, 200)"],
+            hoverBackgroundColor: ["rgb(54, 162, 235)", "rgb(220, 220, 220)"],
+          },
+        ],
+      },
+      options: {
+        cutout: "70%", // Donut 차트 내부 비율 조정
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: true, // 범례 표시
+          },
+        },
+      },
+    });
   }
 });
 </script>
@@ -115,8 +136,8 @@ onMounted(() => {
 .production-record-con {
   padding: 10px;
   width: 100%;
-  height: 240px; /* 높이를 고정 */
-  margin-top: 20px;
+  height: 240px;
+
   background-color: #fff;
   border-radius: 8px;
 }
@@ -149,13 +170,13 @@ onMounted(() => {
 }
 
 .chart-container {
-  display: flex; /* 차트와 범례를 가로로 배치 */
-  align-items: flex-start; /* 차트와 범례를 상단에 맞춤 */
+  display: flex;
+  align-items: flex-start;
   height: 100%;
 }
 
 .legend-box {
-  width: 25%; /* 범례의 너비 조정 */
+  width: 25%;
   padding-top: 20px;
   padding-left: 20px;
 }
@@ -180,28 +201,34 @@ onMounted(() => {
 
 .chart-wrapper {
   position: relative;
-  width: 80%; /* 차트의 너비 조정 */
-  height: 200px; /* 차트 높이 고정 */
-  padding-right: 250px;
-  padding-bottom: 20px;
+  width: 50%; /* 차트의 너비 조정 */
+  height: 180px;
+  padding-right: 20px;
+}
+
+.donut-chart-wrapper {
+  position: relative;
+  width: 30%; /* 도넛 차트 너비 조정 */
+  height: 180px;
+  bottom: 20px;
 }
 
 canvas {
-  width: 100% !important; /* 캔버스 크기 고정 */
-  height: 100% !important; /* 캔버스 크기 고정 */
+  width: 100% !important;
+  height: 100% !important;
   z-index: 1;
 }
 
 .chart-text {
   position: absolute;
-  top: 70%;
-  left: -15%;
+  top: 80%;
+  left: -25%;
   transform: translate(-50%, -50%);
   font-size: 20px;
   font-weight: bold;
   text-align: center;
   color: black;
-  line-height: 1.5; /* 텍스트 줄 간격 조정 */
+  line-height: 1.5;
   z-index: 0;
 }
 </style>
