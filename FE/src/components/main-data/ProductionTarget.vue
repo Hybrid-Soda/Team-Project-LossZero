@@ -1,9 +1,12 @@
 <script setup>
+import { useCounterStore } from "@/stores/counter";
 import { onMounted, ref } from "vue";
 
 onMounted(() => {
   // 목표 생산량 받아오기
 });
+
+const cntStore = useCounterStore();
 
 const changeTarget = ref(false);
 const targetCnt = ref(120);
@@ -27,7 +30,7 @@ function changeBtn() {
         <button class="change btn pre-t" @click="changeBtn">변경</button>
       </div>
       <div class="value pre-t">
-        30 /
+        {{ cntStore.productCnt }} /
         <input
           type="number"
           class="target pre-t"
