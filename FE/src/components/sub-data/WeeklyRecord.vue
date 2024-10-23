@@ -17,6 +17,15 @@
 import { onMounted } from 'vue';
 import Chart from 'chart.js/auto';  // Chart.js 자동 임포트
 
+// 랜덤 값 생성 함수
+function getRandomValues(min, max, count) {
+  const values = [];
+  for (let i = 0; i < count; i++) {
+    values.push(Math.floor(Math.random() * (max - min + 1)) + min);
+  }
+  return values;
+}
+
 onMounted(() => {
   const canvas = document.getElementById('myChart2');
 
@@ -25,20 +34,34 @@ onMounted(() => {
 
     // 차트 생성
     new Chart(ctx, {
-      type: 'line',  // 라인 차트로 설정
+      type: 'bar',  // 메인 타입을 막대형으로 설정
       data: {
         labels: ['10월 17일', '10월 18일', '10월 19일', '10월 20일', '10월 21일', '10월 22일'],
         datasets: [
           {
             label: '생산량',
+            type: 'bar',  // 생산량은 막대 차트로 설정
             data: [3, 6, 4, 8, 7, 9], // 생산량 데이터
             fill: true,  // 배경 채우기
-            borderColor: 'rgba(85, 42, 254, 1)', // 라인 색상
+            backgroundColor: 'rgba(85, 42, 254, 0.7)', // 막대 배경 색상
             backgroundColor: 'rgba(237, 235, 253, 0.7)', // 배경 색상
+            tension: 0.4, // 곡선 스무딩
+            borderColor: 'rgba(85, 42, 254, 1)', // 막대 테두리 색상
+            borderWidth: 2,  // 막대 테두리 두께
+            yAxisID: 'y',  // 왼쪽 Y축
+          },
+          {
+            label: '설비 종합 효율',
+            type: 'line',  // 설비 종합 효율은 라인 차트로 유지
+            data: getRandomValues(60, 100, 6), // 랜덤한 설비 종합 효율 데이터
+            fill: true,  // 배경 채우기
+            borderColor: 'rgba(42, 254, 123, 1)', // 라인 색상
+            backgroundColor: 'rgba(235, 253, 237, 0.7)', // 배경 색상
             tension: 0.4, // 곡선 스무딩
             pointBackgroundColor: 'white', // 포인트 색상
             pointBorderWidth: 2, // 포인트 테두리 너비
-            borderWidth: 3  // 라인 두께
+            borderWidth: 3,  // 라인 두께
+            yAxisID: 'y1'  // 오른쪽 Y축
           }
         ]
       },
@@ -46,7 +69,16 @@ onMounted(() => {
         maintainAspectRatio: false, // 비율 유지하지 않음
         scales: {
           y: {
-            beginAtZero: true // Y축 0부터 시작
+            beginAtZero: true, // 왼쪽 Y축 0부터 시작
+            position: 'left', // 왼쪽 Y축
+            min: 0,
+            max: 10 // 생산량의 최대값에 맞춘 범위
+          },
+          y1: {
+            beginAtZero: false, // 오른쪽 Y축 60부터 시작
+            position: 'right', // 오른쪽 Y축
+            min: 60,
+            max: 100 // 설비 종합 효율의 최대값에 맞춘 범위
           }
         },
         plugins: {
@@ -59,10 +91,11 @@ onMounted(() => {
             intersect: false, // 교차하지 않는 데이터도 표시
             callbacks: {
               label: function(tooltipItem) {
-                // 툴팁에 생산량, 온도, 습도 정보를 추가
                 if (tooltipItem.dataset.label === '생산량') {
                   return `생산량: ${tooltipItem.raw}`;
-                } 
+                } else if (tooltipItem.dataset.label === '설비 종합 효율') {
+                  return `효율: ${tooltipItem.raw}%`;
+                }
               }
             }
           }
