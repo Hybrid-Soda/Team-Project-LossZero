@@ -9,13 +9,13 @@ onMounted(() => {
 const cntStore = useCounterStore();
 
 const changeTarget = ref(false);
-const targetCnt = ref(120);
+const targetCnt = ref(cntStore.targetCnt);
 
 function changeBtn() {
   if (changeTarget.value) {
     // 목표 생산량 변경하기
+    cntStore.changeTargetCnt(targetCnt.value);
   }
-
   changeTarget.value = !changeTarget.value;
 }
 </script>
@@ -38,7 +38,7 @@ function changeBtn() {
           v-model="targetCnt"
           @keydown.enter="changeBtn"
         />
-        <span v-else>{{ targetCnt }}</span>
+        <span v-else>{{ cntStore.targetCnt }}</span>
         (개)
       </div>
     </div>
