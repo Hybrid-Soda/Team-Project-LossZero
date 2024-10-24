@@ -10,8 +10,17 @@ export const useCounterStore = defineStore(
     const nomalCnt = ref(0);
     const recycleCnt = ref(0);
     const faultyCnt = ref(0);
+
     const totalCnt = computed(
       () => nomalCnt.value + recycleCnt.value + faultyCnt.value
+    );
+
+    const DPO = computed(() =>
+      Math.ceil(100 * ((recycleCnt.value + faultyCnt.value) / totalCnt.value))
+        ? Math.ceil(
+            100 * ((recycleCnt.value + faultyCnt.value) / totalCnt.value)
+          )
+        : 0
     );
 
     const productData = ref([
@@ -70,6 +79,7 @@ export const useCounterStore = defineStore(
       recycleCnt,
       faultyCnt,
       totalCnt,
+      DPO,
       productData,
       doughnutData,
       updateProductCnt,
