@@ -1,9 +1,11 @@
 import { ref, computed } from "vue";
 import { defineStore } from "pinia";
+import LogTime from "@/components/sub-data/LogTime.vue";
 
 export const useCounterStore = defineStore(
   "counter",
   () => {
+    const logDate = ref(0);
     const targetCnt = ref(120);
     const productCnt = ref(0);
     const logData = ref([]);
@@ -34,9 +36,13 @@ export const useCounterStore = defineStore(
       targetCnt.value - nomalCnt.value,
     ]);
 
+    function updateLogDate(date) {
+      logDate.value = date;
+    }
+
     function updateProductCnt(cnt, logTime) {
       logData.value.unshift({
-        idx: logTime.idx,
+        logDate: `${logDate.value.period} ${logDate.value.hours}시 ${logDate.value.minutes}분`,
         nomal: logTime.nomal,
         recycle: logTime.recycle,
         faulty: logTime.faulty,
@@ -72,6 +78,7 @@ export const useCounterStore = defineStore(
     }
 
     return {
+      logDate,
       targetCnt,
       productCnt,
       logData,
@@ -84,6 +91,7 @@ export const useCounterStore = defineStore(
       doughnutData,
       updateProductCnt,
       changeTargetCnt,
+      updateLogDate,
     };
   },
   { persist: true }
