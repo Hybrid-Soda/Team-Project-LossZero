@@ -1,4 +1,6 @@
 <script setup>
+import { useCounterStore } from "@/stores/counter";
+
 defineProps({
   logData: Object,
 });
@@ -6,7 +8,7 @@ defineProps({
 
 <template>
   <div class="logtime-con con box-row pre-t">
-    <span class="time">오전 10시 11분</span>
+    <span class="time">{{ logData.logDate }}</span>
     <div class="nomal">
       <span>정상 : </span>
       <span>{{ logData.nomal }} 개</span>
@@ -35,7 +37,7 @@ defineProps({
 
 .nomal {
   margin-left: 15px;
-  width: 70px;
+  width: 80px;
 
   color: blue;
 }

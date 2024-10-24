@@ -79,18 +79,44 @@ onMounted(() => {
             beginAtZero: true, // 왼쪽 Y축 0부터 시작
             position: "left", // 왼쪽 Y축
             min: 0,
-            max: 10, // 생산량의 최대값에 맞춘 범위
+            max: 10, // 생산량의 최대값에 맞춘 범위,
+            ticks: {
+              font: {
+                size: 12,
+                family: "Pretendard-Regular",
+              },
+            },
           },
           y1: {
             beginAtZero: false, // 오른쪽 Y축 60부터 시작
             position: "right", // 오른쪽 Y축
             min: 60,
             max: 100, // 설비 종합 효율의 최대값에 맞춘 범위
+            ticks: {
+              font: {
+                size: 12,
+                family: "Pretendard-Regular",
+              },
+            },
+          },
+          x: {
+            ticks: {
+              font: {
+                size: 12,
+                family: "Pretendard-Regular",
+              },
+            },
           },
         },
         plugins: {
           legend: {
             display: true, // 범례 표시
+            labels: {
+              font: {
+                size: 12,
+                family: "Pretendard-Regular",
+              },
+            },
           },
           tooltip: {
             // 툴팁 옵션
@@ -127,7 +153,7 @@ onMounted(() => {
 .icon-text {
   display: flex;
   align-items: center;
-  margin-bottom: 10px;
+  /* margin-bottom: 10px; */
 }
 
 .icon-box {
@@ -161,6 +187,6 @@ onMounted(() => {
 
 canvas {
   width: 100% !important; /* 캔버스 크기 조정 */
-  height: 80% !important; /* 캔버스 크기 조정 */
+  height: 85% !important; /* 캔버스 크기 조정 */
 }
 </style>

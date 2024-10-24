@@ -1,5 +1,8 @@
 <script setup>
+import { useCounterStore } from "@/stores/counter";
 import { onMounted, ref } from "vue";
+
+const cntStore = useCounterStore();
 
 const currentTime = ref({
   year: 0,
@@ -21,7 +24,7 @@ function updateClock() {
   const day = currentDate.getDay();
   let hours = currentDate.getHours();
   const minutes = currentDate.getMinutes();
-  
+
   const period = hours < 12 ? "오전" : "오후";
   if (hours > 12) hours -= 12; // 12시간제 처리
 
@@ -35,6 +38,8 @@ function updateClock() {
     minutes: minutes < 10 ? `0${minutes}` : minutes, // 2자리로 맞추기
     period,
   };
+
+  cntStore.updateLogDate(currentTime.value);
 }
 
 onMounted(() => {
@@ -46,11 +51,16 @@ onMounted(() => {
 <template>
   <div class="date-con pre-t">
     <div>
-      <span>{{ currentTime.year }}년 {{ currentTime.month }}월 {{ currentTime.date }}일 {{ week[currentTime.day] }}요일</span>
+      <span
+        >{{ currentTime.year }}년 {{ currentTime.month }}월
+        {{ currentTime.date }}일 {{ week[currentTime.day] }}요일</span
+      >
       <br />
       <div style="margin: 10px 20px">
         <span>{{ currentTime.period }}</span>
-        <span class="time">{{ currentTime.hours }}:{{ currentTime.minutes }}</span>
+        <span class="time"
+          >{{ currentTime.hours }}:{{ currentTime.minutes }}</span
+        >
       </div>
     </div>
   </div>
