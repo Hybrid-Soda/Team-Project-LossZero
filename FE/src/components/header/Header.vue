@@ -58,6 +58,6 @@ function logout() {
   width: 80px;
   height: 40px;
   font-size: 15px;
-  border-radius: 10px;
+  border-radius: 5px;
 }
 </style>

@@ -174,7 +174,7 @@ onMounted(() => {
   height: 240px;
 
   background-color: #fff;
-  border-radius: 8px;
+  border-radius: 5px;
 }
 
 .icon-text {

@@ -6,26 +6,22 @@
       </div>
       <form class="formContainer" @submit.prevent="handleLogin">
         <div class="formGroup">
-          <label for="adminLoginId" class="labelText">
-            아이디
-          </label>
-          <input 
-            type="text" 
-            id="adminLoginId" 
-            placeholder="아 이 디" 
-            class="inputText" 
+          <label for="adminLoginId" class="labelText"> 아이디 </label>
+          <input
+            type="text"
+            id="adminLoginId"
+            placeholder="아 이 디"
+            class="inputText"
             v-model="adminLoginId"
           />
         </div>
         <div class="formGroup">
-          <label for="adminLoginPw" class="labelText">
-            비밀번호
-          </label>
-          <input 
-            type="password" 
-            id="adminLoginPw" 
-            placeholder="비 밀 번 호" 
-            class="inputText" 
+          <label for="adminLoginPw" class="labelText"> 비밀번호 </label>
+          <input
+            type="password"
+            id="adminLoginPw"
+            placeholder="비 밀 번 호"
+            class="inputText"
             v-model="adminLoginPw"
           />
         </div>
@@ -45,32 +41,30 @@
       </form>
     </div>
     <div class="welcome-message">
-      <span class="samsung-sw-academy">
-        불량제로! <br />
-      </span>
+      <span class="samsung-sw-academy"> 불량제로! <br /> </span>
       <span class="ssafy-welcome">오신것을 환영합니다.</span>
     </div>
   </div>
 </template>
 
 <script setup>
-import { useRouter } from 'vue-router';
-import { ref } from 'vue';
-import logoImage from '@/assets/Login/Logo_icon.png'; // 로고 이미지 경로
-import loginIcon from '@/assets/Login/Login_icon.png'; // 로그인 아이콘 경로
-import sampleImage from '@/assets/Login/Login_background_image.svg'; // 배경 이미지 경로
+import { useRouter } from "vue-router";
+import { ref } from "vue";
+import logoImage from "@/assets/Login/Logo_icon.png"; // 로고 이미지 경로
+import loginIcon from "@/assets/Login/Login_icon.png"; // 로그인 아이콘 경로
+import sampleImage from "@/assets/Login/Login_background_image.svg"; // 배경 이미지 경로
 
 const router = useRouter();
-const adminLoginId = ref('');
-const adminLoginPw = ref('');
+const adminLoginId = ref("");
+const adminLoginPw = ref("");
 
 const handleLogin = () => {
   // 로그인 로직 (아이디와 비밀번호 확인)
   // 만약 로그인이 성공하면 다음 경로로 이동
   if (adminLoginId.value && adminLoginPw.value) {
-    router.push('/home');
+    router.push("/home");
   } else {
-    alert('아이디와 비밀번호를 입력하세요.');
+    alert("아이디와 비밀번호를 입력하세요.");
   }
 };
 </script>
@@ -91,7 +85,7 @@ const handleLogin = () => {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-image: url('@/assets/Login/Login_background_image.svg'); /* 배경 이미지 경로 */
+  background-image: url("@/assets/Login/Login_background_image.svg"); /* 배경 이미지 경로 */
   background-size: cover;
   background-position: center;
 }
@@ -99,7 +93,7 @@ const handleLogin = () => {
 .form-wrapper {
   background-color: white;
   padding: 40px;
-  border-radius: 10px;
+  border-radius: 5px;
   width: 580px;
   box-shadow: 0px 20px 25px rgba(0, 0, 0, 0.07);
   margin-left: 100px;

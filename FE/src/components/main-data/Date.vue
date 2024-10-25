@@ -59,7 +59,9 @@ onMounted(() => {
       <div style="margin: 10px 20px">
         <span>{{ currentTime.period }}</span>
         <span class="time"
-          >{{ currentTime.hours }}:{{ currentTime.minutes }}</span
+          >{{ currentTime.hours.toString().padStart(2, "0") }}:{{
+            currentTime.minutes
+          }}</span
         >
       </div>
     </div>

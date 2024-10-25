@@ -25,5 +25,6 @@ import Camera from "@/components/sub-data/machine/Camera.vue";
 .machine-con {
   width: 30%;
   height: 90%;
+  position: relative;
 }
 </style>
