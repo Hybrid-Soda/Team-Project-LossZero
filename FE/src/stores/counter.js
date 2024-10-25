@@ -41,8 +41,13 @@ export const useCounterStore = defineStore(
     }
 
     function updateProductCnt(cnt, logTime) {
+      console.log(typeof logDate.value.minutes);
       logData.value.unshift({
-        logDate: `${logDate.value.period} ${logDate.value.hours}시 ${logDate.value.minutes}분`,
+        logDate: `${logDate.value.period} ${logDate.value.hours
+          .toString()
+          .padStart(2, "0")}시 ${logDate.value.minutes
+          .toString()
+          .padStart(2, "0")}분`,
         nomal: logTime.nomal,
         recycle: logTime.recycle,
         faulty: logTime.faulty,
