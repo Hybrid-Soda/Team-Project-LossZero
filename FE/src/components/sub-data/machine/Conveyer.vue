@@ -1,7 +1,9 @@
 <script setup>
+import { useOperateStore } from "@/stores/operate";
 import { ref } from "vue";
 
-const isOperate = ref(false);
+const isOperate = ref(true);
+const operateStore = useOperateStore();
 
 function onOff() {
   isOperate.value = !isOperate.value;
@@ -9,9 +11,13 @@ function onOff() {
 </script>
 
 <template>
-  <div class="machine-con con shadow box-col pre-bt">
+  <div class="machine-con con shadow box-col digi-t">
     <!-- 작동중일 때는 gif, 그렇지 않을 때는 이미지 출력 -->
-    <img src="@/assets/img/gif/belt.gif" alt="카메라" v-if="isOperate" />
+    <img
+      src="@/assets/img/gif/belt.gif"
+      alt="카메라"
+      v-if="operateStore.machineOnOff"
+    />
     <img src="@/assets/img/belt.jpg" alt="카메라" v-else />
 
     <!-- 작동 상태 표시 -->
@@ -19,46 +25,74 @@ function onOff() {
       {{ isOperate ? "벨트 동작중" : "벨트 정지" }}
     </span>
 
-    <!-- 버튼 클릭 시 이미지와 상태 변경 -->
-
-    <button @click="onOff" :class="{ inactive: !isOperate }">
+    <div v-if="operateStore.machineOnOff">
       <img
-        src="@/assets/img/Activating.svg"
-        alt="Activating"
-        :style="{ filter: isOperate ? 'none' : 'grayscale(100%)' }"
+        src="@/assets/img/loading.svg"
+        alt="톱니"
+        class="cogwheel-1 loading-1"
       />
-    </button>
+      <img
+        src="@/assets/img/loading.svg"
+        alt="톱니"
+        class="cogwheel-2 loading-2"
+      />
+    </div>
+    <div v-else>
+      <img src="@/assets/img/unloading.svg" alt="톱니" class="cogwheel-1" />
+      <img src="@/assets/img/unloading.svg" alt="톱니" class="cogwheel-2" />
+    </div>
   </div>
 </template>
 
 <style scoped>
 img {
-  width: 130px;
-  height: 130px;
+  width: 125px;
+  height: 125px;
 }
 
 .is-operate {
   font-size: 20px;
+  position: absolute;
+  top: 130px;
 }
 
-button {
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
+.cogwheel-1,
+.cogwheel-2 {
+  position: absolute;
 }
 
-button img {
-  width: 50px;
-  height: 50px;
+.cogwheel-1 {
+  width: 40px;
+  bottom: -32px;
+  left: 85px;
 }
 
-/* 정지 상태일 때 버튼 아이콘의 색상을 변경 (회색) */
-button.inactive img {
-  color: #d9d9d9;
+.cogwheel-2 {
+  width: 32px;
+  bottom: -14px;
+  left: 121px;
+
+  transform: rotate(-30deg);
 }
 
-/* 일반 버튼 상태 */
-button img {
-  color: inherit;
+.loading-1 {
+  animation: rotate_image 10s linear infinite;
+  transform-origin: 50% 50%;
+}
+
+.loading-2 {
+  animation: rotate_image_reverse 10s linear infinite;
+  transform-origin: 50% 50%;
+}
+
+@keyframes rotate_image {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+@keyframes rotate_image_reverse {
+  100% {
+    transform: rotate(-390deg);
+  }
 }
 </style>

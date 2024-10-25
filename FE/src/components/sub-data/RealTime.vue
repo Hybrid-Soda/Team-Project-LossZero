@@ -1,6 +1,9 @@
 <script setup>
 import Log from "@/components/sub-data/Log.vue";
 import MachineOperation from "@/components/sub-data/MachineOperation.vue";
+import { useOperateStore } from "@/stores/operate";
+
+const operateStore = useOperateStore();
 </script>
 
 <template>
@@ -9,7 +12,12 @@ import MachineOperation from "@/components/sub-data/MachineOperation.vue";
       <img src="@/assets/img/log.svg" alt="실시간 " />
       <span class="title pre-bt">실시간 정보</span>
       <div class="button b2" id="button-10">
-        <input type="checkbox" class="checkbox" />
+        <input
+          type="checkbox"
+          class="checkbox"
+          :checked="!operateStore.machineOnOff"
+          @click="operateStore.machineOnOffFun()"
+        />
         <div class="knobs">
           <span>ON</span>
         </div>
