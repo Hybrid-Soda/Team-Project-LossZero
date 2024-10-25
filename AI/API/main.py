@@ -1,0 +1,22 @@
+from fastapi import FastAPI
+
+
+app = FastAPI()
+
+@app.get("/")
+async def root():
+    return {
+        "message": "Hello World"
+    }
+
+# Spring에서 신호를 받음
+# Spring에 실시간 품질 데이터를 보냄
+@app.post("/inference")
+async def inference():
+    # 카메라를 켠다
+    # 추론한다
+    # 불량품 개수 데이터를 보낸다
+    # 위치를 보낸다
+    # 불량품이 없으면 완료 상태를 보낸다
+    # 카메라를 끈다
+    return
