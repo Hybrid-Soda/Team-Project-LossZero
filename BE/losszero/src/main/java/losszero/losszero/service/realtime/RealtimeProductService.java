@@ -65,14 +65,24 @@ public class RealtimeProductService {
             RealtimeProd latestData = realtimeProductRepository.findTop1ByLineIdOrderByCreatedAtDesc(lineId)
                     .orElseThrow(() -> new IllegalArgumentException("데이터가 없습니다."));
 
+            // 누적 데이터 조회 (오늘 날짜 기준)
+            LocalDate currentDate = LocalDate.now();
+            Optional<DateProd> optionalDateProd = dateProductRepository.findByLineIdAndDate(lineId, currentDate);
+
+            Map<String, Object> data = Map.of(
+                    "normal", latestData.getNormal(),
+                    "defective", latestData.getDefective(),
+                    "reusable", latestData.getReusable(),
+                    "createdAt", latestData.getCreatedAt().toString(),
+                    "sumNormal", optionalDateProd.map(DateProd::getSumNormal).orElse(0L),
+                    "sumDefective", optionalDateProd.map(DateProd::getSumDefective).orElse(0L),
+                    "sumReusable", optionalDateProd.map(DateProd::getSumReusable).orElse(0L),
+                    "total", optionalDateProd.map(prod -> prod.getSumNormal() + prod.getSumDefective() + prod.getSumReusable()).orElse(0L)
+            );
+
             // 최신 데이터를 SSE로 전송
             emitter.send(SseEmitter.event()
-                    .data(Map.of(
-                            "normal", latestData.getNormal(),
-                            "defective", latestData.getDefective(),
-                            "reusable", latestData.getReusable(),
-                            "createdAt", latestData.getCreatedAt().toString()
-                    ))
+                    .data(data)
                     .name("realtimeProd")
                     .id(String.valueOf(latestData.getRealtimeProdId()))
                     .reconnectTime(3000)  // 재연결 시간

@@ -5,6 +5,11 @@ import losszero.losszero.entity.user.User;
 
 import java.util.Optional;
 
-public interface UserRepository extends JpaRepository<User, Long> {
-    Optional<User> findByName(String name);
+public interface UserRepository extends JpaRepository<User, Integer> {
+
+    Boolean existsByUsername(String username);
+
+    User findByUsername(String username);
+
+
 }

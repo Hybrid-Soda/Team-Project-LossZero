@@ -9,23 +9,25 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@NoArgsConstructor
 @Table(name = "user")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long userId;
+    private int userId;
 
-    @Column(nullable = false, length = 15)
+    @Column(nullable = false, length = 20)
     private String password;
 
     @Column(nullable = false, length = 20)
-    private String name;
+    private String username;
 
     @Column(length = 20)
     private String team;
 
     @Column(columnDefinition = "TEXT")
     private String picture;
+
+    @Column(length = 50)
+    private String role;
 }

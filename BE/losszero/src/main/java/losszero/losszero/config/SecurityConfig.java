@@ -1,62 +1,86 @@
 package losszero.losszero.config;
 
+import jakarta.servlet.http.HttpServletRequest;
+import losszero.losszero.jwt.JWTFilter;
+import losszero.losszero.jwt.JWTUtil;
+import losszero.losszero.jwt.LoginFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import java.util.Arrays;
+import java.util.Collections;
+
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-                .cors(cors -> cors.configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues())) // CORS 설정 추가
-                .csrf(csrf -> csrf.disable())  // CSRF 비활성화
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/v1/line/**").permitAll()  // 인증 없이 접근 가능
-                        .requestMatchers("/api/v1/daily/**").permitAll()  // 인증 없이 접근 가능
-                        .requestMatchers("/api/v1/weekly/**").permitAll()  // 인증 없이 접근 가능
-                        .requestMatchers("/api/v1/operation/**").permitAll()  // 인증 없이 접근 가능
-                        .requestMatchers("/api/v1/realtime/**").permitAll()  // 인증 없이 접근 가능
-                        .requestMatchers("/api/v1/circumstance/**").permitAll()  // 인증 없이 접근 가능
-                        .requestMatchers("/api/v1/auth/**").permitAll()  // 로그인/회원가입 경로 허용
-                        .requestMatchers("/api/v1/product/**").permitAll()  // 실시간 데이터 조회 허용
-                        .requestMatchers("/login", "/signup").permitAll()  // 로그인/회원가입 페이지 허용
-                        .anyRequest().authenticated()  // 그 외 요청은 인증 필요
-                )
-                .formLogin(form -> form
-                        .loginPage("/login")  // 사용자 정의 로그인 페이지
-                        .permitAll()
-                )
-                .logout(logout -> logout.permitAll());  // 로그아웃 설정
+    private final AuthenticationConfiguration authenticationConfiguration;
+    private final JWTUtil jwtUtil;
 
-        return http.build();
+    public SecurityConfig(AuthenticationConfiguration authenticationConfiguration,JWTUtil jwtUtil) {
+        this.authenticationConfiguration = authenticationConfiguration;
+        this.jwtUtil = jwtUtil;
     }
 
-    // PasswordEncoder 빈 추가 (BCrypt 사용 권장)
     @Bean
-    public PasswordEncoder passwordEncoder() {
+    public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    // 테스트용 인메모리 유저 설정 (UserDetailsService로 DB 연동 가능)
     @Bean
-    public UserDetailsService userDetailsService() {
-        UserDetails user = User.withUsername("user")
-                .password(passwordEncoder().encode("password"))
-                .roles("USER")
-                .build();
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
+        return configuration.getAuthenticationManager();
+    }
 
-        return new InMemoryUserDetailsManager(user);
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+
+        http
+            .cors((corsCustomizer -> corsCustomizer
+                    .configurationSource(new CorsConfigurationSource() {
+                        @Override
+                        public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
+
+                            CorsConfiguration configuration = new CorsConfiguration();
+                            configuration.setAllowedOriginPatterns(Arrays.asList("http://localhost:5500", "http://localhost:3000")); // 여러 출처 허용
+                            configuration.setAllowedMethods(Collections.singletonList("*"));
+                            configuration.setAllowCredentials(true);
+                            configuration.setAllowedHeaders(Collections.singletonList("*"));
+                            configuration.setMaxAge(3600L);
+                            configuration.setExposedHeaders(Collections.singletonList("Authorization"));
+                            return configuration;
+                        }
+                    })));
+        http
+                .csrf((auth) -> auth.disable());
+        http
+                .formLogin((auth) -> auth.disable());
+
+        http
+                .httpBasic((auth) -> auth.disable());
+
+        http
+                .authorizeRequests((auth) -> auth
+                        .requestMatchers("/login","/join","/api/v1/**").permitAll()
+                        .anyRequest().authenticated()); // 그외 다른 부분은 로그인한자만 접근가능
+        http
+                .addFilterBefore(new JWTFilter(jwtUtil), LoginFilter.class);
+        http
+                .addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration),jwtUtil), UsernamePasswordAuthenticationFilter.class);
+        http
+                .sessionManagement((session) -> session
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+
+        return http.build();
     }
 }
