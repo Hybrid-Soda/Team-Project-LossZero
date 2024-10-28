@@ -1,5 +1,6 @@
 package losszero.losszero.jwt;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -14,6 +15,7 @@ import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.authority.AuthorityUtils;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Collections;
 
 public class JWTFilter extends OncePerRequestFilter {
@@ -27,7 +29,6 @@ public class JWTFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
-
         // 포트 5500에서의 요청에 대해 인증을 생략하고 익명 사용자를 설정
         if ("127.0.0.1".equals(request.getRemoteHost()) && request.getRemotePort() == 5500) {
             Authentication anonymousAuth = new AnonymousAuthenticationToken("key", "anonymousUser",
@@ -37,44 +38,44 @@ public class JWTFilter extends OncePerRequestFilter {
             return;
         }
 
-        String authorization = request.getHeader("Authorization");
-        System.out.println("Authorization Header: " + authorization);
-        System.out.println("authorization now");
-        System.out.println("All Headers: " + Collections.list(request.getHeaderNames()));
-        System.out.println("Authorization Header: " + authorization);
-        System.out.println("Request URL: " + request.getRequestURI());
-        System.out.println("Request Method: " + request.getMethod());
-        System.out.println("Authorization Header: " + authorization);
-
-        if (authorization == null || !authorization.startsWith("Bearer ")) {
-
-            System.out.println("token null");
-            filterChain.doFilter(request, response);
-
-            return;
-        }
-
-        String token = authorization.split(" ")[1];
-        System.out.println("Extracted Token: " + token);
-        if (jwtUtil.isExpired(token)) {
-            System.out.println("token expired");
+        String accessToken = request.getHeader("access");
+        // 토큰이 없다면 다음 필터로 넘김
+        if (accessToken == null) {
             filterChain.doFilter(request, response);
             return;
         }
-        String username = jwtUtil.getUsername(token);
-        String role = jwtUtil.getRole(token);
+        // 토큰 만료 여부 확인, 만료시 다음 필터로 넘기지 않음
+        try {
+            jwtUtil.isExpired(accessToken);
+        } catch (ExpiredJwtException e) {
+            PrintWriter writer = response.getWriter();
+            writer.println("access token expired");
+
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            return;
+        }
+
+        String category = jwtUtil.getCategory(accessToken);
+
+        // 토큰이 access인지 확인(발급시 페이로드에 명시)
+        if (!category.equals("access")) {
+            PrintWriter writer = response.getWriter();
+            writer.println("invalid access token");
+
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            return;
+        }
+        String username = jwtUtil.getUsername(accessToken);
+        String role = jwtUtil.getRole(accessToken);
+
         User user = new User();
         user.setUsername(username);
-        user.setPassword("temppassword");
         user.setRole(role);
-
         CustomUserDetailDTO customUserDetailDTO = new CustomUserDetailDTO(user);
 
-        Authentication authToken = new UsernamePasswordAuthenticationToken(customUserDetailDTO, null, customUserDetailDTO.getAuthorities());
+        Authentication authentication = new UsernamePasswordAuthenticationToken(customUserDetailDTO, null,customUserDetailDTO.getAuthorities() );
+        SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        SecurityContextHolder.getContext().setAuthentication(authToken);
         filterChain.doFilter(request, response);
-
-
     }
 }
