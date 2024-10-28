@@ -20,3 +20,17 @@ async def inference():
     # 불량품이 없으면 완료 상태를 보낸다
     # 카메라를 끈다
     return
+
+def main(env: str, debug: bool):
+    os.environ["ENV"] = env
+    os.environ["DEBUG"] = str(debug)
+    uvicorn.run(
+        app="app.server:app",
+        host=config.APP_HOST,
+        port=config.APP_PORT,
+        reload=True if config.ENV != "production" else False,
+        workers=1,
+    )
+
+if __name__ == "__main__":
+    main()
