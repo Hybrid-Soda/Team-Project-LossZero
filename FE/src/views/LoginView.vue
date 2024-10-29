@@ -69,6 +69,9 @@ const handleLogin = () => {
   // } else {
   //   alert("아이디와 비밀번호를 입력하세요.");
   // }
+  console.log(adminLoginId.value);
+  console.log(adminLoginPw.value);
+  console.log(typeof adminLoginPw.value);
 
   login({
     username: adminLoginId.value,

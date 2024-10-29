@@ -6,6 +6,6 @@ export function login(userInfo) {
   return axios({
     url: `/login`,
     method: "post",
-    userInfo,
+    data: userInfo,
   });
 }
