@@ -14,4 +14,4 @@ RUN npm install
 COPY . .
 
 # 개발 서버 실행
-CMD ["npm", "run", "serve"]
+CMD ["npm", "run", "dev"]
