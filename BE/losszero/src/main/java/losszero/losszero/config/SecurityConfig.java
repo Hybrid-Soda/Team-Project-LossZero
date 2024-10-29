@@ -56,7 +56,7 @@ public class SecurityConfig {
                         public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
 
                             CorsConfiguration configuration = new CorsConfiguration();
-                            configuration.setAllowedOriginPatterns(Arrays.asList("http://k11e202.p.ssafy.io:5173","http://localhost:5173","http://localhost:5500", "http://localhost:3000")); // 여러 출처 허용
+                            configuration.setAllowedOrigins(Arrays.asList("http://k11e202.p.ssafy.io:5173", "http://localhost:5173"));
                             configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
                             configuration.setAllowCredentials(true);
                             configuration.setAllowedHeaders(Collections.singletonList("*"));
