@@ -5,7 +5,7 @@ export const useLogStore = defineStore("logdata", () => {
   const issue = ref(true);
 
   function createIssue() {
-    console.log(issue.value);
+    // console.log(issue.value);
     issue.value = !issue.value;
   }
 

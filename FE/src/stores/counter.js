@@ -9,13 +9,14 @@ export const useCounterStore = defineStore(
     const targetCnt = ref(120);
     const productCnt = ref(0);
     const logData = ref([]);
-    const nomalCnt = ref(0);
+    const normalCnt = ref(0);
     const recycleCnt = ref(0);
     const faultyCnt = ref(0);
-
-    const totalCnt = computed(
-      () => nomalCnt.value + recycleCnt.value + faultyCnt.value
-    );
+    const sumNormal = ref(0);
+    const sumReusable = ref(0);
+    const sumDefective = ref(0);
+    const issue = ref(false);
+    const totalCnt = ref(0);
 
     const DPO = computed(() =>
       Math.ceil(100 * ((recycleCnt.value + faultyCnt.value) / totalCnt.value))
@@ -26,46 +27,61 @@ export const useCounterStore = defineStore(
     );
 
     const productData = ref([
-      nomalCnt.value,
+      normalCnt.value,
       recycleCnt.value,
       faultyCnt.value,
     ]);
 
     const doughnutData = ref([
-      nomalCnt.value,
-      targetCnt.value - nomalCnt.value,
+      normalCnt.value,
+      targetCnt.value - normalCnt.value,
     ]);
+
+    function sseData(data) {
+      // console.log(totalCnt.value, data.total);
+      if (totalCnt.value !== data.total) {
+        console.log("실시간!");
+        normalCnt.value = data.normal;
+        recycleCnt.value = data.reusable;
+        faultyCnt.value = data.defective;
+        issue.value = !issue.value;
+        sumNormal.value = data.sumNormal;
+        sumReusable.value = data.sumReusable;
+        sumDefective.value = data.sumDefective;
+        totalCnt.value = data.total;
+      }
+    }
 
     function updateLogDate(date) {
       logDate.value = date;
     }
 
     function updateProductCnt(cnt, logTime) {
-      console.log(typeof logDate.value.minutes);
+      // console.log(typeof logDate.value.minutes);
       logData.value.unshift({
         logDate: `${logDate.value.period} ${logDate.value.hours
           .toString()
           .padStart(2, "0")}시 ${logDate.value.minutes
           .toString()
           .padStart(2, "0")}분`,
-        nomal: logTime.nomal,
+        normal: logTime.normal,
         recycle: logTime.recycle,
         faulty: logTime.faulty,
       });
 
-      nomalCnt.value += logTime.nomal;
-      recycleCnt.value += logTime.recycle;
-      faultyCnt.value += logTime.faulty;
-
-      productData.value = [nomalCnt.value, recycleCnt.value, faultyCnt.value];
+      productData.value = [
+        sumNormal.value,
+        sumReusable.value,
+        sumDefective.value,
+      ];
       doughnutData.value = [
-        nomalCnt.value,
-        targetCnt.value - nomalCnt.value < 0
+        sumNormal.value,
+        targetCnt.value - sumNormal.value < 0
           ? 0
-          : targetCnt.value - nomalCnt.value,
+          : targetCnt.value - sumNormal.value,
       ];
       // console.log(doughnutData.value);
-      productCnt.value += cnt;
+      productCnt.value = cnt;
 
       // console.log(productData.value);
       // console.log(productCnt.value);
@@ -74,10 +90,10 @@ export const useCounterStore = defineStore(
     function changeTargetCnt(cnt) {
       targetCnt.value = cnt;
       doughnutData.value = [
-        nomalCnt.value,
-        targetCnt.value - nomalCnt.value < 0
+        normalCnt.value,
+        targetCnt.value - normalCnt.value < 0
           ? 0
-          : targetCnt.value - nomalCnt.value,
+          : targetCnt.value - normalCnt.value,
       ];
       // console.log(doughnutData.value);
     }
@@ -87,16 +103,19 @@ export const useCounterStore = defineStore(
       targetCnt,
       productCnt,
       logData,
-      nomalCnt,
+      normalCnt,
+      sumNormal,
       recycleCnt,
       faultyCnt,
       totalCnt,
+      issue,
       DPO,
       productData,
       doughnutData,
       updateProductCnt,
       changeTargetCnt,
       updateLogDate,
+      sseData,
     };
   },
   { persist: true }

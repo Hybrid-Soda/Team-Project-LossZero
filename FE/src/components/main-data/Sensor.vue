@@ -1,16 +1,20 @@
-<script setup></script>
+<script setup>
+import { useEnvStore } from "@/stores/environment";
+
+const envStore = useEnvStore();
+</script>
 
 <template>
   <div class="sensor-con pre-t">
     <div class="temperature box-row">
-      <span>27.7°C</span>
+      <span>{{ envStore.temperature }}°C</span>
       <div class="box-row">
         <img src="@/assets/img/temperature.svg" alt="온도" />
         <span> 온도 </span>
       </div>
     </div>
     <div class="humidity box-row">
-      <span>77%</span>
+      <span>{{ envStore.humidity }}%</span>
       <div class="box-row">
         <img src="@/assets/img/humidity.svg" alt="습도" />
         <span> 습도 </span>

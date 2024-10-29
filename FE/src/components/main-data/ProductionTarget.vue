@@ -1,9 +1,16 @@
 <script setup>
 import { useCounterStore } from "@/stores/counter";
 import { onMounted, ref } from "vue";
-
+import { setTargetProduction, lineState } from "@/api/data.js";
 onMounted(() => {
   // 목표 생산량 받아오기
+  lineState()
+    .then((res) => {
+      console.log(res.data);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 });
 
 const cntStore = useCounterStore();
@@ -14,7 +21,17 @@ const targetCnt = ref(cntStore.targetCnt);
 function changeBtn() {
   if (changeTarget.value) {
     // 목표 생산량 변경하기
-    cntStore.changeTargetCnt(targetCnt.value);
+    setTargetProduction({
+      targetProduct: "120",
+    })
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    // cntStore.changeTargetCnt(targetCnt.value);
   }
   changeTarget.value = !changeTarget.value;
 }

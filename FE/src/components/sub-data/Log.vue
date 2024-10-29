@@ -2,46 +2,41 @@
 import LogTime from "@/components/sub-data/LogTime.vue";
 import { useCounterStore } from "@/stores/counter";
 import { useLogStore } from "@/stores/logdata";
-import { ref } from "vue";
+import { ref, watch } from "vue";
 
 const logStore = useLogStore();
 const cntStore = useCounterStore();
 
 let idx = 1;
-const nomalCnt = ref(0);
+const normalCnt = ref(0);
 const recycleCnt = ref(0);
 const faultyCnt = ref(0);
+
+watch(
+  () => cntStore.issue,
+  () => {
+    // console.log("이슈 생성!");
+    logStore.createIssue();
+    tempPlus();
+  }
+);
 
 function tempPlus() {
   const logtime = {
     idx: idx,
-    nomal: nomalCnt.value,
-    recycle: recycleCnt.value,
-    faulty: faultyCnt.value,
+    normal: cntStore.normalCnt,
+    recycle: cntStore.recycleCnt,
+    faulty: cntStore.faultyCnt,
   };
 
-  cntStore.updateProductCnt(nomalCnt.value, logtime);
-  logStore.createIssue();
+  cntStore.updateProductCnt(cntStore.sumNormal, logtime);
 
   idx += 1;
-  nomalCnt.value = 0;
-  recycleCnt.value = 0;
-  faultyCnt.value = 0;
 }
 </script>
 
 <template>
   <div style="width: 100%">
-    <div style="position: absolute; top: 20px; right: 520px">
-      <label for="">정상</label>
-      <input type="number" name="" id="" v-model="nomalCnt" />
-      <label for="">재사용</label>
-      <input type="number" name="" id="" v-model="recycleCnt" />
-      <label for="">불량</label>
-      <input type="number" name="" id="" v-model="faultyCnt" />
-
-      <button style="margin-left: 10px" @click="tempPlus">전송</button>
-    </div>
     <div class="log-con con shadow">
       <LogTime
         v-for="(logtime, index) in cntStore.logData"
