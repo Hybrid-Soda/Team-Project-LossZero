@@ -1,18 +1,16 @@
 package losszero.losszero.entity.realtime;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
 @Entity
+@Getter
+@Setter
 @Table(name = "realtime_prod")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class RealtimeProd {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int realtimeProdId;
