@@ -30,7 +30,7 @@ public class JWTFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
         // 포트 5500에서의 요청에 대해 인증을 생략하고 익명 사용자를 설정
-        if ("127.0.0.1".equals(request.getRemoteHost()) && request.getRemotePort() == 5500) {
+        if ("k11e202.p.ssafy.io".equals(request.getRemoteHost()) && request.getRemotePort() == 5173) {
             Authentication anonymousAuth = new AnonymousAuthenticationToken("key", "anonymousUser",
                     AuthorityUtils.createAuthorityList("ROLE_ANONYMOUS"));
             SecurityContextHolder.getContext().setAuthentication(anonymousAuth);

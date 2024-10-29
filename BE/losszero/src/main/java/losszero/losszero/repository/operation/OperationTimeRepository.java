@@ -1,6 +1,6 @@
-package losszero.losszero.repository;
+package losszero.losszero.repository.operation;
 
-import losszero.losszero.entity.OperationTime;
+import losszero.losszero.entity.operation.OperationTime;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

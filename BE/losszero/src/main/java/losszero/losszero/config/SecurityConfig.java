@@ -19,6 +19,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.web.authentication.logout.LogoutFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
 import java.util.Arrays;
 import java.util.Collections;
 
@@ -56,8 +58,8 @@ public class SecurityConfig {
                         public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
 
                             CorsConfiguration configuration = new CorsConfiguration();
-                            configuration.setAllowedOriginPatterns(Arrays.asList("http://localhost:5500", "http://localhost:3000")); // 여러 출처 허용
-                            configuration.setAllowedMethods(Collections.singletonList("*"));
+                            configuration.setAllowedOrigins(Arrays.asList("http://k11e202.p.ssafy.io:5173", "http://localhost:5173","http://localhost:5500"));
+                            configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
                             configuration.setAllowCredentials(true);
                             configuration.setAllowedHeaders(Collections.singletonList("*"));
                             configuration.setMaxAge(3600L);
@@ -69,7 +71,6 @@ public class SecurityConfig {
                 .csrf((auth) -> auth.disable());
         http
                 .formLogin((auth) -> auth.disable());
-
         http
                 .httpBasic((auth) -> auth.disable());
 
@@ -89,5 +90,20 @@ public class SecurityConfig {
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
         return http.build();
+    }
+
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(Arrays.asList("http://k11e202.p.ssafy.io:5173", "http://localhost:5173", "http://localhost:5500"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
+        configuration.setAllowCredentials(true);
+        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "X-Requested-With", "observe"));
+        configuration.setExposedHeaders(Arrays.asList("Authorization", "USERID", "ROLE", "responseType", "observe"));
+        configuration.setMaxAge(3600L);
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
     }
 }
