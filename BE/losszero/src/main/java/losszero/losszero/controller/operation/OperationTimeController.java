@@ -1,7 +1,7 @@
-package losszero.losszero.controller;
+package losszero.losszero.controller.operation;
 
-import losszero.losszero.dto.OperationTimeDTO;
-import losszero.losszero.service.OperationTimeService;
+import losszero.losszero.dto.operation.OperationTimeDTO;
+import losszero.losszero.service.operation.OperationTimeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
