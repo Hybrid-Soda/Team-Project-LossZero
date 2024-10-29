@@ -25,16 +25,16 @@
           <li>
             <span
               class="legend-color"
-              style="background-color: rgb(255, 99, 132)"
+              style="background-color: rgb(255, 159, 64)"
             ></span>
-            불량품: {{ cntStore.productData[2] }}개
+            재사용: {{ cntStore.productData[1] }}개
           </li>
           <li>
             <span
               class="legend-color"
-              style="background-color: rgb(255, 159, 64)"
+              style="background-color: rgb(255, 99, 132)"
             ></span>
-            재사용: {{ cntStore.productData[1] }}개
+            불량품: {{ cntStore.productData[2] }}개
           </li>
         </ul>
       </div>

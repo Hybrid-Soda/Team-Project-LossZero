@@ -2,8 +2,55 @@
 import Log from "@/components/sub-data/Log.vue";
 import MachineOperation from "@/components/sub-data/MachineOperation.vue";
 import { useOperateStore } from "@/stores/operate";
+import { useCounterStore } from "@/stores/counter";
 
 const operateStore = useOperateStore();
+const cntStore = useCounterStore();
+// 오늘 날짜 설정
+const today = new Date();
+const startDate = formatDate(today);
+const endDate = formatDate(today);
+// SSE 연결
+const eventSource = new EventSource(
+  "http://k11e202.p.ssafy.io:8081/api/v1/realtime/prod?lineId=1",
+  {}
+);
+
+// 실시간 데이터 수신 (realtimeProd 이벤트)
+eventSource.addEventListener("realtimeProd", function (event) {
+  const data = JSON.parse(event.data);
+  // console.log(data);
+  cntStore.sseData(data);
+});
+
+// SSE 연결 에러 처리
+eventSource.onerror = function (event) {
+  // console.error("SSE connection error:", event);
+};
+
+// SSE for Environment Data
+const environmentEventSource = new EventSource(
+  "http://k11e202.p.ssafy.io:8081/api/v1/realtime/circumstance?lineId=1"
+);
+
+environmentEventSource.addEventListener(
+  "realtimeCircumstance",
+  function (event) {
+    const data = JSON.parse(event.data);
+    // console.log(data);
+  }
+);
+
+environmentEventSource.onerror = function (event) {
+  // console.error("SSE connection error (Environment):", event);
+};
+
+function formatDate(date) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
 </script>
 
 <template>

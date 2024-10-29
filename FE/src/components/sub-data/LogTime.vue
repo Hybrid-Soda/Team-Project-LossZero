@@ -9,9 +9,9 @@ defineProps({
 <template>
   <div class="logtime-con con box-row pre-t">
     <span class="time">{{ logData.logDate }}</span>
-    <div class="nomal">
+    <div class="normal">
       <span>정상 : </span>
-      <span>{{ logData.nomal }} 개</span>
+      <span>{{ logData.normal }} 개</span>
     </div>
     <div class="recycle">
       <span>재사용 가능 : </span>
@@ -35,14 +35,14 @@ defineProps({
   margin-left: 15px;
 }
 
-.nomal {
+.normal {
   margin-left: 15px;
   width: 80px;
 
   color: blue;
 }
 
-.nomal,
+.normal,
 .recycle,
 .faulty {
   margin-left: 15px;
