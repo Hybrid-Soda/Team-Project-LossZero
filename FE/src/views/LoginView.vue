@@ -69,23 +69,20 @@ const handleLogin = () => {
   // } else {
   //   alert("아이디와 비밀번호를 입력하세요.");
   // }
-  console.log(adminLoginId.value);
-  console.log(adminLoginPw.value);
-  console.log(typeof adminLoginPw.value);
 
   login({
     username: adminLoginId.value,
     password: adminLoginPw.value,
   })
     .then((res) => {
-      console.log(res.data);
+      router.push("/home");
     })
     .catch((err) => {
       console.log(err);
       Swal.fire({
         icon: "error",
         title: "로그인에 실패했습니다.",
-        text: "이메일과 비밀번호를 확인해주세요!",
+        text: "아이디와 비밀번호를 확인해주세요!",
       });
     });
 };

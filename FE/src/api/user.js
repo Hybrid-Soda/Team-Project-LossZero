@@ -7,5 +7,6 @@ export function login(userInfo) {
     url: `/login`,
     method: "post",
     data: userInfo,
+    withCredentials: true,
   });
 }
