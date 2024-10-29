@@ -16,9 +16,7 @@ export const useCounterStore = defineStore(
     const sumReusable = ref(0);
     const sumDefective = ref(0);
     const issue = ref(false);
-    const totalCnt = computed(
-      () => sumNormal.value + sumReusable.value + sumDefective.value
-    );
+    const totalCnt = ref(0);
 
     const DPO = computed(() =>
       Math.ceil(100 * ((recycleCnt.value + faultyCnt.value) / totalCnt.value))
@@ -40,15 +38,17 @@ export const useCounterStore = defineStore(
     ]);
 
     function sseData(data) {
+      // console.log(totalCnt.value, data.total);
       if (totalCnt.value !== data.total) {
-        // console.log("실시간!");
+        console.log("실시간!");
         normalCnt.value = data.normal;
         recycleCnt.value = data.reusable;
         faultyCnt.value = data.defective;
+        issue.value = !issue.value;
         sumNormal.value = data.sumNormal;
         sumReusable.value = data.sumReusable;
         sumDefective.value = data.sumDefective;
-        issue.value = !issue.value;
+        totalCnt.value = data.total;
       }
     }
 
