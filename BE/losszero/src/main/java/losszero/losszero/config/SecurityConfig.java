@@ -28,7 +28,7 @@ public class SecurityConfig {
             "/join",
             "/login",
             "/reissue",
-            "/api/v1/**",
+            "/api/v1/realtime/**",
             "/h2-console/**"
     };
 

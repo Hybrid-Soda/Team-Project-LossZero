@@ -11,12 +11,13 @@ import java.time.LocalDateTime;
 @Setter
 @Table(name = "realtime_prod")
 public class RealtimeProd {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int realtimeProdId;
 
     @Column(nullable = false)
-    private Integer lineId;
+    private int lineId;
 
     @Column(nullable = false)
     private int normal;

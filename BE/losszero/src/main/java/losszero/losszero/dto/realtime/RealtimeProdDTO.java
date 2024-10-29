@@ -8,7 +8,6 @@ import lombok.ToString;
 @Getter
 @Setter
 @NoArgsConstructor
-@ToString
 public class RealtimeProdDTO {
     private int normal;
     private int defective;
