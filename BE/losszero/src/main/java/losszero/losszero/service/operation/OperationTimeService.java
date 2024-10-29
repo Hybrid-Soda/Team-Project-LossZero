@@ -1,8 +1,8 @@
-package losszero.losszero.service;
+package losszero.losszero.service.operation;
 
-import losszero.losszero.dto.OperationTimeDTO;
-import losszero.losszero.entity.OperationTime;
-import losszero.losszero.repository.OperationTimeRepository;
+import losszero.losszero.dto.operation.OperationTimeDTO;
+import losszero.losszero.entity.operation.OperationTime;
+import losszero.losszero.repository.operation.OperationTimeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

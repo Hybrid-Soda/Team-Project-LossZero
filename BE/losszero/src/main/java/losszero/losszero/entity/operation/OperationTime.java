@@ -1,4 +1,4 @@
-package losszero.losszero.entity;
+package losszero.losszero.entity.operation;
 
 import jakarta.persistence.*;
 

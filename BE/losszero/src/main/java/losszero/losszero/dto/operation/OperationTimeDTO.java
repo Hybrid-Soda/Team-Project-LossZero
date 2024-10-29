@@ -1,4 +1,4 @@
-package losszero.losszero.dto;
+package losszero.losszero.dto.operation;
 
 import java.time.Duration;
 import java.time.LocalDate;
