@@ -3,9 +3,11 @@ import Log from "@/components/sub-data/Log.vue";
 import MachineOperation from "@/components/sub-data/MachineOperation.vue";
 import { useOperateStore } from "@/stores/operate";
 import { useCounterStore } from "@/stores/counter";
+import { useEnvStore } from "@/stores/environment";
 
 const operateStore = useOperateStore();
 const cntStore = useCounterStore();
+const envStore = useEnvStore();
 // 오늘 날짜 설정
 const today = new Date();
 const startDate = formatDate(today);
@@ -37,6 +39,7 @@ environmentEventSource.addEventListener(
   "realtimeCircumstance",
   function (event) {
     const data = JSON.parse(event.data);
+    envStore.sseData(data);
     // console.log(data);
   }
 );
