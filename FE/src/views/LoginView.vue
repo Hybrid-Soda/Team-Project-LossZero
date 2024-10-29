@@ -6,17 +6,17 @@
       </div>
       <form class="formContainer" @submit.prevent="handleLogin">
         <div class="formGroup">
-          <label for="adminLoginId" class="labelText"> 아이디 </label>
+          <label for="adminLoginId" class="labelText pre-t"> 아이디 </label>
           <input
             type="text"
             id="adminLoginId"
             placeholder="아 이 디"
-            class="inputText"
+            class="inputText pre-t"
             v-model="adminLoginId"
           />
         </div>
         <div class="formGroup">
-          <label for="adminLoginPw" class="labelText"> 비밀번호 </label>
+          <label for="adminLoginPw" class="labelText pre-t"> 비밀번호 </label>
           <input
             type="password"
             id="adminLoginPw"
@@ -26,7 +26,7 @@
           />
         </div>
         <div class="formSubGroup">
-          <button type="submit" class="loginButton">
+          <button type="submit" class="loginButton pre-t">
             로그인
             <img :src="loginIcon" alt="login_icon" class="loginIcon" />
           </button>
@@ -34,15 +34,17 @@
         <div class="additionalOptions">
           <div class="id-save">
             <input type="checkbox" id="saveId" />
-            <label for="saveId">아이디 저장</label>
+            <label for="saveId" class="pre-t" style="margin-left: 5px"
+              >아이디 저장</label
+            >
           </div>
-          <a href="#" class="password-recovery">비밀번호 찾기</a>
+          <a href="#" class="password-recovery pre-t">비밀번호 찾기</a>
         </div>
       </form>
     </div>
     <div class="welcome-message">
-      <span class="samsung-sw-academy"> 불량제로! <br /> </span>
-      <span class="ssafy-welcome">오신것을 환영합니다.</span>
+      <span class="samsung-sw-academy pre-bt"> 불량제로! <br /> </span>
+      <span class="ssafy-welcome pre-bt">오신것을 환영합니다.</span>
     </div>
   </div>
 </template>
@@ -50,6 +52,7 @@
 <script setup>
 import { useRouter } from "vue-router";
 import { ref } from "vue";
+import { login } from "@/api/user.js";
 import logoImage from "@/assets/Login/Logo_icon.png"; // 로고 이미지 경로
 import loginIcon from "@/assets/Login/Login_icon.png"; // 로그인 아이콘 경로
 import sampleImage from "@/assets/Login/Login_background_image.svg"; // 배경 이미지 경로
@@ -61,11 +64,27 @@ const adminLoginPw = ref("");
 const handleLogin = () => {
   // 로그인 로직 (아이디와 비밀번호 확인)
   // 만약 로그인이 성공하면 다음 경로로 이동
-  if (adminLoginId.value && adminLoginPw.value) {
-    router.push("/home");
-  } else {
-    alert("아이디와 비밀번호를 입력하세요.");
-  }
+  // if (adminLoginId.value && adminLoginPw.value) {
+  //   router.push("/home");
+  // } else {
+  //   alert("아이디와 비밀번호를 입력하세요.");
+  // }
+
+  login({
+    username: adminLoginId.value,
+    password: adminLoginPw.value,
+  })
+    .then((res) => {
+      console.log(res.data);
+    })
+    .catch((err) => {
+      console.log(err);
+      Swal.fire({
+        icon: "error",
+        title: "로그인에 실패했습니다.",
+        text: "이메일과 비밀번호를 확인해주세요!",
+      });
+    });
 };
 </script>
 
@@ -100,8 +119,8 @@ const handleLogin = () => {
 }
 
 .logoImage {
-  width: 139px;
-  height: 100px;
+  width: 230px;
+  height: 90px;
   margin-bottom: 20px;
 }
 
@@ -151,7 +170,7 @@ const handleLogin = () => {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 14px;
+  font-size: 18px;
 }
 
 .loginIcon {
