@@ -1,18 +1,21 @@
 package losszero.losszero.controller.realtime;
 
+import lombok.RequiredArgsConstructor;
 import losszero.losszero.dto.realtime.MqttDto;
 import losszero.losszero.service.realtime.MqttService;
 import losszero.losszero.service.realtime.MqttServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @RestController
-@RequestMapping("/realtime")
+@RequiredArgsConstructor
+@RequestMapping("/api/v1/realtime")
 public class MqttController {
-    @Autowired
-    MqttService mqttService = new MqttServiceImpl();
+
+    private final MqttServiceImpl mqttService;
 
     @PostMapping("/pub")
     public ResponseEntity<Void> publish(@RequestBody MqttDto dto) {

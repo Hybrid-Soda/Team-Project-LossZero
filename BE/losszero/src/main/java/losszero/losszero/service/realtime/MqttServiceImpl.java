@@ -16,8 +16,12 @@ public class MqttServiceImpl implements MqttService {
 
     private final String pubTopic = "test";
 
+    private final IMqttClient mqttClient;
+
     @Autowired
-    private IMqttClient mqttClient;
+    public MqttServiceImpl(IMqttClient mqttClient) {
+        this.mqttClient = mqttClient;
+    }
 
     @Autowired
     private MappingJackson2HttpMessageConverter messageConverter;
