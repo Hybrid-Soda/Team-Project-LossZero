@@ -1,3 +1,5 @@
+// ElectromagnetControl.h
+
 #ifndef ELECTROMAGNET_CONTROL_H
 #define ELECTROMAGNET_CONTROL_H
 

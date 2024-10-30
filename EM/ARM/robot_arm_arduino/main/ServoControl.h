@@ -1,3 +1,5 @@
+// ServoControl.h
+
 #ifndef SERVO_CONTROL_H
 #define SERVO_CONTROL_H
 
@@ -5,7 +7,8 @@
 
 // 모드 정의
 enum Mode {
-  CONVEYOR,
+  CONVEYOR1,
+  CONVEYOR2,
   STANDBY,
   RECYCLE,
   DEFECTIVE,
@@ -25,6 +28,6 @@ void setModeAngles(Mode mode);
 void moveToStandby();
 
 // 시퀀스 실행 함수
-void executeSequence(int sequenceType);
+void executeSequence(int sequenceType,  int conveyorPosition);
 
 #endif
