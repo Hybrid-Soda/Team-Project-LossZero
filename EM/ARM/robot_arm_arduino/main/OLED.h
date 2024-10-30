@@ -6,6 +6,7 @@
 #include <Arduino.h>
 
 void initializeOLED();
-void updateOLED(const char* state, bool electromagnetOn);
+void updateOLED(const char* state, bool electromagnetOn, int speed);
 
 #endif
+

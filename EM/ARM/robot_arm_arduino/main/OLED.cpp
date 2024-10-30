@@ -16,10 +16,10 @@ void initializeOLED() {
   display.println("Setup complete.");
 }
 
-void updateOLED(const char* state, bool electromagnetOn) {
+void updateOLED(const char* state, bool electromagnetOn, int speed) {
   display.clear();
 
-  // 상단 텍스트"
+  // 상단 텍스트
   display.setCursor(15, 0);
   display.println("Robot Arm Working!\n\n");
 
@@ -28,4 +28,8 @@ void updateOLED(const char* state, bool electromagnetOn) {
 
   // 전자석 상태 표시
   display.println(String("Electromagnetic : ") + (electromagnetOn ? "On" : "Off") + "\n");
+
+  // 속도 표시
+  String speedText = (speed == 1) ? "Low" : (speed == 2) ? "Medium" : "High";
+  display.println(String("Speed : ") + speedText + "\n");
 }

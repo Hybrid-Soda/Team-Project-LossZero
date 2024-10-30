@@ -15,11 +15,12 @@ Servo servos[3];
 int theta_current[3] = {80, 40, 0};
 int theta_target[3];
 
+const int potPin = A0; // 가변저항 핀 (A0)
+int speed = 1;         // 기본 속도는 1 (1~3의 값으로 조절)
+
 // 서보 핀 배열 및 축 이름
 const int servoPins[3] = {9, 6, 5};
 const char* axisNames[3] = { "Base (theta1)", "Shoulder (theta2)", "Elbow (theta3)" };
-
-const int speedLimit = 2;
 
 // 모드별 각도 및 메시지
 const ModeAngles modes[] = {
@@ -37,9 +38,24 @@ void initializeServos() {
   }
 }
 
+// 가변저항을 통해 속도 설정 함수
+void updateSpeedFromPot() {
+  int potValue = analogRead(potPin); // 가변저항 값 읽기
+  if (potValue < 341) {
+    speed = 1; // 속도 1
+  } else if (potValue < 682) {
+    speed = 2; // 속도 2
+  } else {
+    speed = 3; // 속도 3
+  }
+  Serial.print("Speed set to: ");
+  Serial.println(speed);
+}
+
+// 서보 모터를 부드럽게 개별적으로 이동시키는 함수
 void moveServoSmoothly(Servo &servo, int &currentAngle, int targetAngle, const char* axisName) {
-  int step = (targetAngle - currentAngle) > 0 ? speedLimit : -speedLimit;
-  while (abs(targetAngle - currentAngle) > speedLimit) {
+  int step = (targetAngle - currentAngle) > 0 ? speed : -speed;
+  while (abs(targetAngle - currentAngle) > speed) {
     currentAngle += step;
     servo.write(currentAngle);
     delay(15);
@@ -78,7 +94,8 @@ void moveToStandby() {
 // 특정 모드로 이동하면서 OLED 업데이트
 void moveAndDisplay(Mode mode, const char* message, bool electromagnetOn, bool reverse = false) {
   setModeAngles(mode);
-  updateOLED(message, electromagnetOn);
+  updateSpeedFromPot(); // 가변저항을 통해 속도 업데이트
+  updateOLED(message, electromagnetOn, speed); // speed 값을 전달하여 OLED에 출력
   moveToTargetAngles(reverse);
 }
 
@@ -89,7 +106,7 @@ void setElectromagnetAndDisplay(bool activate, const char* message) {
   } else {
     deactivateElectromagnet();
   }
-  updateOLED(message, activate);
+  updateOLED(message, activate, speed); // speed 값을 전달하여 OLED에 출력
 }
 
 void executeSequence(int sequenceType, int conveyorPosition) {
@@ -117,4 +134,3 @@ void executeSequence(int sequenceType, int conveyorPosition) {
   delay(250);
   moveAndDisplay(STANDBY, "Standby", false, true);
 }
-
