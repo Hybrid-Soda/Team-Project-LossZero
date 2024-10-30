@@ -31,12 +31,21 @@ public class MqttConfig {
     private final String brokerUrl = "tcp://localhost:1883";
     private static final String clientId = "SpringBoot-MQTT-Client-" + UUID.randomUUID();
 
+    /**
+     * MQTT 연결 옵션을 설정하는 객체를 생성
+     * @return MqttConnectOptions 객체
+     */
     @Bean
     @ConfigurationProperties(prefix = "spring.mqtt")
     public MqttConnectOptions mqttConnectOptions() {
         return new MqttConnectOptions();
     }
 
+    /**
+     * MQTT 클라이언트를 생성하고 브로커에 연결
+     * @return 연결된 IMqttClient 객체
+     * @throws MqttException MQTT 연결 중 예외가 발생할 경우
+     */
     @Bean
     public IMqttClient mqttClient() throws MqttException {
         IMqttClient mqttClient = new MqttClient(brokerUrl, clientId);
@@ -44,11 +53,19 @@ public class MqttConfig {
         return mqttClient;
     }
 
+    /**
+     * MQTT 메시지를 수신할 입력 채널을 생성
+     * @return DirectChannel 객체
+     */
     @Bean
     public MessageChannel mqttInputChannel() {
         return new DirectChannel();
     }
 
+    /**
+     * MQTT 구독을 관리하고 메시지를 입력 채널로 전달하는 어댑터 생성
+     * @return MessageProducer로 설정된 MqttPahoMessageDrivenChannelAdapter 객체
+     */
     @Bean
     public MessageProducer inbound() {
         MqttPahoMessageDrivenChannelAdapter adapter = new MqttPahoMessageDrivenChannelAdapter(
@@ -63,6 +80,10 @@ public class MqttConfig {
         return adapter;
     }
 
+    /**
+     * MQTT 메시지 수신 시 메시지 처리 작업을 수행하는 핸들러 생성
+     * @return MessageHandler 객체
+     */
     @Bean
     @ServiceActivator(inputChannel = "mqttInputChannel")
     public MessageHandler handler() {

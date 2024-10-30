@@ -14,9 +14,8 @@ spring:
         dialect: org.hibernate.dialect.MySQL8Dialect
 
   mqtt:
-    automatic-reconnect: true
     clean-session: true
-    connection-timeout: 10
+    connection-timeout: 100
 
 logging:
   level:
