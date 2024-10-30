@@ -93,15 +93,14 @@ void setElectromagnetAndDisplay(bool activate, const char* message) {
 }
 
 void executeSequence(int sequenceType, int conveyorPosition) {
+  // 컨베이어 위치에 따라 상태 메시지를 설정
+  const char* stateMessage = (conveyorPosition == 1) ? "Conveyor 1" : "Conveyor 2";
+
   // 컨베이어 위치로 이동 후 전자석 비활성 상태로 OLED 업데이트
-  if (conveyorPosition == 1) {
-    moveAndDisplay(CONVEYOR1, "Conveyor 1", false);
-  } else if (conveyorPosition == 2) {
-    moveAndDisplay(CONVEYOR2, "Conveyor 2", false);
-  }
+  moveAndDisplay((conveyorPosition == 1) ? CONVEYOR1 : CONVEYOR2, stateMessage, false);
 
   // 전자석 활성화 후 OLED 업데이트
-  setElectromagnetAndDisplay(true, conveyorPosition == 1 ? "Conveyor 1" : "Conveyor 2");
+  setElectromagnetAndDisplay(true, stateMessage);
   delay(300);
 
   // 거점으로 역순 이동 후 OLED 업데이트
@@ -109,11 +108,8 @@ void executeSequence(int sequenceType, int conveyorPosition) {
   delay(150);
 
   // 재활용 또는 불량 위치로 이동 후 OLED 업데이트
-  if (sequenceType == 1) {
-    moveAndDisplay(RECYCLE, "Recycle", true);
-  } else {
-    moveAndDisplay(DEFECTIVE, "Defective", true);
-  }
+  stateMessage = (sequenceType == 1) ? "Recycle" : "Defective";
+  moveAndDisplay((sequenceType == 1) ? RECYCLE : DEFECTIVE, stateMessage, true);
   delay(250);
 
   // 전자석 비활성화 후 대기 상태로 OLED 업데이트
@@ -121,3 +117,4 @@ void executeSequence(int sequenceType, int conveyorPosition) {
   delay(250);
   moveAndDisplay(STANDBY, "Standby", false, true);
 }
+
