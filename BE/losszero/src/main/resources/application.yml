@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:mysql://k11e202.p.ssafy.io:3306/losszero?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=Asia/Seoul
+    url: jdbc:mysql://k11e202.p.ssafy.io:3306/losszero?allowPublicKeyRetrieval=true&useSSL=true&serverTimezone=Asia/Seoul
     username: root
     password: losszero
     driver-class-name: com.mysql.cj.jdbc.Driver
