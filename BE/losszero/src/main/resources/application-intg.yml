@@ -19,7 +19,7 @@ spring:
     clean-session: true
     connection-timeout: 10
     client-id: SpringBoot-MQTT-Client
-    hostname: localhost
+    hostname: 127.0.0.1
     port: 1883
 
 logging:
