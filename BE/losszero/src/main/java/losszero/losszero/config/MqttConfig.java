@@ -5,6 +5,7 @@ import org.eclipse.paho.client.mqttv3.IMqttClient;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 
+import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,17 +29,23 @@ public class MqttConfig {
 
     private final String subTopic = "test";
 
+    @Value("${spring.mqtt.broker-url}")
+    private String brokerUrl;
+
+    @Value("${spring.mqtt.client-id}")
+    private String clientId;
+
     @Bean
-    @ConfigurationProperties(prefix = "mqtt")
     public MqttConnectOptions mqttConnectOptions() {
-        return new MqttConnectOptions();
+        MqttConnectOptions options = new MqttConnectOptions();
+        options.setServerURIs(new String[]{brokerUrl});
+        options.setCleanSession(true);
+        return options;
     }
 
     @Bean
-    public IMqttClient mqttClient(@Value("${mqtt.clientId}") String clientId,
-                                  @Value("${mqtt.hostname}") String hostname,
-                                  @Value("${mqtt.port}") int port) throws MqttException {
-        IMqttClient mqttClient = new MqttClient("tcp://" + hostname + ":" + port, clientId);
+    public IMqttClient mqttClient() throws MqttException {
+        IMqttClient mqttClient = new MqttClient(brokerUrl, clientId, new MemoryPersistence());
         mqttClient.connect(mqttConnectOptions());
         return mqttClient;
     }

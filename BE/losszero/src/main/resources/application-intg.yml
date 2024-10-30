@@ -14,10 +14,11 @@ spring:
         dialect: org.hibernate.dialect.MySQL8Dialect
 
   mqtt:
-    automaticReconnect: true
-    cleanSession: true
-    connectionTimeout: 10
-    clientId: SpringBoot-MQTT-Client
+    broker-url: tcp://${spring.mqtt.hostname}:${spring.mqtt.port}
+    automatic-reconnect: true
+    clean-session: true
+    connection-timeout: 10
+    client-id: SpringBoot-MQTT-Client
     hostname: localhost
     port: 1883
 
