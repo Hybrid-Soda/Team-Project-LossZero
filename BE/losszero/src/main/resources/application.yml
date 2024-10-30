@@ -13,7 +13,6 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
   
-  port: 8080 # HTTPS 포트 설정
   ssl:
     key-store: keystore.p12
     key-store-password: losszeroe202
