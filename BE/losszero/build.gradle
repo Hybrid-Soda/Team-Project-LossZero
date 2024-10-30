@@ -26,12 +26,12 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 
 	// 데이터베이스 관련 의존성
-	runtimeOnly 'mysql:mysql-connector-java:8.0.33'
 	runtimeOnly 'com.h2database:h2'
+	runtimeOnly 'mysql:mysql-connector-java:8.0.33'
 
 	// 테스트 관련 의존성
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
 	// JWT (JSON Web Token) 관련 의존성
 	implementation 'com.auth0:java-jwt:3.18.1'
@@ -47,9 +47,10 @@ dependencies {
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
 	// mosquitto5
-	implementation 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.5'
+	implementation 'org.springframework.integration:spring-integration-mqtt:5.5.14'
 
-//	implementation 'org.springframework.security:spring-security-jwt:1.1.1.RELEASE'
+	// Gson
+	implementation 'com.google.code.gson:gson:2.10.1'
 }
 
 tasks.named('test') {
