@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:mysql://k11e202.p.ssafy.io:3306/losszero?allowPublicKeyRetrieval=true&useSSL=true&serverTimezone=Asia/Seoul
+    url: jdbc:mysql://k11e202.p.ssafy.io:3306/losszero?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=Asia/Seoul
     username: root
     password: losszero
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -13,11 +13,11 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
   
-  ssl:
-    key-store: classpath:keystore.p12
-    key-store-password: losszeroe202
-    keyStoreType: PKCS12
-    keyAlias: myserver
+  # ssl:
+  #   key-store: classpath:keystore.p12
+  #   key-store-password: losszeroe202
+  #   keyStoreType: PKCS12
+  #   keyAlias: myserver
   
   profiles:
     active: secret  # secret profile을 활성화
