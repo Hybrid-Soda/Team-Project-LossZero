@@ -5,7 +5,6 @@ import org.eclipse.paho.client.mqttv3.IMqttClient;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,18 +21,15 @@ import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.MessageHandler;
 import org.springframework.messaging.MessagingException;
 
+import java.util.UUID;
+
 @EnableAsync
 @Configuration
 public class MqttConfig {
 
-    @Value("test")
-    private static String topicFilter;
-
-    @Value("${spring.mqtt.broker-url}")
-    private String brokerUrl;
-
-    @Value("${spring.mqtt.client-id}")
-    private String clientId;
+    private static final String topicFilter = "test";
+    private final String brokerUrl = "tcp://localhost:1883";
+    private static final String clientId = "SpringBoot-MQTT-Client-" + UUID.randomUUID();
 
     @Bean
     @ConfigurationProperties(prefix = "spring.mqtt")
