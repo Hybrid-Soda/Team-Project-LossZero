@@ -75,42 +75,49 @@ void moveToStandby() {
   moveToTargetAngles();
 }
 
-void executeSequence(int sequenceType, int conveyorPosition) {
-  const char* stateMessage;
+// 특정 모드로 이동하면서 OLED 업데이트
+void moveAndDisplay(Mode mode, const char* message, bool electromagnetOn, bool reverse = false) {
+  setModeAngles(mode);
+  updateOLED(message, electromagnetOn);
+  moveToTargetAngles(reverse);
+}
 
-  // 컨베이어 위치로 이동 후 전자석 활성화 시 OLED 업데이트
-  if (conveyorPosition == 1) {
-    setModeAngles(CONVEYOR1);
-    stateMessage = "Conveyor 1";
-  } else if (conveyorPosition == 2) {
-    setModeAngles(CONVEYOR2);
-    stateMessage = "Conveyor 2";
+// 전자석 상태를 설정하고 OLED 업데이트
+void setElectromagnetAndDisplay(bool activate, const char* message) {
+  if (activate) {
+    activateElectromagnet();
+  } else {
+    deactivateElectromagnet();
   }
-  updateOLED(stateMessage, false); // 각 단계 시작 시 OLED 업데이트
-  moveToTargetAngles();
+  updateOLED(message, activate);
+}
 
-  // 전자석 활성화 및 OLED 업데이트
-  activateElectromagnet();
-  updateOLED(stateMessage, true);
+void executeSequence(int sequenceType, int conveyorPosition) {
+  // 컨베이어 위치로 이동 후 전자석 비활성 상태로 OLED 업데이트
+  if (conveyorPosition == 1) {
+    moveAndDisplay(CONVEYOR1, "Conveyor 1", false);
+  } else if (conveyorPosition == 2) {
+    moveAndDisplay(CONVEYOR2, "Conveyor 2", false);
+  }
+
+  // 전자석 활성화 후 OLED 업데이트
+  setElectromagnetAndDisplay(true, conveyorPosition == 1 ? "Conveyor 1" : "Conveyor 2");
   delay(300);
 
-  // 거점으로 역순 이동
-  setModeAngles(WAYPOINT);
-  updateOLED("Waypoint", true);
-  moveToTargetAngles(true);  // 역방향 이동
+  // 거점으로 역순 이동 후 OLED 업데이트
+  moveAndDisplay(WAYPOINT, "Waypoint", true, true);
   delay(150);
 
-  // 재활용 또는 불량 위치로 이동 전 OLED 업데이트
-  setModeAngles(sequenceType == 1 ? RECYCLE : DEFECTIVE);
-  stateMessage = (sequenceType == 1) ? "Recycle" : "Defective";
-  updateOLED(stateMessage, true);
-  moveToTargetAngles();
+  // 재활용 또는 불량 위치로 이동 후 OLED 업데이트
+  if (sequenceType == 1) {
+    moveAndDisplay(RECYCLE, "Recycle", true);
+  } else {
+    moveAndDisplay(DEFECTIVE, "Defective", true);
+  }
   delay(250);
 
-  // 전자석 비활성화 후 대기 상태로 전환
-  deactivateElectromagnet();
-  updateOLED("Standby", false);
+  // 전자석 비활성화 후 대기 상태로 OLED 업데이트
+  setElectromagnetAndDisplay(false, "Standby");
   delay(250);
-  setModeAngles(STANDBY);
-  moveToTargetAngles(true);  // 역방향 이동
+  moveAndDisplay(STANDBY, "Standby", false, true);
 }
