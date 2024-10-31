@@ -1,8 +1,8 @@
 #include <ESP8266WiFi.h>
 #include <ESP8266HTTPClient.h>
 
-const char* ssid = "E102_hs";           // WiFi SSID
-const char* password = "ssafy123!";   // WiFi 비밀번호
+const char* ssid = "E102hs";           // WiFi SSID
+const char* password = "ssafy123";   // WiFi 비밀번호
 const char* serverUrl = "http://192.168.30.128:8000/wifi/data"; // FastAPI 서버 주소 (서버의 IP 주소 사용)
 
 WiFiClient wifiClient;
