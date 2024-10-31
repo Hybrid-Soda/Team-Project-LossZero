@@ -13,10 +13,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import org.springframework.web.bind.annotation.RequestMapping;
+
+
 import java.util.Date;
 
 @Controller
 @ResponseBody
+@RequestMapping("/api/v1")
+
 public class ReissueController {
 
     private final JWTUtil jwtUtil;
