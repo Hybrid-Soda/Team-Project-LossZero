@@ -20,7 +20,7 @@ public class JoinController {
     public JoinController(JoinService joinService) {
         this.joinService = joinService;
     }
-    @PostMapping("/api/v1/join")
+    @PostMapping("/join")
     public String joinProcess(JoinDTO joinDTO) {
 
         joinService.joinProcess(joinDTO);

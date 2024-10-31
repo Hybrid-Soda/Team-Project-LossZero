@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 public class AdminController {
 
-    @GetMapping("/api/v1/admin")
+    @GetMapping("/admin")
     public String adminP() {
         return "admin Controller";
     }
