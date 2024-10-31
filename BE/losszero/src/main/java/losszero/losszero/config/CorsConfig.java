@@ -21,6 +21,8 @@ public class CorsConfig {
         config.setAllowCredentials(true);
         config.setAllowedOrigins(Arrays.asList(
                 "http://k11e202.p.ssafy.io:5173",
+                "http://k11e202.p.ssafy.io/api/v1",
+                "http://k11e202.p.ssafy.io",
                 "http://localhost:5173",
                 "http://localhost:5500"
         ));
