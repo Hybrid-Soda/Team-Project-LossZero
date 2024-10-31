@@ -1,13 +1,13 @@
 package losszero.losszero.dto.user;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
 public class JoinDTO {
-
     private String username;
     private String password;
-
 }
