@@ -12,7 +12,7 @@ import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/realtime/circumstance")
+@RequestMapping("/realtime/circumstance")
 public class RealtimeCircumstanceController {
 
     private final RealtimeCircumstanceService realtimeCircumstanceService;

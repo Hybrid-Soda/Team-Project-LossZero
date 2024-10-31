@@ -12,7 +12,7 @@ import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/realtime/prod")
+@RequestMapping("/realtime/prod")
 public class RealtimeProductController {
 
     private final RealtimeProductService realtimeProductService;
