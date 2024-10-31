@@ -28,7 +28,7 @@ public class SecurityConfig {
             "/join",
             "/login",
             "/reissue",
-            "/api/v1/realtime/**",
+            "/realtime/**",
             "/h2-console/**"
     };
 
@@ -76,7 +76,6 @@ public class SecurityConfig {
                 .sessionManagement((session) -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilter(corsConfig.corsFilter())
-                .headers(headers -> headers.disable())
                 .build();
     }
 }
