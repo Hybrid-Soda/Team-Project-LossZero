@@ -28,8 +28,7 @@ public class SecurityConfig {
             "/join",
             "/login",
             "/reissue",
-            "/realtime/**",
-            "/h2-console/**"
+            "/realtime/**"
     };
 
     private final AuthenticationConfiguration authenticationConfiguration;
