@@ -27,7 +27,8 @@ public class CustomLogoutFilter extends GenericFilter {
     private void doFilter(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws IOException, ServletException {
 
         String requestUri = request.getRequestURI();
-        if (!requestUri.matches("^\\/logout$")) {
+//        if (!requestUri.matches("^\\/logout$")) {
+        if (!requestUri.matches("^\\/api\\/v1\\/logout$")) {
             filterChain.doFilter(request, response);
             return;
         }
