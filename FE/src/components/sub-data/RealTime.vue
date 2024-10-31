@@ -14,8 +14,8 @@ const startDate = formatDate(today);
 const endDate = formatDate(today);
 // SSE 연결
 const eventSource = new EventSource(
-  // "http://k11e202.p.ssafy.io:8081/api/v1/realtime/prod?lineId=1",
-  "https://k11e202.p.ssafy.io/api/v1/realtime/prod?lineId=1",
+  "http://k11e202.p.ssafy.io:8081/api/v1/realtime/prod?lineId=1",
+  // "https://k11e202.p.ssafy.io/api/v1/realtime/prod?lineId=1",
   {}
 );
 
@@ -33,8 +33,8 @@ eventSource.onerror = function (event) {
 
 // SSE for Environment Data
 const environmentEventSource = new EventSource(
-  // "http://k11e202.p.ssafy.io:8081/api/v1/realtime/circumstance?lineId=1"
-  "https://k11e202.p.ssafy.io/api/v1/realtime/circumstance?lineId=1"
+  "http://k11e202.p.ssafy.io:8081/api/v1/realtime/circumstance?lineId=1"
+  // "https://k11e202.p.ssafy.io/api/v1/realtime/circumstance?lineId=1"
 );
 
 environmentEventSource.addEventListener(
