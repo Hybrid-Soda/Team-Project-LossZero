@@ -19,11 +19,11 @@ export const useCounterStore = defineStore(
     const totalCnt = ref(0);
 
     const DPO = computed(() =>
-      Math.ceil(100 * ((recycleCnt.value + faultyCnt.value) / totalCnt.value))
-        ? Math.ceil(
-            100 * ((recycleCnt.value + faultyCnt.value) / totalCnt.value)
-          )
-        : 0
+      Math.ceil(100 * ((recycleCnt.value + faultyCnt.value) / totalCnt.value)) // 재확인
+        // ? Math.ceil(
+        //     100 * ((recycleCnt.value + faultyCnt.value) / totalCnt.value)
+        //   )
+        // : 0 
     );
 
     const productData = ref([
