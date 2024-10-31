@@ -12,7 +12,7 @@ import java.time.LocalDate;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/v1/operation")
+@RequestMapping("/operation")
 public class OperationTimeController {
 
     @Autowired
