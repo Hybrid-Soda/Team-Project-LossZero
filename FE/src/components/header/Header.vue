@@ -3,15 +3,17 @@ import { useRouter } from "vue-router";
 import { logout } from "@/api/user";
 import UserInfo from "@/components/header/UserInfo.vue";
 import LogIssue from "@/components/header/LogIssue.vue";
+import { useUserStore } from "@/stores/user";
 
 // Vue Router 사용
 const router = useRouter();
+const userStore = useUserStore();
 
 // 로그아웃 버튼 클릭 시 로그인 페이지로 이동
 function logoutBtn() {
   logout()
     .then((res) => {
-      console.log(res.data);
+      userStore.logoutFun();
       router.push({ path: "/" });
     })
     .catch((err) => {
