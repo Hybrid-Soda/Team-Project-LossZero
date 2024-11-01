@@ -77,7 +77,8 @@ public class SecurityConfig {
 
         http
                 .authorizeRequests((auth) -> auth
-                        .requestMatchers("/login","/join","/api/v1/**").permitAll()
+//                        .requestMatchers("/login","/join","/api/v1/**").permitAll()
+                        .requestMatchers("/login","/join","/logout","/api/v1/**").permitAll()
                         .requestMatchers("/reissue").permitAll()
                         .anyRequest().authenticated()); // 그외 다른 부분은 로그인한 자만 접근가능
 
