@@ -13,12 +13,6 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
   
-  # ssl:
-  #   key-store: classpath:keystore.p12
-  #   key-store-password: losszeroe202
-  #   keyStoreType: PKCS12
-  #   keyAlias: myserver
-  
   profiles:
     active: secret  # secret profile을 활성화
 
