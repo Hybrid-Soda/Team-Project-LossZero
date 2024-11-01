@@ -59,7 +59,7 @@ public class SecurityConfig {
 
                             CorsConfiguration configuration = new CorsConfiguration();
                             // 10/31 수정
-                            configuration.setAllowedOrigins(Arrays.asList("http://k11e202.p.ssafy.io:5173", "http://localhost:5173","http://localhost:5500, https://k11e202.p.ssafy.io")); // https 주소 추가
+                            configuration.setAllowedOrigins(Arrays.asList("http://k11e202.p.ssafy.io:5173", "http://localhost:5173","http://localhost:5500", "https://k11e202.p.ssafy.io")); // https 주소 추가
                             configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
                             configuration.setAllowCredentials(true);
                             configuration.setAllowedHeaders(Collections.singletonList("*"));
