@@ -18,12 +18,12 @@ services:
     ports:
       - "5173:5173"
 
-  mqtt5:
+  mqtt:
     image: eclipse-mosquitto
-    container_name: mqtt5
+    container_name: mqtt-broker
     ports:
-      - 1883:1883
-      - 9001:9001
+      - "1883:1883"
+      - "9001:9001"
     volumes:
       - ./mosquitto.conf:/mosquitto/config/mosquitto.conf
     restart: unless-stopped

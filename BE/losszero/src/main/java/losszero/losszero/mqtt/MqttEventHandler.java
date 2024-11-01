@@ -15,19 +15,6 @@ import org.springframework.integration.mqtt.event.MqttConnectionFailedEvent;
 // 연결이 끊겼는지 체크하다, 이벤트 발생시 확인하는 리스너
 @Component
 public class MqttEventHandler {
-    @Bean
-    @ServiceActivator(inputChannel = "mqttInputChannel")
-    public MessageHandler handler() {
-        return new MessageHandler() {
-
-            @Override
-            public void handleMessage(Message<?> message) throws MessagingException {
-                System.out.println("MQTT MessageHandler : " + message.getPayload());
-            }
-
-        };
-    }
-
     @EventListener
     public void connectLost(MqttConnectionFailedEvent failedEvent){
         MqttPahoComponent source = failedEvent.getSourceAsType();
