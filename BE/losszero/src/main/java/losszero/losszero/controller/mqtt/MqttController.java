@@ -1,6 +1,7 @@
-package losszero.losszero.mqtt;
+package losszero.losszero.controller.mqtt;
 
 import com.google.gson.Gson;
+import losszero.losszero.dto.realtime.RealtimeCircumstanceDTO;
 import losszero.losszero.dto.realtime.RealtimeProductDTO;
 import losszero.losszero.service.operation.OperationTimeService;
 import losszero.losszero.service.realtime.RealtimeCircumstanceService;
@@ -35,18 +36,18 @@ public class MqttController {
         return message -> {
             String topic = (String) message.getHeaders().get("mqtt_receivedTopic");
             String json = (String) message.getPayload();
-            RealtimeProductDTO mqttDto = gson.fromJson(json, RealtimeProductDTO.class);
-            System.out.println("!@$@!$%#%@^@" + mqttDto);
 
             switch (topic) {
                 case "realtime-oper":
 //                    operationTimeService.saveProductData(lineId, productData);
                     break;
                 case "realtime-prod":
-//                    realtimeProductService.saveProductData(mqttDto);
+                    RealtimeProductDTO productDTO = gson.fromJson(json, RealtimeProductDTO.class);
+                    realtimeProductService.saveProductData(productDTO);
                     break;
                 case "realtime-circ":
-//                    realtimeCircumstanceService.;
+                    RealtimeCircumstanceDTO circumstanceDTO = gson.fromJson(json, RealtimeCircumstanceDTO.class);
+                    realtimeCircumstanceService.saveCircumstanceData(circumstanceDTO);
                     break;
                 default:
                     System.out.println("Unknown topic");

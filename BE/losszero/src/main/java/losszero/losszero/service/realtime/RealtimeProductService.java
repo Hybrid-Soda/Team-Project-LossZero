@@ -1,13 +1,13 @@
 package losszero.losszero.service.realtime;
 
-import jakarta.transaction.Transactional;
-import losszero.losszero.dto.realtime.RealtimeProdDTO;
+import losszero.losszero.dto.realtime.RealtimeProductDTO;
 import losszero.losszero.entity.date.DateProd;
 import losszero.losszero.entity.realtime.RealtimeProd;
 import losszero.losszero.repository.date.DateProdRepository;
 import losszero.losszero.repository.realtime.RealtimeProductRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.time.LocalDate;
@@ -24,13 +24,18 @@ public class RealtimeProductService {
     @Autowired
     private DateProdRepository dateProductRepository; // date_prod 테이블과 연동되는 리포지토리
 
-    public void saveProductData(int lineId, RealtimeProdDTO productData) {
+    public void saveProductData(RealtimeProductDTO productData) {
+        int lineId = productData.getLineId();
+        int normal = productData.getQuality().getNormal();
+        int defective = productData.getQuality().getDefective();
+        int reusable = productData.getQuality().getReusable();
+
         // 실시간 데이터를 realtime_prod 테이블에 저장
         RealtimeProd realtimeProd = new RealtimeProd();
         realtimeProd.setLineId(lineId);
-        realtimeProd.setNormal(productData.getNormal());
-        realtimeProd.setDefective(productData.getDefective());
-        realtimeProd.setReusable(productData.getReusable());
+        realtimeProd.setNormal(normal);
+        realtimeProd.setDefective(defective);
+        realtimeProd.setReusable(reusable);
         realtimeProd.setCreatedAt(LocalDateTime.now());
         realtimeProductRepository.save(realtimeProd);
 
@@ -42,17 +47,17 @@ public class RealtimeProductService {
         if (optionalDateProd.isPresent()) {
             // 기존 레코드가 있으면 누적 업데이트
             dateProd = optionalDateProd.get();
-            dateProd.setSumNormal(dateProd.getSumNormal() + productData.getNormal());
-            dateProd.setSumDefective(dateProd.getSumDefective() + productData.getDefective());
-            dateProd.setSumReusable(dateProd.getSumReusable() + productData.getReusable());
+            dateProd.setSumNormal(dateProd.getSumNormal() + normal);
+            dateProd.setSumDefective(dateProd.getSumDefective() + defective);
+            dateProd.setSumReusable(dateProd.getSumReusable() + reusable);
         } else {
             // 없으면 새로운 레코드를 생성
             dateProd = new DateProd();
             dateProd.setLineId(lineId);
             dateProd.setDate(currentDate);
-            dateProd.setSumNormal(productData.getNormal());
-            dateProd.setSumDefective(productData.getDefective());
-            dateProd.setSumReusable(productData.getReusable());
+            dateProd.setSumNormal(normal);
+            dateProd.setSumDefective(defective);
+            dateProd.setSumReusable(reusable);
         }
 
         // 변경 사항 저장

@@ -24,11 +24,15 @@ public class RealtimeCircumstanceService {
     private DateCircumstanceRepository dateCircumstanceRepository;
 
     @Transactional
-    public void saveCircumstanceData(int lineId, RealtimeCircumstanceDTO data) {
+    public void saveCircumstanceData(RealtimeCircumstanceDTO circumstanceData) {
+        int lineId = circumstanceData.getLineId();
+        float temperature = circumstanceData.getCircumstance().getTemperature();
+        float humidity = circumstanceData.getCircumstance().getHumidity();
+
         RealtimeCircumstance circumstance = new RealtimeCircumstance();
         circumstance.setLineId(lineId);
-        circumstance.setTemperature(data.getTemperature());
-        circumstance.setHumidity(data.getHumidity());
+        circumstance.setTemperature(temperature);
+        circumstance.setHumidity(humidity);
         circumstance.setCreatedAt(java.time.LocalDateTime.now());
         realtimeCircumstanceRepository.save(circumstance);
 
@@ -38,18 +42,18 @@ public class RealtimeCircumstanceService {
         DateCircumstance dateCircumstance;
         if (optionalDateCircumstance.isPresent()) {
             dateCircumstance = optionalDateCircumstance.get();
-            dateCircumstance.setMaxTemp(Math.max(dateCircumstance.getMaxTemp(), data.getTemperature()));
-            dateCircumstance.setMinTemp(Math.min(dateCircumstance.getMinTemp(), data.getTemperature()));
-            dateCircumstance.setMaxHumid(Math.max(dateCircumstance.getMaxHumid(), data.getHumidity()));
-            dateCircumstance.setMinHumid(Math.min(dateCircumstance.getMinHumid(), data.getHumidity()));
+            dateCircumstance.setMaxTemp(Math.max(dateCircumstance.getMaxTemp(), temperature));
+            dateCircumstance.setMinTemp(Math.min(dateCircumstance.getMinTemp(), temperature));
+            dateCircumstance.setMaxHumid(Math.max(dateCircumstance.getMaxHumid(), humidity));
+            dateCircumstance.setMinHumid(Math.min(dateCircumstance.getMinHumid(), humidity));
         } else {
             dateCircumstance = new DateCircumstance();
             dateCircumstance.setLineId(lineId);
             dateCircumstance.setDate(today);
-            dateCircumstance.setMaxTemp(data.getTemperature());
-            dateCircumstance.setMinTemp(data.getTemperature());
-            dateCircumstance.setMaxHumid(data.getHumidity());
-            dateCircumstance.setMinHumid(data.getHumidity());
+            dateCircumstance.setMaxTemp(temperature);
+            dateCircumstance.setMinTemp(temperature);
+            dateCircumstance.setMaxHumid(humidity);
+            dateCircumstance.setMinHumid(humidity);
         }
         dateCircumstanceRepository.save(dateCircumstance);
     }

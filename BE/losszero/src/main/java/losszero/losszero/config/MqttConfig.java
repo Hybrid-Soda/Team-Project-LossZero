@@ -1,4 +1,4 @@
-package losszero.losszero.mqtt;
+package losszero.losszero.config;
 
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.IMqttClient;
