@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Service
-public class MqttServiceImpl implements MqttService {
+public class MqttRealtimeProdService implements MqttService {
 
     private final String pubTopic = "test";
 

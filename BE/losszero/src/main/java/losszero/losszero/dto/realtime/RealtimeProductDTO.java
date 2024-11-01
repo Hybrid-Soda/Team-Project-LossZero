@@ -7,8 +7,8 @@ import lombok.*;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class RealtimeCircumstanceDTO {
+public class RealtimeProductDTO {
     private String sender;
     private int lineId;
-    private CircumstanceDTO circumstance;
+    private QualityDTO quality;
 }

@@ -45,19 +45,19 @@ public class MqttConfig {
 
     // MQTT Subscribe Channel
     @Bean
-    public MessageChannel mqttInputChannel() {
+    public MessageChannel realtimeInputChannel() {
         return new DirectChannel();
     }
 
     // MQTT 구독을 관리하고 메시지를 입력 채널로 전달하는 어댑터 생성
     @Bean
-    public MessageProducer inbound() {
+    public MessageProducer inboundChannel() {
         MqttPahoMessageDrivenChannelAdapter adapter =
                 new MqttPahoMessageDrivenChannelAdapter(brokerUrl, clientId, topics);
         adapter.setCompletionTimeout(5000); // 연결 완료 대기 시간 설정 (불필요한 지연 방지 목적)
         adapter.setConverter(new DefaultPahoMessageConverter()); // MQTT 메시지 -> Spring Integration 메시지 방식 설정
         adapter.setQos(1); // QoS 설정
-        adapter.setOutputChannel(mqttInputChannel()); // 메시지를 전달할 채널
+        adapter.setOutputChannel(realtimeInputChannel()); // 메시지를 전달할 채널
         return adapter;
     }
 }
