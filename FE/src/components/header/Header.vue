@@ -1,5 +1,6 @@
 <script setup>
 import { useRouter } from "vue-router";
+import { logout } from "@/api/user";
 import UserInfo from "@/components/header/UserInfo.vue";
 import LogIssue from "@/components/header/LogIssue.vue";
 
@@ -7,8 +8,15 @@ import LogIssue from "@/components/header/LogIssue.vue";
 const router = useRouter();
 
 // 로그아웃 버튼 클릭 시 로그인 페이지로 이동
-function logout() {
-  router.push({ path: "/" });
+function logoutBtn() {
+  logout()
+    .then((res) => {
+      console.log(res.data);
+      router.push({ path: "/" });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 }
 </script>
 
@@ -23,7 +31,7 @@ function logout() {
 
     <div class="right">
       <!-- 로그아웃 버튼 클릭 시 logout 함수 호출 -->
-      <button class="logout pre-t btn" @click="logout">로그아웃</button>
+      <button class="logout pre-t btn" @click="logoutBtn">로그아웃</button>
     </div>
   </div>
 </template>

@@ -12,43 +12,43 @@ const envStore = useEnvStore();
 const today = new Date();
 const startDate = formatDate(today);
 const endDate = formatDate(today);
-// SSE 연결
-const eventSource = new EventSource(
-  // "http://k11e202.p.ssafy.io:8081/api/v1/realtime/prod?lineId=1",
-  "https://k11e202.p.ssafy.io/api/v1/realtime/prod?lineId=1",
-  {}
-);
+// // SSE 연결
+// const eventSource = new EventSource(
+//   // "http://k11e202.p.ssafy.io:8081/api/v1/realtime/prod?lineId=1",
+//   "https://k11e202.p.ssafy.io/api/v1/realtime/prod?lineId=1",
+//   {}
+// );
 
-// 실시간 데이터 수신 (realtimeProd 이벤트)
-eventSource.addEventListener("realtimeProd", function (event) {
-  const data = JSON.parse(event.data);
-  // console.log(data);
-  cntStore.sseData(data);
-});
+// // 실시간 데이터 수신 (realtimeProd 이벤트)
+// eventSource.addEventListener("realtimeProd", function (event) {
+//   const data = JSON.parse(event.data);
+//   // console.log(data);
+//   cntStore.sseData(data);
+// });
 
-// SSE 연결 에러 처리
-eventSource.onerror = function (event) {
-  // console.error("SSE connection error:", event);
-};
+// // SSE 연결 에러 처리
+// eventSource.onerror = function (event) {
+//   // console.error("SSE connection error:", event);
+// };
 
-// SSE for Environment Data
-const environmentEventSource = new EventSource(
-  // "http://k11e202.p.ssafy.io:8081/api/v1/realtime/circumstance?lineId=1"
-  "https://k11e202.p.ssafy.io/api/v1/realtime/circumstance?lineId=1"
-);
+// // SSE for Environment Data
+// const environmentEventSource = new EventSource(
+//   // "http://k11e202.p.ssafy.io:8081/api/v1/realtime/circumstance?lineId=1"
+//   "https://k11e202.p.ssafy.io/api/v1/realtime/circumstance?lineId=1"
+// );
 
-environmentEventSource.addEventListener(
-  "realtimeCircumstance",
-  function (event) {
-    const data = JSON.parse(event.data);
-    envStore.sseData(data);
-    // console.log(data);
-  }
-);
+// environmentEventSource.addEventListener(
+//   "realtimeCircumstance",
+//   function (event) {
+//     const data = JSON.parse(event.data);
+//     envStore.sseData(data);
+//     // console.log(data);
+//   }
+// );
 
-environmentEventSource.onerror = function (event) {
-  // console.error("SSE connection error (Environment):", event);
-};
+// environmentEventSource.onerror = function (event) {
+//   // console.error("SSE connection error (Environment):", event);
+// };
 
 function formatDate(date) {
   const year = date.getFullYear();
