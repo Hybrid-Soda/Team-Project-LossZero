@@ -1,15 +1,13 @@
-package losszero.losszero.service.realtime;
+package losszero.losszero.mqtt;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import losszero.losszero.dto.realtime.MqttDto;
 import org.eclipse.paho.client.mqttv3.IMqttClient;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.eclipse.paho.client.mqttv3.MqttException;
 
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 
 @Service
 public class MqttServiceImpl implements MqttService {
@@ -18,9 +16,6 @@ public class MqttServiceImpl implements MqttService {
 
     @Autowired
     private IMqttClient mqttClient;
-
-    @Autowired
-    private MappingJackson2HttpMessageConverter messageConverter;
 
     @Override
     public void publish(MqttDto dto) {

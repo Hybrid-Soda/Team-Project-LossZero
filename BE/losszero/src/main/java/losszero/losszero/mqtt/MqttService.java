@@ -1,6 +1,4 @@
-package losszero.losszero.service.realtime;
-
-import losszero.losszero.dto.realtime.MqttDto;
+package losszero.losszero.mqtt;
 
 public interface MqttService {
     void publish(MqttDto dto); // MQTT 메시지 발행

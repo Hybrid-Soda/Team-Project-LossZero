@@ -1,4 +1,4 @@
-package losszero.losszero.dto.realtime;
+package losszero.losszero.mqtt;
 
 import lombok.*;
 
