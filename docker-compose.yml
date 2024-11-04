@@ -10,8 +10,8 @@ services:
     environment:
       - SPRING_PROFILES_ACTIVE=secret
     # 11/4 . 10:23 김구태 추가
-    depends_on:
-      - mqtt
+    # depends_on:
+      # - mqtt
 
   frontend:
     image: leechanghojjang/frontend:latest
