@@ -24,7 +24,7 @@ import java.util.UUID;
 public class MqttConfig {
 
     private static final String[] topics = {"realtime-oper", "realtime-prod", "realtime-circ"};
-    private static final String brokerUrl = "tcp://k11e202.p.ssafy.io:1883";
+    private static final String brokerUrl = "tcp://localhost:1883";
 //    private static final String brokerUrl = "tcp://localhost:1883";
     private static final String clientId = "SpringBoot-MQTT-Client-" + UUID.randomUUID();
 
