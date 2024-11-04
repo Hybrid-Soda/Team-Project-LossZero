@@ -20,13 +20,3 @@ services:
       dockerfile: Dockerfile
     ports:
       - "5173:5173"
-
-  mqtt:
-    image: eclipse-mosquitto
-    container_name: mqtt-broker
-    ports:
-      - "1883:1883"
-      - "9001:9001"
-    volumes:
-      - ./config:/mosquitto/config
-    restart: unless-stopped
