@@ -20,7 +20,7 @@ export default defineConfig({
     hmr: {
       protocol: 'wss',          // 보안을 위해 WebSocket Secure 사용
       host: 'k11e202.p.ssafy.io', // 배포된 서버의 호스트 이름
-      port: 9001                 // WebSocket에 연결할 포트
+      port: 5173                 // WebSocket에 연결할 포트
     }
     // hmr: {
     //   protocol: 'wss', // HMR을 WebSocket Secure로 설정
