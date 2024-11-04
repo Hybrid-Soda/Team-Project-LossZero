@@ -1,11 +1,10 @@
 import { localAxios } from "@/utils/request";
 
 const axios = localAxios();
-const baseURL = "api/v1";
 
 export function setTargetProduction(cnt) {
   return axios({
-    url: `${baseURL}/line/target`,
+    url: `line/target`,
     method: "patch",
     params: { lineId: 1 },
     data: cnt,
@@ -15,7 +14,7 @@ export function setTargetProduction(cnt) {
 
 export function lineState() {
   return axios({
-    url: `${baseURL}/line`,
+    url: `line`,
     method: "get",
     params: { lineId: 1 },
     withCredentials: true,
@@ -24,7 +23,7 @@ export function lineState() {
 
 export function lineStart() {
   return axios({
-    url: `${baseURL}/operation/start`,
+    url: `operation/start`,
     method: "put",
     params: { lineId: 1 },
     withCredentials: true,
@@ -33,7 +32,7 @@ export function lineStart() {
 
 export function lineEnd() {
   return axios({
-    url: `${baseURL}/operation/end`,
+    url: `operation/end`,
     method: "patch",
     params: { lineId: 1, cycleProdId: 5 },
     withCredentials: true,

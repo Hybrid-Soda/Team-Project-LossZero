@@ -2,6 +2,18 @@
 import Header from "@/components/header/Header.vue";
 import MainData from "@/components/main-data/MainData.vue";
 import SubData from "@/components/sub-data/SubData.vue";
+import { useUserStore } from "@/stores/user";
+import { onMounted } from "vue";
+import { useRouter } from "vue-router";
+
+const userStore = useUserStore();
+const router = useRouter();
+
+onMounted(() => {
+  if (!userStore.isLogin) {
+    router.replace({ name: "login" });
+  }
+});
 </script>
 
 <template>

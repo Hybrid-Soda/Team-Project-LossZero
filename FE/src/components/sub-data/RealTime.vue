@@ -4,6 +4,7 @@ import MachineOperation from "@/components/sub-data/MachineOperation.vue";
 import { useOperateStore } from "@/stores/operate";
 import { useCounterStore } from "@/stores/counter";
 import { useEnvStore } from "@/stores/environment";
+import Test from "./Test.vue";
 
 const operateStore = useOperateStore();
 const cntStore = useCounterStore();
@@ -12,6 +13,7 @@ const envStore = useEnvStore();
 
 <template>
   <div class="real-time-con con shadow">
+    <Test />
     <div class="box-row title-con">
       <img src="@/assets/img/log.svg" alt="실시간 " />
       <span class="title pre-bt">실시간 정보</span>
