@@ -1,5 +1,5 @@
 <script setup>
-var host = "k11e202.p.ssafy.io";
+var host = "wss://k11e202.p.ssafy.io";
 var port = 9001;
 var mqtt;
 
