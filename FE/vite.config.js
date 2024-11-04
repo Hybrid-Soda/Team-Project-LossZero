@@ -17,6 +17,6 @@ export default defineConfig({
     host: '0.0.0.0', // 외부 네트워크에서 접근 가능하게 설정
     port: 5173,      // 원하는 포트 (Docker의 포트 매핑과 일치해야 함)
     
-    https: true, // HTTPS 사용
+    https: true // HTTPS 사용
   }
 })
