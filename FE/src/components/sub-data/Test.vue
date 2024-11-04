@@ -41,7 +41,11 @@ function subscribe(topic) {
 //mqtt 통신을 관리하기 위한 사용자 정의 함수
 function MQTTConnect() {
   console.log("mqtt 접속 : " + host + ", " + port);
-  mqtt = new Paho.MQTT.Client(host, port, "javascript_client");
+  // mqtt = new Paho.MQTT.Client(host, port, "javascript_client");
+  mqtt = new Paho.MQTT.Client(
+    "wss://" + host + ":" + port,
+    "javascript_client"
+  );
 
   mqtt.onMessageArrived = onMessageArrived;
 
