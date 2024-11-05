@@ -1,6 +1,6 @@
 <script setup>
 var host = "k11e202.p.ssafy.io";
-// var port = 9001; // port 변수 제거
+var port = 443; // port 변수 제거
 var mqtt;
 
 // callback함수 - 접속 성공
@@ -41,8 +41,8 @@ function subscribe(topic) {
 //mqtt 통신을 관리하기 위한 사용자 정의 함수
 function MQTTConnect() {
   console.log("mqtt 접속 : " + host + ", " + port);
-  // mqtt = new Paho.MQTT.Client(host, port, "javascript_client");
-  mqtt = new Paho.MQTT.Client(host, "javascript_client");
+  mqtt = new Paho.MQTT.Client(host, port, "javascript_client");
+  // mqtt = new Paho.MQTT.Client(host, "javascript_client");
 
   mqtt.onMessageArrived = onMessageArrived;
 
