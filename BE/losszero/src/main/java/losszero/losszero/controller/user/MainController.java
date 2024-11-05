@@ -14,7 +14,7 @@ import java.util.Iterator;
 @ResponseBody
 public class MainController {
 
-    @GetMapping("/")
+    @GetMapping("/api/v1/")
     public String mainP() {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
 
