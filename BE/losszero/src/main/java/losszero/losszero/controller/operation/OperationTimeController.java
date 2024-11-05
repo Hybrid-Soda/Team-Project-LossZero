@@ -16,11 +16,17 @@ import java.util.Map;
 public class OperationTimeController {
 
     private final OperationTimeService operationTimeService;
-    private final OperationTimeDTO operationTimeDTO;
 
     @GetMapping
     public ResponseEntity<Map<String, Object>> getOperationTime(@RequestParam Long lineId, @RequestParam LocalDate date) {
         Duration operationTime = operationTimeService.getOperationTime(lineId, date);
-        return ResponseEntity.ok(Map.of("operation_time", operationTimeDTO.formatDuration(operationTime)));
+        return ResponseEntity.ok(Map.of("operation_time", formatDuration(operationTime)));
+    }
+
+    public String formatDuration(Duration duration) {
+        long hours = duration.toHours();
+        long minutes = duration.toMinutesPart();
+        long seconds = duration.toSecondsPart();
+        return String.format("%02d:%02d:%02d", hours, minutes, seconds);
     }
 }

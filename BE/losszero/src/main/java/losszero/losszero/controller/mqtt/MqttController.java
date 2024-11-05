@@ -13,16 +13,10 @@ import losszero.losszero.service.realtime.RealtimeProductService;
 import org.eclipse.paho.client.mqttv3.IMqttClient;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Controller;
 import org.springframework.messaging.MessageHandler;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.event.EventListener;
 import org.springframework.integration.annotation.ServiceActivator;
-import org.springframework.integration.mqtt.core.MqttPahoComponent;
-import org.springframework.integration.mqtt.event.MqttConnectionFailedEvent;
-import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
@@ -34,45 +28,24 @@ public class MqttController {
     private final RealtimeProductService realtimeProductService;
     private final RealtimeCircumstanceService realtimeCircumstanceService;
     private final IMqttClient mqttClient;
+    private final Gson gson = new Gson();
 
     @Bean
     @ServiceActivator(inputChannel = "realtimeInputChannel")
     public MessageHandler inboundMessageHandler() {
-        Gson gson = new Gson();
-
         return message -> {
             String topic = (String) message.getHeaders().get("mqtt_receivedTopic");
             String json = (String) message.getPayload();
 
             switch (Objects.requireNonNull(topic)) {
                 case "realtime-oper":
-                    MqttOperationDTO mqttOperationDTO = gson.fromJson(json, MqttOperationDTO.class);
-                    String oper = mqttOperationDTO.getMessage();
-                    Long lineId = mqttOperationDTO.getLineId();
-
-                    if (Objects.equals(oper, "on")) {
-                        operationTimeService.startOperation(lineId);
-//                        publish("realtime-oper", "message", "공장 가동 시작하였습니다.");
-                    } else if (Objects.equals(oper, "off")) {
-                        operationTimeService.endOperation(lineId);
-//                        publish("realtime-oper", "message", "공장 가동 정지하였습니다.");
-                    }
+                    handleOperationMessage(json);
                     break;
                 case "realtime-prod":
-                    try {
-                        RealtimeProductDTO productDTO = gson.fromJson(json, RealtimeProductDTO.class);
-                        realtimeProductService.saveProductData(productDTO);
-                    } catch (RuntimeException e) {
-                        publish("realtime-prod", "error", "MQTT 메세지 형식이 잘못되었습니다.");
-                    }
+                    handleProductMessage(json);
                     break;
                 case "realtime-circ":
-                    try {
-                        RealtimeCircumstanceDTO circumstanceDTO = gson.fromJson(json, RealtimeCircumstanceDTO.class);
-                        realtimeCircumstanceService.saveCircumstanceData(circumstanceDTO);
-                    } catch (RuntimeException e) {
-                        publish("realtime-circ", "error", "MQTT 메세지 형식이 잘못되었습니다.");
-                    }
+                    handleCircumstanceMessage(json);
                     break;
                 default:
                     System.out.println("Unknown topic");
@@ -80,32 +53,54 @@ public class MqttController {
         };
     }
 
-    public void publish(String pubTopic, String property, String value) {
-        Gson gson = new Gson();
+    private void handleOperationMessage(String json) {
+        MqttOperationDTO mqttOperationDTO = gson.fromJson(json, MqttOperationDTO.class);
+        String oper = mqttOperationDTO.getMessage();
+        Long lineId = mqttOperationDTO.getLineId();
 
-        JsonObject object = new JsonObject();
-        object.addProperty(property, value);
-
-        String payload = gson.toJson(object);
-
-        MqttMessage mqttMessage = new MqttMessage();
-        mqttMessage.setPayload(payload.getBytes());
-        mqttMessage.setQos(1);
-        mqttMessage.setRetained(false);
-
-        try {
-            mqttClient.connect();
-            mqttClient.publish(pubTopic, mqttMessage);
-            mqttClient.disconnect();
-        } catch (MqttException e) {
-            e.printStackTrace();
+        if ("on".equals(oper)) {
+            operationTimeService.startOperation(lineId);
+            publish("realtime-oper", "message", "공장 가동 시작하였습니다.");
+        } else if ("off".equals(oper)) {
+            operationTimeService.endOperation(lineId);
+            publish("realtime-oper", "message", "공장 가동 정지하였습니다.");
         }
     }
 
-    @EventListener
-    public void connectLost(MqttConnectionFailedEvent failedEvent){
-        MqttPahoComponent source = failedEvent.getSourceAsType();
-        MqttConnectOptions options = source.getConnectionInfo();
-        System.out.println("MQTT Connection is broken!!");
+    private void handleProductMessage(String json) {
+        try {
+            RealtimeProductDTO productDTO = gson.fromJson(json, RealtimeProductDTO.class);
+            realtimeProductService.saveProductData(productDTO);
+        } catch (RuntimeException e) {
+            publish("realtime-prod", "error", "Invalid MQTT message format.");
+        }
+    }
+
+    private void handleCircumstanceMessage(String json) {
+        try {
+            RealtimeCircumstanceDTO circumstanceDTO = gson.fromJson(json, RealtimeCircumstanceDTO.class);
+            realtimeCircumstanceService.saveCircumstanceData(circumstanceDTO);
+        } catch (RuntimeException e) {
+            publish("realtime-circ", "error", "Invalid MQTT message format.");
+        }
+    }
+
+    public void publish(String pubTopic, String property, String value) {
+        JsonObject object = new JsonObject();
+        object.addProperty(property, value);
+
+        MqttMessage mqttMessage = new MqttMessage(object.toString().getBytes(StandardCharsets.UTF_8));
+        mqttMessage.toString();
+        mqttMessage.setQos(2);
+        mqttMessage.setRetained(false);
+
+        try {
+            if (!mqttClient.isConnected()) {
+                mqttClient.connect();
+            }
+            mqttClient.publish(pubTopic, mqttMessage);
+        } catch (MqttException e) {
+            System.err.println("Failed to publish message: " + e.getMessage());
+        }
     }
 }
