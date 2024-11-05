@@ -19,7 +19,7 @@ public class OperationTimeController {
     private OperationTimeService operationTimeService;
 
     @PutMapping("/start")
-    public ResponseEntity<?> startOperation(@RequestParam Long lineId) {
+    public ResponseEntity<Map<String, Object>> startOperation(@RequestParam Long lineId) {
         OperationTimeDTO operationTimeDTO = operationTimeService.startOperation(lineId);
         return ResponseEntity.status(HttpStatus.CREATED).body(Map.of(
                 "message", "공장 가동 시작하였습니다.",
@@ -29,7 +29,7 @@ public class OperationTimeController {
     }
 
     @PatchMapping("/end")
-    public ResponseEntity<?> endOperation(@RequestParam Long lineId, @RequestParam Long cycleProdId) {
+    public ResponseEntity<Map<String, Object>> endOperation(@RequestParam Long lineId, @RequestParam Long cycleProdId) {
         OperationTimeDTO operationTimeDTO = operationTimeService.endOperation(lineId, cycleProdId);
         return ResponseEntity.ok(Map.of(
                 "message", "공장 가동 중지하였습니다.",
@@ -38,7 +38,7 @@ public class OperationTimeController {
     }
 
     @GetMapping
-    public ResponseEntity<?> getOperationTime(@RequestParam Long lineId, @RequestParam LocalDate date) {
+    public ResponseEntity<Map<String, Object>> getOperationTime(@RequestParam Long lineId, @RequestParam LocalDate date) {
         Duration operationTime = operationTimeService.getOperationTime(lineId, date);
         return ResponseEntity.ok(Map.of("operation_time", formatDuration(operationTime)));
     }
