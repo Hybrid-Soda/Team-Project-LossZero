@@ -57,48 +57,4 @@ public class RealtimeCircumstanceService {
         }
         dateCircumstanceRepository.save(dateCircumstance);
     }
-
-    public void streamRealtimeData(int lineId, SseEmitter emitter) {
-        try {
-            // 최신 실시간 데이터 가져오기
-            RealtimeCircumstance latestData = realtimeCircumstanceRepository.findTop1ByLineIdOrderByCreatedAtDesc(lineId)
-                    .orElseThrow(() -> new IllegalArgumentException("데이터가 없습니다."));
-
-            // 오늘 날짜의 최저/최고 온습도 가져오기
-            LocalDate today = LocalDate.now();
-            Optional<DateCircumstance> optionalDateCircumstance = dateCircumstanceRepository.findByLineIdAndDate(lineId, today);
-
-            // 기본값 설정
-            float maxTemp = -Float.MAX_VALUE;
-            float minTemp = Float.MAX_VALUE;
-            float maxHumid = -Float.MAX_VALUE;
-            float minHumid = Float.MAX_VALUE;
-
-            if (optionalDateCircumstance.isPresent()) {
-                DateCircumstance dateCircumstance = optionalDateCircumstance.get();
-                maxTemp = dateCircumstance.getMaxTemp();
-                minTemp = dateCircumstance.getMinTemp();
-                maxHumid = dateCircumstance.getMaxHumid();
-                minHumid = dateCircumstance.getMinHumid();
-            }
-
-            // SSE 전송
-            emitter.send(SseEmitter.event()
-                    .data(Map.of(
-                            "temperature", latestData.getTemperature(),
-                            "humidity", latestData.getHumidity(),
-                            "createdAt", latestData.getCreatedAt().toString(),
-                            "maxTemp", maxTemp,
-                            "minTemp", minTemp,
-                            "maxHumid", maxHumid,
-                            "minHumid", minHumid
-                    ))
-                    .name("realtimeCircumstance")
-                    .reconnectTime(3000)
-            );
-            emitter.complete();
-        } catch (Exception e) {
-            emitter.completeWithError(e);
-        }
-    }
 }
