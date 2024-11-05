@@ -11,7 +11,7 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/v1/realtime/circumstance")
+@RequestMapping("/realtime/circumstance")
 public class RealtimeCircumstanceController {
 
     @Autowired
