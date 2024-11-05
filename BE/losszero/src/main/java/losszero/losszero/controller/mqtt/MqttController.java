@@ -2,6 +2,8 @@ package losszero.losszero.controller.mqtt;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import lombok.RequiredArgsConstructor;
+import losszero.losszero.dto.operation.MqttOperationDTO;
 import losszero.losszero.dto.realtime.RealtimeCircumstanceDTO;
 import losszero.losszero.dto.realtime.RealtimeProductDTO;
 import losszero.losszero.service.operation.OperationTimeService;
@@ -11,29 +13,27 @@ import losszero.losszero.service.realtime.RealtimeProductService;
 import org.eclipse.paho.client.mqttv3.IMqttClient;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Controller;
 import org.springframework.messaging.MessageHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.event.EventListener;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.integration.annotation.ServiceActivator;
 import org.springframework.integration.mqtt.core.MqttPahoComponent;
 import org.springframework.integration.mqtt.event.MqttConnectionFailedEvent;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 
+import java.util.Objects;
+
 @Controller
+@EnableAsync
+@RequiredArgsConstructor
 public class MqttController {
-    @Autowired
-    private OperationTimeService operationTimeService;
-
-    @Autowired
-    private RealtimeProductService realtimeProductService;
-
-    @Autowired
-    private RealtimeCircumstanceService realtimeCircumstanceService;
-
-    @Autowired
-    private IMqttClient mqttClient;
+    private final OperationTimeService operationTimeService;
+    private final RealtimeProductService realtimeProductService;
+    private final RealtimeCircumstanceService realtimeCircumstanceService;
+    private final IMqttClient mqttClient;
 
     @Bean
     @ServiceActivator(inputChannel = "realtimeInputChannel")
@@ -44,16 +44,26 @@ public class MqttController {
             String topic = (String) message.getHeaders().get("mqtt_receivedTopic");
             String json = (String) message.getPayload();
 
-            switch (topic) {
+            switch (Objects.requireNonNull(topic)) {
                 case "realtime-oper":
-//                    operationTimeService.saveProductData(lineId, productData);
+                    MqttOperationDTO mqttOperationDTO = gson.fromJson(json, MqttOperationDTO.class);
+                    String oper = mqttOperationDTO.getMessage();
+                    Long lineId = mqttOperationDTO.getLineId();
+
+                    if (Objects.equals(oper, "on")) {
+                        operationTimeService.startOperation(lineId);
+                        publish("realtime-oper", "message", "공장 가동 시작하였습니다.");
+                    } else if (Objects.equals(oper, "off")) {
+                        operationTimeService.startOperation(lineId);
+                        publish("realtime-oper", "message", "공장 가동 정지하였습니다.");
+                    }
                     break;
                 case "realtime-prod":
                     try {
                         RealtimeProductDTO productDTO = gson.fromJson(json, RealtimeProductDTO.class);
                         realtimeProductService.saveProductData(productDTO);
                     } catch (RuntimeException e) {
-                        publish("realtime-prod");
+                        publish("realtime-prod", "error", "MQTT 메세지 형식이 잘못되었습니다.");
                     }
                     break;
                 case "realtime-circ":
@@ -61,7 +71,7 @@ public class MqttController {
                         RealtimeCircumstanceDTO circumstanceDTO = gson.fromJson(json, RealtimeCircumstanceDTO.class);
                         realtimeCircumstanceService.saveCircumstanceData(circumstanceDTO);
                     } catch (RuntimeException e) {
-                        publish("realtime-circ");
+                        publish("realtime-circ", "error", "MQTT 메세지 형식이 잘못되었습니다.");
                     }
                     break;
                 default:
@@ -70,11 +80,12 @@ public class MqttController {
         };
     }
 
-    public void publish(String pubTopic) {
+    @Async
+    public void publish(String pubTopic, String property, String value) {
         Gson gson = new Gson();
 
         JsonObject object = new JsonObject();
-        object.addProperty("error", "MQTT 메세지 형식이 잘못되었습니다.");
+        object.addProperty(property, value);
 
         String payload = gson.toJson(object);
 
@@ -84,6 +95,7 @@ public class MqttController {
         mqttMessage.setRetained(false);
 
         try {
+            mqttClient.connect();
             mqttClient.publish(pubTopic, mqttMessage);
             mqttClient.disconnect();
         } catch (MqttException e) {

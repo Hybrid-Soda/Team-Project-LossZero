@@ -26,6 +26,7 @@ public class MqttConfig {
     private static final String[] topics = {"realtime-oper", "realtime-prod", "realtime-circ"};
     private static final String brokerUrl = "tcp://k11e202.p.ssafy.io:1883";
     private static final String clientId = "SpringBoot-MQTT-Client-" + UUID.randomUUID();
+    private static final String adapterId = "SpringBoot-MQTT-Client-" + UUID.randomUUID();
 
     // MQTT 연결 옵션을 설정하는 객체 생성
     @Bean
@@ -52,7 +53,7 @@ public class MqttConfig {
     @Bean
     public MessageProducer inboundChannel() {
         MqttPahoMessageDrivenChannelAdapter adapter =
-                new MqttPahoMessageDrivenChannelAdapter(brokerUrl, clientId, topics);
+                new MqttPahoMessageDrivenChannelAdapter(brokerUrl, adapterId, topics);
         adapter.setCompletionTimeout(5000); // 연결 완료 대기 시간 설정 (불필요한 지연 방지 목적)
         adapter.setConverter(new DefaultPahoMessageConverter()); // MQTT 메시지 -> Spring Integration 메시지 방식 설정
         adapter.setQos(1); // QoS 설정
