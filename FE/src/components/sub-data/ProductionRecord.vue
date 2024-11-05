@@ -76,7 +76,7 @@ watch(
 onMounted(() => {
   const donutCanvas = document.getElementById("myDonutChart");
   const barCanvas = document.getElementById("myBarChart");
-  console.log(cntStore.productData);
+  // console.log(cntStore.productData);
   // Bar Chart 생성
   if (barCanvas) {
     const ctx = barCanvas.getContext("2d");

@@ -17,10 +17,13 @@
 import { onMounted, ref } from "vue";
 import { weeklyProduct } from "@/api/data";
 import Chart, { elements } from "chart.js/auto"; // Chart.js 자동 임포트
+import { useCounterStore } from "@/stores/counter";
 
 const values = ref([]);
 const labels = ref([]);
 const productData = ref([]);
+const cntStore = useCounterStore();
+let myChart2 = null;
 
 // 랜덤 값 생성 함수
 function getRandomValues(min, max, count) {
@@ -53,7 +56,7 @@ onMounted(async () => {
     const ctx = canvas.getContext("2d");
 
     // 차트 생성
-    new Chart(ctx, {
+    myChart2 = new Chart(ctx, {
       type: "bar", // 메인 타입을 막대형으로 설정
       data: {
         labels: labels.value,

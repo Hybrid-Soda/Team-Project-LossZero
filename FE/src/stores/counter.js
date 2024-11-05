@@ -59,6 +59,12 @@ export const useCounterStore = defineStore(
       normalCnt.value = Number(data.normal.replace(",", ""));
       recycleCnt.value = Number(data.reusable.replace(",", ""));
       faultyCnt.value = Number(data.defective.replace(",", ""));
+
+      sumNormal.value += normalCnt.value;
+      sumReusable.value += recycleCnt.value;
+      sumDefective.value += faultyCnt.value;
+
+      totalCnt.value = sumNormal.value + sumReusable.value + sumDefective.value;
     }
 
     function updateLogDate(date) {
