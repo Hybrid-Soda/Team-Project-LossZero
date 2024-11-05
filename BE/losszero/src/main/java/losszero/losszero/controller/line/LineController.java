@@ -1,18 +1,18 @@
 package losszero.losszero.controller.line;
 
+import lombok.RequiredArgsConstructor;
 import losszero.losszero.dto.line.LineStatusResponseDTO;
 import losszero.losszero.dto.line.SetTargetProductDTO;
 import losszero.losszero.service.line.LineService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/v1/line")
 public class LineController {
 
-    @Autowired
-    private LineService lineService;
+    private final LineService lineService;
 
     @GetMapping
     public ResponseEntity<LineStatusResponseDTO> getLineStatus(@RequestParam("lineId") int lineId) {

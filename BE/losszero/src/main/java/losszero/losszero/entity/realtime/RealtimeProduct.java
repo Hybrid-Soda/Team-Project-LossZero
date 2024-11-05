@@ -11,21 +11,24 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "realtime_circumstance")
-public class RealtimeCircumstance {
+@Table(name = "realtime_prod")
+public class RealtimeProduct {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int realtimeCircumstanceId;
+    private int realtimeProdId;
 
     @Column(nullable = false)
     private Integer lineId;
 
     @Column(nullable = false)
-    private float temperature;
+    private int normal;
 
     @Column(nullable = false)
-    private float humidity;
+    private int defective;
+
+    @Column(nullable = false)
+    private int reusable;
 
     @Column(nullable = false)
     private LocalDateTime createdAt;
