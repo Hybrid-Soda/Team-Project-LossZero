@@ -2,17 +2,13 @@ package losszero.losszero.controller.line;
 
 import losszero.losszero.dto.line.LineStatusResponseDTO;
 import losszero.losszero.dto.line.SetTargetProductDTO;
-import losszero.losszero.dto.realtime.RealtimeProdDTO;
 import losszero.losszero.service.line.LineService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
-
 @RestController
-@RequestMapping("/line")
+@RequestMapping("/api/v1/line")
 public class LineController {
 
     @Autowired

@@ -9,17 +9,17 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@Table(name = "`user`")
+@Table(name = "user")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int userId;
 
-    @Column(nullable = false, length = 60)
+    @Column(nullable = false, length = 20)
     private String password;
 
-    @Column(nullable = false, length = 60)
+    @Column(nullable = false, length = 20)
     private String username;
 
     @Column(length = 20)
