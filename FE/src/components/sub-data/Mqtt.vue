@@ -1,11 +1,22 @@
 <script setup>
 import { useCounterStore } from "@/stores/counter";
+import { useOperateStore } from "@/stores/operate";
+import { watch } from "vue";
 
 var host = "k11e202.p.ssafy.io";
 var port = 443; // port 변수 제거
 var mqtt;
 
 const cntStore = useCounterStore();
+const operateStore = useOperateStore();
+
+watch(
+  () => operateStore.machineOnOff,
+  () => {
+    sendMsg(`{ sender: "web", message: ${operateStore.machineOnOff} }`);
+    MQTTConnect();
+  }
+);
 
 // 문자열을 Object로 변환하는 함수
 function parseStringToObject(str) {
@@ -38,9 +49,10 @@ function onFailure() {
 
 // publish 함수
 function sendMsg(msg) {
-  alert(msg);
+  // alert(msg);
+  let message;
   message = new Paho.MQTT.Message(msg);
-  message.destinationName = "test";
+  message.destinationName = "realtime-oper";
   mqtt.send(message);
 }
 
@@ -54,10 +66,10 @@ function onMessageArrived(message) {
 function subscribe(topic) {
   mqtt.subscribe(topic, {
     onSuccess: function () {
-      console.log("구독 성공: " + topic);
+      // console.log("구독 성공: " + topic);
     },
     onFailure: function () {
-      console.log("구독 실패: " + topic);
+      // console.log("구독 실패: " + topic);
     },
   });
 }
