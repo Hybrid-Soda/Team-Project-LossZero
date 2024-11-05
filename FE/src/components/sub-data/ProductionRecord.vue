@@ -20,21 +20,21 @@
               class="legend-color"
               style="background-color: rgb(54, 162, 235)"
             ></span>
-            정상품: {{ cntStore.productData[0] }}개
+            정상품: {{ cntStore.sumNormal }}개
           </li>
           <li>
             <span
               class="legend-color"
               style="background-color: rgb(255, 159, 64)"
             ></span>
-            재사용: {{ cntStore.productData[1] }}개
+            재사용: {{ cntStore.sumReusable }}개
           </li>
           <li>
             <span
               class="legend-color"
               style="background-color: rgb(255, 99, 132)"
             ></span>
-            불량품: {{ cntStore.productData[2] }}개
+            불량품: {{ cntStore.sumDefective }}개
           </li>
         </ul>
       </div>
@@ -59,11 +59,13 @@ import Chart from "chart.js/auto"; // Chart.js 자동 임포트
 import { useCounterStore } from "@/stores/counter";
 
 const cntStore = useCounterStore();
+let myBarChart = null;
+let myDonutChart = null;
 
 watch(
   () => [cntStore.totalCnt, cntStore.targetCnt],
   () => {
-    // console.log("이슈!");
+    console.log("이슈!");
     myBarChart.data.datasets[0].data = cntStore.productData;
     myDonutChart.data.datasets[0].data = cntStore.doughnutData;
     myBarChart.update();
@@ -71,12 +73,10 @@ watch(
   }
 );
 
-let myBarChart = null;
-let myDonutChart = null;
-
 onMounted(() => {
   const donutCanvas = document.getElementById("myDonutChart");
   const barCanvas = document.getElementById("myBarChart");
+  console.log(cntStore.productData);
   // Bar Chart 생성
   if (barCanvas) {
     const ctx = barCanvas.getContext("2d");

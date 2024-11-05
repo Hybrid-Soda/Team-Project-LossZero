@@ -18,38 +18,40 @@ export const useCounterStore = defineStore(
     const issue = ref(false);
     const totalCnt = ref(0);
 
-    const DPO = computed(() =>
-      Math.ceil(100 * ((recycleCnt.value + faultyCnt.value) / totalCnt.value)) // 재확인
-        // ? Math.ceil(
-        //     100 * ((recycleCnt.value + faultyCnt.value) / totalCnt.value)
-        //   )
-        // : 0 
+    const DPO = computed(
+      () =>
+        totalCnt.value
+          ? Math.ceil(
+              100 * ((recycleCnt.value + faultyCnt.value) / totalCnt.value)
+            )
+          : 0 // 재확인
     );
 
     const productData = ref([
-      normalCnt.value,
-      recycleCnt.value,
-      faultyCnt.value,
+      sumNormal.value,
+      sumReusable.value,
+      sumDefective.value,
     ]);
 
     const doughnutData = ref([
-      normalCnt.value,
-      targetCnt.value - normalCnt.value,
+      sumNormal.value,
+      targetCnt.value - sumNormal.value,
     ]);
 
-    function sseData(data) {
-      // console.log(totalCnt.value, data.total);
-      if (totalCnt.value !== data.total) {
-        console.log("실시간!");
-        normalCnt.value = data.normal;
-        recycleCnt.value = data.reusable;
-        faultyCnt.value = data.defective;
-        issue.value = !issue.value;
-        sumNormal.value = data.sumNormal;
-        sumReusable.value = data.sumReusable;
-        sumDefective.value = data.sumDefective;
-        totalCnt.value = data.total;
-      }
+    function currentData(data) {
+      console.log(data);
+      sumNormal.value = data.sumNormal;
+      sumReusable.value = data.sumReusable;
+      sumDefective.value = data.sumDefective;
+      totalCnt.value = data.total;
+
+      productData.value = [
+        sumNormal.value,
+        sumReusable.value,
+        sumDefective.value,
+      ];
+
+      doughnutData.value = [sumNormal.value, targetCnt.value - sumNormal.value];
     }
 
     function updateLogDate(date) {
@@ -105,17 +107,19 @@ export const useCounterStore = defineStore(
       logData,
       normalCnt,
       sumNormal,
+      sumReusable,
+      sumDefective,
+      productData,
       recycleCnt,
       faultyCnt,
       totalCnt,
       issue,
       DPO,
-      productData,
       doughnutData,
       updateProductCnt,
       changeTargetCnt,
       updateLogDate,
-      sseData,
+      currentData,
     };
   },
   { persist: true }

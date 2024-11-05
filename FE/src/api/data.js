@@ -21,6 +21,15 @@ export function lineState() {
   });
 }
 
+export function dailyProduct(date) {
+  return axios({
+    url: `daily/prod`,
+    method: "get",
+    params: date,
+    withCredentials: true,
+  });
+}
+
 export function lineStart() {
   return axios({
     url: `operation/start`,

@@ -18,7 +18,7 @@ onMounted(() => {
 });
 
 function countDPO() {
-  console.log(cntStore.DPO);
+  // console.log(cntStore.DPO);
   dpoVal.value = 0;
   let counting = setInterval(() => {
     if (dpoVal.value >= cntStore.DPO) {
