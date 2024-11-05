@@ -40,7 +40,7 @@ public class OperationTimeService {
                 .id(operationTime.getId())
                 .operationDate(operationDate)
                 .startTime(operationTime.getStartTime())
-                .accumulatedTime(Duration.ZERO)
+                .operationTime(Duration.ZERO)
                 .build();
     }
 
@@ -53,7 +53,7 @@ public class OperationTimeService {
                 .id(operationTime.getId())
                 .operationDate(operationTime.getOperationDate())
                 .startTime(operationTime.getStartTime())
-                .accumulatedTime(operationTime.getAccumulatedTime())
+                .operationTime(operationTime.getAccumulatedTime())
                 .build();
     }
 
