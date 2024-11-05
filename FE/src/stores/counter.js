@@ -39,7 +39,7 @@ export const useCounterStore = defineStore(
     ]);
 
     function currentData(data) {
-      console.log(data);
+      // console.log(data);
       sumNormal.value = data.sumNormal;
       sumReusable.value = data.sumReusable;
       sumDefective.value = data.sumDefective;
@@ -52,6 +52,13 @@ export const useCounterStore = defineStore(
       ];
 
       doughnutData.value = [sumNormal.value, targetCnt.value - sumNormal.value];
+    }
+
+    function issueProduct(data) {
+      issue.value = !issue.value;
+      normalCnt.value = Number(data.normal.replace(",", ""));
+      recycleCnt.value = Number(data.reusable.replace(",", ""));
+      faultyCnt.value = Number(data.defective.replace(",", ""));
     }
 
     function updateLogDate(date) {
@@ -120,6 +127,7 @@ export const useCounterStore = defineStore(
       changeTargetCnt,
       updateLogDate,
       currentData,
+      issueProduct,
     };
   },
   { persist: true }

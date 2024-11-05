@@ -1,7 +1,30 @@
 <script setup>
+import { useCounterStore } from "@/stores/counter";
+
 var host = "k11e202.p.ssafy.io";
 var port = 443; // port 변수 제거
 var mqtt;
+
+const cntStore = useCounterStore();
+
+// 문자열을 Object로 변환하는 함수
+function parseStringToObject(str) {
+  const obj = {};
+
+  str
+    .trim()
+    .split("\n")
+    .forEach((line) => {
+      // 각 줄을 ':'로 분리하여 key-value로 나누기
+      const [key, value] = line.split(":").map((s) => s.trim());
+      if (key && value) {
+        obj[key] = value;
+      }
+      // console.log(line);
+    });
+
+  return obj;
+}
 
 // callback함수 - 접속 성공
 function onConnect() {
@@ -24,6 +47,7 @@ function sendMsg(msg) {
 // 메시지 수신 콜백 함수
 function onMessageArrived(message) {
   console.log("수신된 메시지: " + message.payloadString);
+  cntStore.issueProduct(parseStringToObject(message.payloadString));
 }
 
 // subscribe 함수
