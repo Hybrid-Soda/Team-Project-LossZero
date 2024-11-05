@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/line")
+@RequestMapping("/api/v1/line")
 public class LineController {
 
     @Autowired

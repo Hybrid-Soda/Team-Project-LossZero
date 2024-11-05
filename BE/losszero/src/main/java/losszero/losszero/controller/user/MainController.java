@@ -3,28 +3,29 @@ package losszero.losszero.controller.user;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Collection;
+import java.util.Iterator;
 
-@RestController
-@RequestMapping("/api/v1")
+@Controller
+@ResponseBody
 public class MainController {
 
     @GetMapping("/api/v1/")
     public String mainP() {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
 
-        // 권한 가져오기
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-        String role = authorities.stream()
-                                 .map(GrantedAuthority::getAuthority)
-                                 .findFirst()
-                                 .orElse("No Role");
+        Iterator<? extends GrantedAuthority> iterator = authorities.iterator();
+        GrantedAuthority grantedAuthority = iterator.next();
+        String role = grantedAuthority.getAuthority();
 
-        return "main controller: " + username + ", role: " + role;
+        return "main controller: " + username + role;
     }
+
 }

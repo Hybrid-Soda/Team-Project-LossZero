@@ -11,13 +11,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Date;
 
-@RestController
-@RequestMapping("/api/v1")
+@Controller
+@ResponseBody
 public class ReissueController {
 
     private final JWTUtil jwtUtil;
@@ -32,16 +31,11 @@ public class ReissueController {
     public ResponseEntity<?> reissue(HttpServletRequest request, HttpServletResponse response) {
         String refresh = null;
         Cookie[] cookies = request.getCookies();
-        
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("refresh")) {
-                    refresh = cookie.getValue();
-                    break;  // found the refresh token, no need to continue
-                }
+        for (Cookie cookie : cookies) {
+            if (cookie.getName().equals("refresh")) {
+                refresh = cookie.getValue();
             }
         }
-
         if (refresh == null) {
             return new ResponseEntity<>("refresh token null", HttpStatus.BAD_REQUEST);
         }
@@ -54,7 +48,7 @@ public class ReissueController {
 
         String category = jwtUtil.getCategory(refresh);
         if (!category.equals("refresh")) {
-            return new ResponseEntity<>("invalid refresh token", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("invalid refresh token ", HttpStatus.BAD_REQUEST);
         }
 
         Boolean isExist = refreshRepository.existsByRefresh(refresh);
@@ -63,28 +57,25 @@ public class ReissueController {
         }
 
         String username = jwtUtil.getUsername(refresh);
-        String role = jwtUtil.getRole(refresh);
+        String role =  jwtUtil.getRole(refresh);
 
-        String newAccess = jwtUtil.createJwt("access", username, role, 600000L);
-        String newRefresh = jwtUtil.createJwt("refresh", username, role, 86400000L);
+        String newAccess = jwtUtil.createJwt("access",username,role,600000L);
+        String newRefresh = jwtUtil.createJwt("refresh",username,role,86400000L);
 
         refreshRepository.deleteByRefresh(refresh);
-        addRefresh(username, newRefresh, 86400000L);
+        addRefresh(username,newRefresh,86400000L);
 
-        response.setHeader("access", newAccess);
-        response.addCookie(createCookie("refresh", newRefresh));
+        response.setHeader("access",newAccess);
+        response.addCookie(createCookie("refresh",newRefresh));
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
     private Cookie createCookie(String key, String value) {
         Cookie cookie = new Cookie(key, value);
-        cookie.setMaxAge(24 * 60 * 60); // 1 day
+        cookie.setMaxAge(24*60*60);
         cookie.setHttpOnly(true);
-        cookie.setPath("/"); // Set cookie path to root
         return cookie;
     }
-
     private void addRefresh(String username, String refresh, Long expiredMs) {
         Date date = new Date(System.currentTimeMillis() + expiredMs);
         Refresh refreshEntity = new Refresh();
