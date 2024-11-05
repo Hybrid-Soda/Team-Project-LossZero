@@ -10,4 +10,6 @@ import java.util.Optional;
 @Repository
 public interface OperationTimeRepository extends JpaRepository<OperationTime, Long> {
     Optional<OperationTime> findByLineIdAndOperationDate(Long lineId, LocalDate operationDate);
+
+    Optional<OperationTime> findTopByLineIdOrderByIdDesc(Long lineId);
 }

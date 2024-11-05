@@ -19,9 +19,11 @@ public class OperationTimeService {
     public void startOperation(Long lineId) {
         LocalDate today = LocalDate.now();
 
-        operationTimeRepository.findByLineIdAndOperationDate(lineId, today)
+        OperationTimeDTO operationTimeDTO = operationTimeRepository.findByLineIdAndOperationDate(lineId, today)
             .map(this::resumeOperation)
             .orElseGet(() -> startNewOperation(lineId, today));
+
+        System.out.println(operationTimeDTO);
     }
 
     private OperationTimeDTO startNewOperation(Long lineId, LocalDate operationDate) {
@@ -55,8 +57,8 @@ public class OperationTimeService {
                 .build();
     }
 
-    public void endOperation(Long lineId, Long cycleProdId) {
-        OperationTime operationTime = operationTimeRepository.findById(cycleProdId)
+    public void endOperation(Long lineId) {
+        OperationTime operationTime = operationTimeRepository.findTopByLineIdOrderByIdDesc(lineId)
                 .orElseThrow(() -> new IllegalArgumentException("Cycle not found"));
 
         Duration currentDuration = Duration.between(operationTime.getStartTime(), LocalDateTime.now());

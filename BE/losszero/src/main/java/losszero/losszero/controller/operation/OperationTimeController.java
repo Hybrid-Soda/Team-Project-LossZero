@@ -1,9 +1,7 @@
 package losszero.losszero.controller.operation;
 
 import lombok.RequiredArgsConstructor;
-import losszero.losszero.dto.operation.OperationTimeDTO;
 import losszero.losszero.service.operation.OperationTimeService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

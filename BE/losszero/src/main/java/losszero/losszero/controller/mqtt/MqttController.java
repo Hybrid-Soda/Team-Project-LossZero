@@ -24,10 +24,10 @@ import org.springframework.integration.mqtt.core.MqttPahoComponent;
 import org.springframework.integration.mqtt.event.MqttConnectionFailedEvent;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
 @Controller
-@EnableAsync
 @RequiredArgsConstructor
 public class MqttController {
     private final OperationTimeService operationTimeService;
@@ -52,10 +52,10 @@ public class MqttController {
 
                     if (Objects.equals(oper, "on")) {
                         operationTimeService.startOperation(lineId);
-                        publish("realtime-oper", "message", "공장 가동 시작하였습니다.");
+//                        publish("realtime-oper", "message", "공장 가동 시작하였습니다.");
                     } else if (Objects.equals(oper, "off")) {
-                        operationTimeService.startOperation(lineId);
-                        publish("realtime-oper", "message", "공장 가동 정지하였습니다.");
+                        operationTimeService.endOperation(lineId);
+//                        publish("realtime-oper", "message", "공장 가동 정지하였습니다.");
                     }
                     break;
                 case "realtime-prod":
@@ -80,7 +80,6 @@ public class MqttController {
         };
     }
 
-    @Async
     public void publish(String pubTopic, String property, String value) {
         Gson gson = new Gson();
 

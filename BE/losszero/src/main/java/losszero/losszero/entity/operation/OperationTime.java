@@ -30,7 +30,14 @@ public class OperationTime {
     @Column(nullable = false)
     private LocalDateTime startTime;
 
-    @Builder.Default
     @Column(nullable = false)
-    private Duration accumulatedTime = Duration.ZERO;
+    private Long accumulatedTime = 0L;
+
+    public Duration getAccumulatedTime() {
+        return Duration.ofSeconds(accumulatedTime);
+    }
+
+    public void setAccumulatedTime(Duration accumulatedTime) {
+        this.accumulatedTime = accumulatedTime.getSeconds();
+    }
 }
