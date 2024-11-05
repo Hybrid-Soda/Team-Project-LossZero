@@ -22,7 +22,7 @@ export const useCounterStore = defineStore(
       () =>
         totalCnt.value
           ? Math.ceil(
-              100 * ((recycleCnt.value + faultyCnt.value) / totalCnt.value)
+              100 * ((sumReusable.value + sumDefective.value) / totalCnt.value)
             )
           : 0 // 재확인
     );
