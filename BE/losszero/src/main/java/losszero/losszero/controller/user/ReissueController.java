@@ -27,7 +27,7 @@ public class ReissueController {
         this.refreshRepository = refreshRepository;
     }
 
-    @PostMapping("/reissue")
+    @PostMapping("/api/v1/reissue")
     public ResponseEntity<?> reissue(HttpServletRequest request, HttpServletResponse response) {
         String refresh = null;
         Cookie[] cookies = request.getCookies();

@@ -24,11 +24,15 @@ public class RealtimeCircumstanceService {
     private DateCircumstanceRepository dateCircumstanceRepository;
 
     @Transactional
-    public void saveCircumstanceData(int lineId, RealtimeCircumstanceDTO data) {
+    public void saveCircumstanceData(RealtimeCircumstanceDTO circumstanceData) {
+        int lineId = circumstanceData.getLineId();
+        float temperature = circumstanceData.getCircumstance().getTemperature();
+        float humidity = circumstanceData.getCircumstance().getHumidity();
+
         RealtimeCircumstance circumstance = new RealtimeCircumstance();
         circumstance.setLineId(lineId);
-        circumstance.setTemperature(data.getTemperature());
-        circumstance.setHumidity(data.getHumidity());
+        circumstance.setTemperature(temperature);
+        circumstance.setHumidity(humidity);
         circumstance.setCreatedAt(java.time.LocalDateTime.now());
         realtimeCircumstanceRepository.save(circumstance);
 
@@ -38,63 +42,19 @@ public class RealtimeCircumstanceService {
         DateCircumstance dateCircumstance;
         if (optionalDateCircumstance.isPresent()) {
             dateCircumstance = optionalDateCircumstance.get();
-            dateCircumstance.setMaxTemp(Math.max(dateCircumstance.getMaxTemp(), data.getTemperature()));
-            dateCircumstance.setMinTemp(Math.min(dateCircumstance.getMinTemp(), data.getTemperature()));
-            dateCircumstance.setMaxHumid(Math.max(dateCircumstance.getMaxHumid(), data.getHumidity()));
-            dateCircumstance.setMinHumid(Math.min(dateCircumstance.getMinHumid(), data.getHumidity()));
+            dateCircumstance.setMaxTemp(Math.max(dateCircumstance.getMaxTemp(), temperature));
+            dateCircumstance.setMinTemp(Math.min(dateCircumstance.getMinTemp(), temperature));
+            dateCircumstance.setMaxHumid(Math.max(dateCircumstance.getMaxHumid(), humidity));
+            dateCircumstance.setMinHumid(Math.min(dateCircumstance.getMinHumid(), humidity));
         } else {
             dateCircumstance = new DateCircumstance();
             dateCircumstance.setLineId(lineId);
             dateCircumstance.setDate(today);
-            dateCircumstance.setMaxTemp(data.getTemperature());
-            dateCircumstance.setMinTemp(data.getTemperature());
-            dateCircumstance.setMaxHumid(data.getHumidity());
-            dateCircumstance.setMinHumid(data.getHumidity());
+            dateCircumstance.setMaxTemp(temperature);
+            dateCircumstance.setMinTemp(temperature);
+            dateCircumstance.setMaxHumid(humidity);
+            dateCircumstance.setMinHumid(humidity);
         }
         dateCircumstanceRepository.save(dateCircumstance);
-    }
-
-    public void streamRealtimeData(int lineId, SseEmitter emitter) {
-        try {
-            // 최신 실시간 데이터 가져오기
-            RealtimeCircumstance latestData = realtimeCircumstanceRepository.findTop1ByLineIdOrderByCreatedAtDesc(lineId)
-                    .orElseThrow(() -> new IllegalArgumentException("데이터가 없습니다."));
-
-            // 오늘 날짜의 최저/최고 온습도 가져오기
-            LocalDate today = LocalDate.now();
-            Optional<DateCircumstance> optionalDateCircumstance = dateCircumstanceRepository.findByLineIdAndDate(lineId, today);
-
-            // 기본값 설정
-            float maxTemp = -Float.MAX_VALUE;
-            float minTemp = Float.MAX_VALUE;
-            float maxHumid = -Float.MAX_VALUE;
-            float minHumid = Float.MAX_VALUE;
-
-            if (optionalDateCircumstance.isPresent()) {
-                DateCircumstance dateCircumstance = optionalDateCircumstance.get();
-                maxTemp = dateCircumstance.getMaxTemp();
-                minTemp = dateCircumstance.getMinTemp();
-                maxHumid = dateCircumstance.getMaxHumid();
-                minHumid = dateCircumstance.getMinHumid();
-            }
-
-            // SSE 전송
-            emitter.send(SseEmitter.event()
-                    .data(Map.of(
-                            "temperature", latestData.getTemperature(),
-                            "humidity", latestData.getHumidity(),
-                            "createdAt", latestData.getCreatedAt().toString(),
-                            "maxTemp", maxTemp,
-                            "minTemp", minTemp,
-                            "maxHumid", maxHumid,
-                            "minHumid", minHumid
-                    ))
-                    .name("realtimeCircumstance")
-                    .reconnectTime(3000)
-            );
-            emitter.complete();
-        } catch (Exception e) {
-            emitter.completeWithError(e);
-        }
     }
 }

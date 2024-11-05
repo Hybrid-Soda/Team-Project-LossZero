@@ -12,7 +12,11 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
-  
+
+  mqtt:
+    clean-session: true
+    connection-timeout: 100
+
   # ssl:
   #   key-store: classpath:keystore.p12
   #   key-store-password: losszeroe202
