@@ -16,7 +16,7 @@ public class OperationTimeDTO {
     private Long lineId;
     private LocalDate operationDate;
     private LocalDateTime startTime;
-    private Duration accumulatedTime;
+    private Long accumulatedTime;
 }
 
 
