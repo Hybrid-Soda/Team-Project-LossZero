@@ -13,7 +13,7 @@ import java.util.Collection;
 @RequestMapping("/api/v1")
 public class MainController {
 
-    @GetMapping("/")
+    @GetMapping("/api/v1/")
     public String mainP() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();

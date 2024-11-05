@@ -58,7 +58,8 @@ public class SecurityConfig {
                         public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
 
                             CorsConfiguration configuration = new CorsConfiguration();
-                            configuration.setAllowedOrigins(Arrays.asList("http://k11e202.p.ssafy.io:5173", "http://localhost:5173","http://localhost:5500"));
+                            // 10/31 수정
+                            configuration.setAllowedOrigins(Arrays.asList("http://k11e202.p.ssafy.io:5173", "http://localhost:5173","http://localhost:5500", "https://k11e202.p.ssafy.io")); // https 주소 추가
                             configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
                             configuration.setAllowCredentials(true);
                             configuration.setAllowedHeaders(Collections.singletonList("*"));
@@ -76,13 +77,26 @@ public class SecurityConfig {
 
         http
                 .authorizeRequests((auth) -> auth
-                        .requestMatchers("/login","/join","/api/v1/**").permitAll()
+//                        .requestMatchers("/login","/join","/api/v1/**").permitAll()
+                        .requestMatchers("/login","/join","/logout","/api/v1/**").permitAll()
+//                        .requestMatchers("/login","/join","/logout").permitAll()
                         .requestMatchers("/reissue").permitAll()
-                        .anyRequest().authenticated()); // 그외 다른 부분은 로그인한자만 접근가능
+                        .anyRequest().authenticated()); // 그외 다른 부분은 로그인한 자만 접근가능
+
+        // 수정된 부분 시작: LoginFilter 인스턴스를 생성하고 setFilterProcessesUrl을 호출하여 경로 설정
+        LoginFilter loginFilter = new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil, refreshRepository);
+        loginFilter.setFilterProcessesUrl("/api/v1/login");  // 로그인 경로 설정
+        // 수정된 부분 끝
+
         http
                 .addFilterBefore(new JWTFilter(jwtUtil), LoginFilter.class);
-        http
-                .addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration),jwtUtil,refreshRepository), UsernamePasswordAuthenticationFilter.class);
+        // 수정된 부분: LoginFilter를 UsernamePasswordAuthenticationFilter 위치에 추가
+
+        // 수정된 부분: LoginFilter를 UsernamePasswordAuthenticationFilter 위치에 추가
+        http.addFilterAt(loginFilter, UsernamePasswordAuthenticationFilter.class);
+//        http
+//                .addFilterAt(
+//                    new LoginFilter(authenticationManager(authenticationConfiguration),jwtUtil,refreshRepository).setFilterProcessUrl("/api/v1/login"), UsernamePasswordAuthenticationFilter.class);
         http
                 .addFilterBefore(new CustomLogoutFilter(jwtUtil,refreshRepository), LogoutFilter.class);
         http
