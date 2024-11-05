@@ -2,6 +2,7 @@
 import { useCounterStore } from "@/stores/counter";
 import { onMounted, ref } from "vue";
 import { setTargetProduction, lineState } from "@/api/data.js";
+
 onMounted(() => {
   // 목표 생산량 받아오기
   lineState()
@@ -47,7 +48,7 @@ function changeBtn() {
         <button class="change btn pre-t" @click="changeBtn">변경</button>
       </div>
       <div class="value pre-t">
-        {{ cntStore.productCnt }} /
+        {{ cntStore.sumNormal }} /
         <input
           type="number"
           class="target pre-t"

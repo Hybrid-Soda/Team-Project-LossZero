@@ -30,6 +30,15 @@ export function dailyProduct(date) {
   });
 }
 
+export function weeklyProduct() {
+  return axios({
+    url: `weekly/prod`,
+    method: "get",
+    params: { lineId: 1 },
+    withCredentials: true,
+  });
+}
+
 export function lineStart() {
   return axios({
     url: `operation/start`,
