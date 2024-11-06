@@ -13,8 +13,10 @@ const operateStore = useOperateStore();
 watch(
   () => operateStore.machineOnOff,
   () => {
-    sendMsg(`{ sender: "web", message: ${operateStore.machineOnOff} }`);
-    MQTTConnect();
+    // 연결되어 있지 않다면 연결 시도
+    if (!mqtt.isConnected()) {
+      MQTTConnect();
+    }
   }
 );
 
@@ -66,10 +68,10 @@ function onMessageArrived(message) {
 function subscribe(topic) {
   mqtt.subscribe(topic, {
     onSuccess: function () {
-      // console.log("구독 성공: " + topic);
+      console.log("구독 성공: " + topic);
     },
     onFailure: function () {
-      // console.log("구독 실패: " + topic);
+      console.log("구독 실패: " + topic);
     },
   });
 }
@@ -77,7 +79,10 @@ function subscribe(topic) {
 //mqtt 통신을 관리하기 위한 사용자 정의 함수
 function MQTTConnect() {
   console.log("mqtt 접속 : " + host + ", " + port);
-  mqtt = new Paho.MQTT.Client(host, port, "javascript_client");
+  const clientId =
+    "javascript_client" + Math.floor(Math.random() * (10 - 0) + 1);
+  console.log(clientId);
+  mqtt = new Paho.MQTT.Client(host, port, clientId);
   // mqtt = new Paho.MQTT.Client(host, "javascript_client");
 
   mqtt.onMessageArrived = onMessageArrived;
@@ -85,14 +90,22 @@ function MQTTConnect() {
   var options = {
     timeout: 3,
     useSSL: true,
-    onSuccess: function () {
-      onConnect();
-      subscribe("realtime-oper");
-      subscribe("realtime-prod");
-      subscribe("realtime-circ");
+    onSuccess: async function () {
+      await onConnect();
+      await subscribe("realtime-oper");
+      await subscribe("realtime-prod");
+      await subscribe("realtime-circ");
+      await subscribe("realtime-control");
+
+      sendMsg(
+        `{ sender: "web", lineId: 1, message: ${
+          operateStore.machineOnOff ? "on" : "off"
+        } }`
+      );
     },
     onFailure: onFailure,
   };
+
   mqtt.connect(options);
 }
 
