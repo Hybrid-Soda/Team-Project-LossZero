@@ -6,7 +6,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,10 +18,13 @@ public interface DateProdRepository extends JpaRepository<DateProd, Integer> {
             @Param("endDate") LocalDate endDate
     );
 
-    @Query("SELECT d FROM DateProd d WHERE d.lineId = :lineId ORDER BY d.date DESC")
-    List<DateProd> findTop7ByLineIdOrderByDateDesc(@Param("lineId") int lineId);
+    @Query("SELECT d FROM DateProd d WHERE d.lineId = :lineId AND d.date BETWEEN :startDate AND :endDate ORDER BY d.date DESC")
+    List<DateProd> findByLineIdAndDateBetweenOrderByDateDesc(
+            @Param("lineId") int lineId,
+            @Param("startDate") LocalDate startDate,
+            @Param("endDate") LocalDate endDate
+    );
 
     @Query("SELECT d FROM DateProd d WHERE d.lineId = :lineId AND d.date = :date")
     Optional<DateProd> findByLineIdAndDate(@Param("lineId") int lineId, @Param("date") LocalDate date);
-
 }

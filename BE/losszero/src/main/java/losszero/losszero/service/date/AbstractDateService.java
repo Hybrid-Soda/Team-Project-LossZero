@@ -1,7 +1,6 @@
 package losszero.losszero.service.date;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 public abstract class AbstractDateService<E, D> implements DateSummaryService<List<D>> {

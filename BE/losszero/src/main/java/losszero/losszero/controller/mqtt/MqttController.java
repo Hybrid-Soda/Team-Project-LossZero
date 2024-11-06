@@ -72,7 +72,7 @@ public class MqttController {
             RealtimeProductDTO productDTO = gson.fromJson(json, RealtimeProductDTO.class);
             realtimeProductService.saveProductData(productDTO);
         } catch (RuntimeException e) {
-            publish("realtime-prod", "error", "Invalid MQTT message format.");
+            publish("realtime-error", "error", "Invalid MQTT message format.");
         }
     }
 
@@ -81,7 +81,7 @@ public class MqttController {
             RealtimeCircumstanceDTO circumstanceDTO = gson.fromJson(json, RealtimeCircumstanceDTO.class);
             realtimeCircumstanceService.saveCircumstanceData(circumstanceDTO);
         } catch (RuntimeException e) {
-            publish("realtime-circ", "error", "Invalid MQTT message format.");
+            publish("realtime-error", "error", "Invalid MQTT message format.");
         }
     }
 
@@ -90,7 +90,6 @@ public class MqttController {
         object.addProperty(property, value);
 
         MqttMessage mqttMessage = new MqttMessage(object.toString().getBytes(StandardCharsets.UTF_8));
-        mqttMessage.toString();
         mqttMessage.setQos(2);
         mqttMessage.setRetained(false);
 

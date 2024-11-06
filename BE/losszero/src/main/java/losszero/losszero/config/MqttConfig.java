@@ -36,9 +36,7 @@ public class MqttConfig {
     @Bean
     public IMqttClient mqttClient() throws MqttException {
         IMqttClient mqttClient = new MqttClient(BROKER_URL, CLIENT_ID);
-        if (!mqttClient.isConnected()) {
-            mqttClient.connect(mqttConnectOptions());
-        }
+        mqttClient.connect(mqttConnectOptions());
         return mqttClient;
     }
 
@@ -55,7 +53,7 @@ public class MqttConfig {
                 new MqttPahoMessageDrivenChannelAdapter(BROKER_URL, ADAPTER_ID, TOPICS);
         adapter.setCompletionTimeout(5000); // 연결 완료 대기 시간
         adapter.setConverter(new DefaultPahoMessageConverter()); // MQTT 메시지 -> Spring Integration 메시지 방식 설정
-        adapter.setQos(2); // QoS 설정
+        adapter.setQos(1); // QoS 설정
         adapter.setOutputChannel(realtimeInputChannel()); // 메시지를 전달할 채널
         return adapter;
     }
