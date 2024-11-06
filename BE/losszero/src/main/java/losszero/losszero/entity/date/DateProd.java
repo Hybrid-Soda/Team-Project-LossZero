@@ -19,16 +19,16 @@ public class DateProd {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int dateProdId;
 
-    @Column(name = "line_id")
+    @Column(name = "line_id", nullable = false)
     private int lineId;
 
-    @Column(name = "sum_normal")
+    @Column(name = "sum_normal", nullable = false)
     private long sumNormal;
 
-    @Column(name = "sum_defective")
+    @Column(name = "sum_defective", nullable = false)
     private long sumDefective;
 
-    @Column(name = "sum_reusable")
+    @Column(name = "sum_reusable", nullable = false)
     private long sumReusable;
 
     @Column(name = "date", nullable = false)

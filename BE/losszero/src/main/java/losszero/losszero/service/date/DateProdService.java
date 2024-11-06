@@ -1,27 +1,30 @@
 package losszero.losszero.service.date;
 
+import lombok.RequiredArgsConstructor;
 import losszero.losszero.dto.date.ProductionSummaryDTO;
 import losszero.losszero.entity.date.DateProd;
 import losszero.losszero.repository.date.DateProdRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 @Service
-public class DateProdService extends AbstractDateService<DateProd, ProductionSummaryDTO> {
+@RequiredArgsConstructor
+public class DateProdService {
 
-    @Autowired
-    private DateProdRepository dateProdRepository;
+    private final DateProdRepository dateProdRepository;
 
-    @Override
-    public List<DateProd> findEntitiesByLineAndDate(int lineId, LocalDate startDate, LocalDate endDate) {
-        return dateProdRepository.findByLineIdAndDateBetween(lineId, startDate, endDate);
+    public List<ProductionSummaryDTO> getSummary(int lineId, LocalDate startDate, LocalDate endDate) {
+        List<DateProd> products = dateProdRepository.findByLineIdAndDateBetween(lineId, startDate, endDate);
+
+        if (products.isEmpty()) {
+            return List.of();
+        }
+
+        return createSummaryList(products);
     }
 
-    @Override
     public List<ProductionSummaryDTO> createSummaryList(List<DateProd> prodList) {
         long sumNormal = 0;
         long sumDefective = 0;
@@ -39,6 +42,6 @@ public class DateProdService extends AbstractDateService<DateProd, ProductionSum
         dto.setSumReusable(sumReusable);
         dto.setTotal(sumNormal + sumDefective + sumReusable);
 
-        return List.of(dto); // 단일 객체를 리스트로 반환
+        return List.of(dto);
     }
 }

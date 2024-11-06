@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import losszero.losszero.dto.weekly.WeeklyCircumstanceDTO;
 import losszero.losszero.entity.date.DateCircumstance;
 import losszero.losszero.repository.date.DateCircumstanceRepository;
-import losszero.losszero.service.date.AbstractDateService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -13,17 +12,25 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class WeeklyCircumstanceService extends AbstractDateService<DateCircumstance, WeeklyCircumstanceDTO> {
+public class WeeklyCircumstanceService{
 
     private final DateCircumstanceRepository dateCircumstanceRepository;
 
-    @Override
-    public List<DateCircumstance> findEntitiesByLineAndDate(int lineId, LocalDate startDate, LocalDate endDate) {
-        return dateCircumstanceRepository.findByLineIdAndDateBetween(lineId, startDate, endDate);
+    public List<WeeklyCircumstanceDTO> getSummary(int lineId) {
+        LocalDate endDate = LocalDate.now().minusDays(1);
+        LocalDate startDate = endDate.minusDays(6);
+
+        List<DateCircumstance> circumstanceList = dateCircumstanceRepository.findByLineIdAndDateBetween(lineId, startDate, endDate);
+
+        // 데이터가 없으면 빈 리스트 반환
+        if (circumstanceList.isEmpty()) {
+            return List.of();
+        }
+
+        return createSummaryList(circumstanceList);
     }
 
-    @Override
-    public List<WeeklyCircumstanceDTO> createSummaryList(List<DateCircumstance> circumstanceList) {
+    private List<WeeklyCircumstanceDTO> createSummaryList(List<DateCircumstance> circumstanceList) {
         return circumstanceList.stream()
                 .map(circ -> WeeklyCircumstanceDTO.builder()
                         .date(circ.getDate())
@@ -34,20 +41,5 @@ public class WeeklyCircumstanceService extends AbstractDateService<DateCircumsta
                         .build()
                 )
                 .collect(Collectors.toList());
-    }
-
-    public List<WeeklyCircumstanceDTO> getSummary(int lineId) {
-        List<DateCircumstance> circumstanceList = dateCircumstanceRepository.findTop7ByLineIdOrderByDateDesc(lineId);
-
-        // 데이터가 없으면 빈 리스트 반환으로 수정
-        if (circumstanceList.isEmpty()) {
-            return List.of();
-        }
-
-        // 가장 오래된 날짜와 최신 날짜 가져오기
-        LocalDate startDate = circumstanceList.get(circumstanceList.size() - 1).getDate();
-        LocalDate endDate = circumstanceList.get(0).getDate();
-
-        return getSummary(lineId, startDate, endDate);
     }
 }
