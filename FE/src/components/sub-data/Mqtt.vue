@@ -77,6 +77,16 @@ function onMessageArrived(message) {
 
     if (status === "defect" || status === "reusable") {
       operateStore.armOn();
+    } else if (status === "normal") {
+      operateStore.coveyerOn();
+    }
+  } else if (sender === "web") {
+    const onOff = data.message;
+
+    if (onOff === "on") {
+      operateStore.coveyerOn();
+    } else if (onOff === "off") {
+      operateStore.coveyerOff();
     }
   }
 

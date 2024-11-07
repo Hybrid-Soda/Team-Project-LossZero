@@ -13,12 +13,22 @@ export const useOperateStore = defineStore("operate", () => {
 
   function armOn() {
     armOnOff.value = true;
-    console.log(armOnOff.value);
+    // console.log(armOnOff.value);
   }
 
   function armOff() {
     armOnOff.value = false;
-    console.log(armOnOff.value);
+    // console.log(armOnOff.value);
+  }
+
+  function coveyerOn() {
+    // coveyerOnOff.value = true;
+    console.log(coveyerOnOff.value);
+  }
+
+  function coveyerOff() {
+    // coveyerOnOff.value = false;
+    console.log(coveyerOnOff.value);
   }
 
   return {
@@ -28,5 +38,7 @@ export const useOperateStore = defineStore("operate", () => {
     machineOnOffFun,
     armOn,
     armOff,
+    coveyerOn,
+    coveyerOff,
   };
 });
