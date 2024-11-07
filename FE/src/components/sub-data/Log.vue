@@ -1,21 +1,14 @@
 <script setup>
 import LogTime from "@/components/sub-data/LogTime.vue";
-import { useCounterStore } from "@/stores/counter";
 import { useLogStore } from "@/stores/logdata";
 import { realtimeProd } from "@/api/data";
 import { onMounted, ref, watch } from "vue";
 
 const logStore = useLogStore();
-const cntStore = useCounterStore();
 const logData = ref([]);
 
-let idx = 1;
-const normalCnt = ref(0);
-const recycleCnt = ref(0);
-const faultyCnt = ref(0);
-
 watch(
-  () => cntStore.issue,
+  () => logStore.issue,
   () => {
     loadRealtimeProd();
   }
@@ -25,18 +18,18 @@ onMounted(() => {
   loadRealtimeProd();
 });
 
-function tempPlus() {
-  const logtime = {
-    idx: idx,
-    normal: cntStore.normalCnt,
-    recycle: cntStore.recycleCnt,
-    faulty: cntStore.faultyCnt,
-  };
+// function tempPlus() {
+//   const logtime = {
+//     idx: idx,
+//     normal: cntStore.normalCnt,
+//     recycle: cntStore.recycleCnt,
+//     faulty: cntStore.faultyCnt,
+//   };
 
-  cntStore.updateProductCnt(cntStore.sumNormal, logtime);
+//   cntStore.updateProductCnt(cntStore.sumNormal, logtime);
 
-  idx += 1;
-}
+//   idx += 1;
+// }
 
 function loadRealtimeProd() {
   realtimeProd()

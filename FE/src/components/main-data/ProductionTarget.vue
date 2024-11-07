@@ -1,23 +1,37 @@
 <script setup>
 import { useCounterStore } from "@/stores/counter";
-import { onMounted, ref } from "vue";
+import { onMounted, ref, watch } from "vue";
 import { setTargetProduction, lineState } from "@/api/data.js";
+import { useLogStore } from "@/stores/logdata";
+
+const cntStore = useCounterStore();
+const logStore = useLogStore();
+const changeTarget = ref(false);
+const targetCnt = ref(cntStore.targetCnt);
+
+defineProps({
+  sumNormal: Number,
+});
 
 onMounted(() => {
   // 목표 생산량 받아오기
-  lineState()
-    .then((res) => {
-      console.log(res.data);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+  // lineState()
+  //   .then((res) => {
+  //     console.log(res.data);
+  //   })
+  //   .catch((err) => {
+  //     console.log(err);
+  //   });
 });
 
-const cntStore = useCounterStore();
+// watch(
+//   () => logStore.issue,
+//   () => {
+//     loadRealtimeProd();
+//   }
+// );
 
-const changeTarget = ref(false);
-const targetCnt = ref(cntStore.targetCnt);
+// watch(())
 
 function changeBtn() {
   if (changeTarget.value) {
@@ -48,7 +62,7 @@ function changeBtn() {
         <button class="change btn pre-t" @click="changeBtn">변경</button>
       </div>
       <div class="value pre-t">
-        {{ cntStore.sumNormal }} /
+        {{ sumNormal }} /
         <input
           type="number"
           class="target pre-t"

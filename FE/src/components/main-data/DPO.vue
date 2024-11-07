@@ -1,12 +1,14 @@
 <script setup>
 import { useCounterStore } from "@/stores/counter";
+import { useLogStore } from "@/stores/logdata";
 import { onMounted, ref, watch } from "vue";
 
 const cntStore = useCounterStore();
+const logStore = useLogStore();
 const dpoVal = ref(0);
 
 watch(
-  () => cntStore.DPO,
+  () => logStore.issue,
   () => {
     // console.log("counting");
     countDPO();
@@ -18,7 +20,7 @@ onMounted(() => {
 });
 
 function countDPO() {
-  // console.log(cntStore.DPO);
+  console.log(cntStore.DPO);
   dpoVal.value = 0;
   let counting = setInterval(() => {
     if (dpoVal.value >= cntStore.DPO) {

@@ -5,23 +5,52 @@ import FPY from "@/components/main-data/FPY.vue";
 import OEE from "@/components/main-data/OEE.vue";
 import Clock from "@/components/main-data/Clock.vue";
 import Sensor from "@/components/main-data/Sensor.vue";
-import { onMounted } from "vue";
+import { onMounted, ref, watch } from "vue";
 import { dailyProduct } from "@/api/data";
 import { useCounterStore } from "@/stores/counter";
+import { useLogStore } from "@/stores/logdata";
 
 const cntStore = useCounterStore();
+const logStore = useLogStore();
+
+const sumNormal = ref(0);
+const sumDefective = ref(0);
+const sumReusable = ref(0);
+const total = ref(0);
 
 onMounted(() => {
-  // dailyProduct();
+  // dailyProduct(currentDateCal())
+  //   .then((res) => {
+  //     cntStore.currentData(res.data);
+  //     // console.log(res.data);
+  //   })
+  //   .catch((err) => {
+  //     console.log(err);
+  //   });
+  loadDailyProd();
+});
+
+watch(
+  () => logStore.issue,
+  () => {
+    loadDailyProd();
+  }
+);
+
+function loadDailyProd() {
   dailyProduct(currentDateCal())
     .then((res) => {
+      console.log(res.data);
+      sumNormal.value = res.data.sumNormal;
+      sumDefective.value = res.data.sumDefective;
+      sumReusable.value = res.data.sumReusable;
+      total.value = res.data.total;
       cntStore.currentData(res.data);
-      // console.log(res.data);
     })
     .catch((err) => {
       console.log(err);
     });
-});
+}
 
 function currentDateCal() {
   const today = new Date();
@@ -42,7 +71,7 @@ function formatDate(date) {
 
 <template>
   <div class="main-data-con">
-    <ProductionTarget />
+    <ProductionTarget :sum-normal="sumNormal" />
     <DPO />
     <FPY />
     <OEE />

@@ -1,8 +1,5 @@
 <script setup>
-import { useCounterStore } from "@/stores/counter";
 import { onMounted, ref } from "vue";
-
-const cntStore = useCounterStore();
 
 const currentTime = ref({
   year: 0,
@@ -38,8 +35,6 @@ function updateClock() {
     minutes: minutes < 10 ? `0${minutes}` : minutes, // 2자리로 맞추기
     period,
   };
-
-  cntStore.updateLogDate(currentTime.value);
 }
 
 onMounted(() => {
