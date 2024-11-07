@@ -1,5 +1,6 @@
 <script setup>
 import { useCounterStore } from "@/stores/counter";
+import { useLogStore } from "@/stores/logdata";
 import { useOperateStore } from "@/stores/operate";
 import { watch } from "vue";
 
@@ -8,6 +9,7 @@ var port = 443; // port 변수 제거
 var mqtt;
 
 const cntStore = useCounterStore();
+const logStore = useLogStore();
 const operateStore = useOperateStore();
 
 watch(
@@ -17,6 +19,12 @@ watch(
     if (!mqtt.isConnected()) {
       MQTTConnect();
     }
+
+    sendMsg(
+      `{ "sender": "web", "lineId": 1, "message": "${
+        operateStore.machineOnOff ? "on" : "off"
+      }" }`
+    );
   }
 );
 
@@ -37,6 +45,19 @@ function parseStringToObject(str) {
     });
 
   return obj;
+}
+
+function isSender(message, sender) {
+  try {
+    // JSON 문자열을 객체로 변환
+    const data = JSON.parse(message);
+    // sender가 원하는 sender인지 확인하고 결과 반환
+    return data.sender === sender;
+  } catch (error) {
+    // JSON 파싱 오류가 발생하면 false 반환
+    console.error("Invalid JSON format:", error);
+    return false;
+  }
 }
 
 // callback함수 - 접속 성공
@@ -61,7 +82,10 @@ function sendMsg(msg) {
 // 메시지 수신 콜백 함수
 function onMessageArrived(message) {
   console.log("수신된 메시지: " + message.payloadString);
-  cntStore.issueProduct(parseStringToObject(message.payloadString));
+  if (isSender(message.payloadString, "rasberry-pi")) {
+    logStore.createIssue();
+  }
+  // cntStore.issueProduct(parseStringToObject(message.payloadString));
 }
 
 // subscribe 함수
@@ -90,18 +114,12 @@ function MQTTConnect() {
   var options = {
     timeout: 3,
     useSSL: true,
-    onSuccess: async function () {
-      await onConnect();
-      await subscribe("realtime-oper");
-      await subscribe("realtime-prod");
-      await subscribe("realtime-circ");
-      await subscribe("realtime-control");
-
-      sendMsg(
-        `{ sender: "web", lineId: 1, message: ${
-          operateStore.machineOnOff ? "on" : "off"
-        } }`
-      );
+    onSuccess: function () {
+      onConnect();
+      subscribe("realtime-oper");
+      subscribe("realtime-prod");
+      subscribe("realtime-circ");
+      subscribe("realtime-control");
     },
     onFailure: onFailure,
   };
