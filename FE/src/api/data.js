@@ -56,3 +56,12 @@ export function lineEnd() {
     withCredentials: true,
   });
 }
+
+export function realtimeProd() {
+  return axios({
+    url: `realtime/prod`,
+    method: "get",
+    params: { lineId: 1 },
+    withCredentials: true,
+  });
+}

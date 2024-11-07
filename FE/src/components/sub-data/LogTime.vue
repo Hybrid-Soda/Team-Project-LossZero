@@ -8,18 +8,18 @@ defineProps({
 
 <template>
   <div class="logtime-con con box-row pre-t">
-    <span class="time">{{ logData.logDate }}</span>
+    <div class="time">{{ logData.logDate }}</div>
     <div class="normal">
       <span>정상 : </span>
       <span>{{ logData.normal }} 개</span>
     </div>
     <div class="recycle">
       <span>재사용 가능 : </span>
-      <span>{{ logData.recycle }} 개</span>
+      <span>{{ logData.reusable }} 개</span>
     </div>
     <div class="faulty">
       <span>불량 : </span>
-      <span>{{ logData.faulty }} 개</span>
+      <span>{{ logData.defective }} 개</span>
     </div>
   </div>
 </template>
@@ -33,6 +33,7 @@ defineProps({
 
 .time {
   margin-left: 15px;
+  width: 110px;
 }
 
 .normal {
