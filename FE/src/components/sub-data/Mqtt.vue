@@ -70,10 +70,13 @@ function onMessageArrived(message) {
 
     if (status === "complete") {
       operateStore.armOff();
+      operateStore.coveyerOn();
     }
     // console.log(status);
   } else if (sender === "camera") {
     const status = data.status;
+
+    operateStore.cameraOff();
 
     if (status === "defect" || status === "reusable") {
       operateStore.armOn();
@@ -86,6 +89,13 @@ function onMessageArrived(message) {
     if (onOff === "on") {
       operateStore.coveyerOn();
     } else if (onOff === "off") {
+      operateStore.coveyerOff();
+    }
+  } else if (sender === "belt") {
+    const status = data.status;
+
+    if (status === "off") {
+      operateStore.cameraOn();
       operateStore.coveyerOff();
     }
   }

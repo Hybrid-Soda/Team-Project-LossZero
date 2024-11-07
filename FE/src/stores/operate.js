@@ -5,6 +5,7 @@ export const useOperateStore = defineStore("operate", () => {
   const machineOnOff = ref(false);
   const coveyerOnOff = ref(false);
   const armOnOff = ref(false);
+  const cameraOnOff = ref(false);
 
   function machineOnOffFun() {
     machineOnOff.value = !machineOnOff.value;
@@ -22,23 +23,36 @@ export const useOperateStore = defineStore("operate", () => {
   }
 
   function coveyerOn() {
-    // coveyerOnOff.value = true;
-    console.log(coveyerOnOff.value);
+    coveyerOnOff.value = true;
+    // console.log(coveyerOnOff.value);
   }
 
   function coveyerOff() {
-    // coveyerOnOff.value = false;
-    console.log(coveyerOnOff.value);
+    coveyerOnOff.value = false;
+    // console.log(coveyerOnOff.value);
+  }
+
+  function cameraOn() {
+    cameraOnOff.value = true;
+    // console.log(cameraOnOff.value);
+  }
+
+  function cameraOff() {
+    cameraOnOff.value = false;
+    // console.log(cameraOnOff.value);
   }
 
   return {
     armOnOff,
-    machineOnOff,
     coveyerOnOff,
+    cameraOnOff,
+    machineOnOff,
     machineOnOffFun,
     armOn,
     armOff,
     coveyerOn,
     coveyerOff,
+    cameraOn,
+    cameraOff,
   };
 });
