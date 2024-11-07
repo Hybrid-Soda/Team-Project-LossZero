@@ -61,6 +61,7 @@ export const useCounterStore = defineStore(
       targetCnt,
       normalCnt,
       sumNormal,
+      productData,
       sumReusable,
       sumDefective,
       totalCnt,

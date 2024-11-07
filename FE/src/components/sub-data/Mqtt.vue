@@ -1,5 +1,4 @@
 <script setup>
-import { useCounterStore } from "@/stores/counter";
 import { useLogStore } from "@/stores/logdata";
 import { useOperateStore } from "@/stores/operate";
 import { watch } from "vue";
@@ -8,7 +7,6 @@ var host = "k11e202.p.ssafy.io";
 var port = 443; // port 변수 제거
 var mqtt;
 
-const cntStore = useCounterStore();
 const logStore = useLogStore();
 const operateStore = useOperateStore();
 
@@ -28,31 +26,12 @@ watch(
   }
 );
 
-// 문자열을 Object로 변환하는 함수
-function parseStringToObject(str) {
-  const obj = {};
-
-  str
-    .trim()
-    .split("\n")
-    .forEach((line) => {
-      // 각 줄을 ':'로 분리하여 key-value로 나누기
-      const [key, value] = line.split(":").map((s) => s.trim());
-      if (key && value) {
-        obj[key] = value;
-      }
-      // console.log(line);
-    });
-
-  return obj;
-}
-
-function isSender(message, sender) {
+function messageSeparate(message) {
   try {
     // JSON 문자열을 객체로 변환
     const data = JSON.parse(message);
     // sender가 원하는 sender인지 확인하고 결과 반환
-    return data.sender === sender;
+    return data;
   } catch (error) {
     // JSON 파싱 오류가 발생하면 false 반환
     console.error("Invalid JSON format:", error);
@@ -81,10 +60,26 @@ function sendMsg(msg) {
 
 // 메시지 수신 콜백 함수
 function onMessageArrived(message) {
-  console.log("수신된 메시지: " + message.payloadString);
-  if (isSender(message.payloadString, "rasberry-pi")) {
-    logStore.createIssue();
+  const subMessage = message.payloadString;
+  const data = messageSeparate(subMessage);
+  console.log(data);
+  const sender = data.sender;
+
+  if (sender === "arm") {
+    const status = data.status;
+
+    if (status === "complete") {
+      operateStore.armOff();
+    }
+    // console.log(status);
+  } else if (sender === "camera") {
+    const status = data.status;
+
+    if (status === "defect" || status === "reusable") {
+      operateStore.armOn();
+    }
   }
+
   // cntStore.issueProduct(parseStringToObject(message.payloadString));
 }
 
@@ -120,6 +115,7 @@ function MQTTConnect() {
       subscribe("realtime-prod");
       subscribe("realtime-circ");
       subscribe("realtime-control");
+      subscribe("realtime-cycle");
     },
     onFailure: onFailure,
   };
