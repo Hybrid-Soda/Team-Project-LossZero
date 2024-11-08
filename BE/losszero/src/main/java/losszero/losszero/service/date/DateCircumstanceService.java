@@ -2,6 +2,7 @@ package losszero.losszero.service.date;
 
 import lombok.RequiredArgsConstructor;
 import losszero.losszero.dto.date.CircumstanceSummaryDTO;
+import losszero.losszero.dto.date.ProductionSummaryDTO;
 import losszero.losszero.entity.date.DateCircumstance;
 import losszero.losszero.repository.date.DateCircumstanceRepository;
 import org.springframework.stereotype.Service;
@@ -19,7 +20,7 @@ public class DateCircumstanceService {
         List<DateCircumstance> circumstances = dateCircumstanceRepository.findByLineIdAndDateBetween(lineId, startDate, endDate);
 
         if (circumstances.isEmpty()) {
-            return List.of();
+            return List.of(new CircumstanceSummaryDTO(21, 21, 21, 21));
         }
 
         return createSummaryList(circumstances);

@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 public class RealtimeProductService {
 
     private final RealtimeProductRepository realtimeProductRepository;
-    private final DateProdRepository dateProductRepository;
+    private final DateProdRepository dateProdRepository;
 
     @Transactional
     public void saveProductData(RealtimeProductDTO productData) {
@@ -48,11 +48,11 @@ public class RealtimeProductService {
         int reusable = productData.getQuality().getReusable();
         LocalDate currentDate = LocalDate.now();
 
-        DateProd dateProd = dateProductRepository.findByLineIdAndDate(lineId, currentDate)
+        DateProd dateProd = dateProdRepository.findByLineIdAndDate(lineId, currentDate)
                 .map(existingProd -> updateExistingDateProd(existingProd, normal, defective, reusable))
                 .orElseGet(() -> createNewDateProd(lineId, currentDate, normal, defective, reusable));
 
-        dateProductRepository.save(dateProd);
+        dateProdRepository.save(dateProd);
     }
 
     private DateProd updateExistingDateProd(DateProd dateProd, int normal, int defective, int reusable) {
