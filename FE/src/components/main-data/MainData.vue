@@ -1,7 +1,7 @@
 <script setup>
 import ProductionTarget from "@/components/main-data/ProductionTarget.vue";
 import DPO from "@/components/main-data/DPO.vue";
-import FPY from "@/components/main-data/FPY.vue";
+import Scrap from "@/components/main-data/Scrap.vue";
 import OEE from "@/components/main-data/OEE.vue";
 import Clock from "@/components/main-data/Clock.vue";
 import Sensor from "@/components/main-data/Sensor.vue";
@@ -73,7 +73,7 @@ function formatDate(date) {
   <div class="main-data-con">
     <ProductionTarget :sum-normal="sumNormal" />
     <DPO />
-    <FPY />
+    <Scrap />
     <OEE />
     <Clock />
     <Sensor />

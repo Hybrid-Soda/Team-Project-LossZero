@@ -20,6 +20,15 @@ export const useCounterStore = defineStore(
           : 0 // 재확인
     );
 
+    const Scrap = computed(() =>
+      sumDefective + sumReusable
+        ? Math.ceil(
+            100 *
+              (sumDefective.value / (sumReusable.value + sumDefective.value))
+          )
+        : 0
+    );
+
     const productData = ref([
       sumNormal.value,
       sumReusable.value,
@@ -66,6 +75,7 @@ export const useCounterStore = defineStore(
       sumDefective,
       totalCnt,
       DPO,
+      Scrap,
       doughnutData,
       changeTargetCnt,
       currentData,
