@@ -3,7 +3,7 @@ from collections import Counter
 from ultralytics import YOLO
 
 
-# 프레임 캡처 함수
+# 프레임 캡처 함수 (10장)
 def capture_frames(frame_count=10):
     cap = cv2.VideoCapture(0)
     frames = []
@@ -21,8 +21,8 @@ def capture_frames(frame_count=10):
 def detect_objects():
     model = YOLO('best.pt')
     frames = capture_frames()
-
     results = []
+
     for frame in frames:
         detections = model(frame)
 
@@ -42,11 +42,11 @@ def classification():
         "NUT_UNREUSABLE": "defective"
     }
 
-    # detected_objects = detect_objects()
+    detected_objects = detect_objects()
 
-    # if detected_objects:
-    #     most_common_obj = Counter(detected_objects).most_common(1)[0][0]
-    #     return classification_map.get(most_common_obj, "unknown")
+    if detected_objects:
+        most_common_obj = Counter(detected_objects).most_common(1)[0][0]
+        return classification_map.get(most_common_obj, "unknown")
 
     return classification_map["NUT_NORMAL"]
 
