@@ -18,19 +18,6 @@ onMounted(() => {
   loadRealtimeProd();
 });
 
-// function tempPlus() {
-//   const logtime = {
-//     idx: idx,
-//     normal: cntStore.normalCnt,
-//     recycle: cntStore.recycleCnt,
-//     faulty: cntStore.faultyCnt,
-//   };
-
-//   cntStore.updateProductCnt(cntStore.sumNormal, logtime);
-
-//   idx += 1;
-// }
-
 function loadRealtimeProd() {
   realtimeProd()
     .then((res) => {
@@ -64,8 +51,10 @@ function formatDate(date) {
   const minute = date[idx + 1] + date[idx + 2] + "분";
   let ampm = "오전";
 
-  if (hour > 12) {
+  if (hour > 11) {
     ampm = "오후";
+  }
+  if (hour > 12) {
     hour -= 12;
   }
   hour = hour.toString().padStart(2, "0") + "시";

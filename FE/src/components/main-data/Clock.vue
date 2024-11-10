@@ -22,7 +22,7 @@ function updateClock() {
   let hours = currentDate.getHours();
   const minutes = currentDate.getMinutes();
 
-  const period = hours < 12 ? "오전" : "오후";
+  const period = hours < 11 ? "오전" : "오후";
   if (hours > 12) hours -= 12; // 12시간제 처리
 
   // 시간 업데이트
