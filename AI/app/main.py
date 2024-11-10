@@ -6,6 +6,17 @@ import paho.mqtt.client as mqtt
 from classification import classification
 
 
+# MQTT Client 생성하는 함수
+def create_client():
+    client = mqtt.Client(client_id=f"RaspberryPi-Client-{uuid.uuid4()}")
+    client.on_connect = on_connect
+    client.on_subscribe = on_subscribe
+    client.on_message = on_message
+    client.connect("k11e202.p.ssafy.io", 1883, 60)
+    client.loop_start()
+    return client
+
+
 # MQTT 브로커에 연결될 때 호출되는 함수
 def on_connect(client, userdata, flags, reason_code):
     if reason_code:
@@ -64,12 +75,7 @@ def publish_quality_report(client, products):
 def main():
     global products
     products = {}
-    client = mqtt.Client(client_id=f"RaspberryPi-Client-{uuid.uuid4()}")
-    client.on_connect = on_connect
-    client.on_subscribe = on_subscribe
-    client.on_message = on_message
-    client.connect("k11e202.p.ssafy.io", 1883, 60)
-    client.loop_start()
+    client = create_client()
 
     try:
         while True:
