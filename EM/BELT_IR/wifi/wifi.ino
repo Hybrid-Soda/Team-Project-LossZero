@@ -10,13 +10,11 @@ SoftwareSerial uno(D3, D4);
 const char* ssid = "myGalaxy";
 const char* password = "asd156156";
 const char* mqtt_server = "k11e202.p.ssafy.io";
-// const char* mqtt_server = "mqtt-dashboard.com";
 
 // 변수 초기화
 
 WiFiClient espClient;
 PubSubClient client(espClient);
-unsigned long lastMsg = 0;
 
 #define MSG_BUFFER_SIZE    (50)
 char msg[MSG_BUFFER_SIZE];
@@ -24,19 +22,14 @@ char msg[MSG_BUFFER_SIZE];
 
 
 StaticJsonDocument<200> doc;
-String belt_on_off = "";
-
 // 센서 상태
 int sensor_flag = 0; 
-
 // 전원 on,off
 int on_off_flag = 0; 
 // 0 : off
 // 1 : on
-
 // normal 인가 아닌가
 int isNormal = 0;
-int normal_flag = 0;
 
 // wifi 연결 설정
 void setup_wifi() {
@@ -69,11 +62,8 @@ void callback(char* topic, byte* payload, unsigned int length) {
   Serial.print(topic);
   Serial.print("] ");
   String message; 
-  belt_on_off = "";
 
   for (int i = 0; i < length; i++) {
-    // Serial.print((char)payload[i]);
-    belt_on_off += (char)payload[i];
     message += (char)payload[i];
   }
 
@@ -93,11 +83,6 @@ void callback(char* topic, byte* payload, unsigned int length) {
     // 웹에서 메세지를 보낸다
     const char* message = doc["message"];
     Serial.println("message: " + String(message));
-    // on : on_off_flag = 1; 
-    // 시리얼 통신 전송 : 1
-
-    // off : on_off_flag = 0;
-    // 시리얼 통신 전송 : 0
 
     if (String(message) == "on") {
       Serial.println("가동해야함!");
@@ -111,12 +96,6 @@ void callback(char* topic, byte* payload, unsigned int length) {
     }
 
   } else if (sender_str == "camera") {
-
-    // 카메라에서 메세지를 보낼 때
-
-    // status : reusable or defective -> 0 전송
-    // on_off_flag = 0
-
     const char* status = doc["status"];
     if (String(status) == "reusable" || String(status) == "defective") {
       Serial.println("멈춰야함!");
@@ -124,7 +103,6 @@ void callback(char* topic, byte* payload, unsigned int length) {
       on_off_flag = 0;
     } else if (String(status) == "normal") {
       Serial.println("가동해야함!");
-      // uno.write("2");
       on_off_flag = 1;
       sensor_flag = 0;
       isNormal = 1;
@@ -180,7 +158,6 @@ void reconnect() {
 }
 
 void setup() {
-  // pinMode(BUILTIN_LED, OUTPUT);     // Initialize the BUILTIN_LED pin as an output
   pinMode(sensor, INPUT);
   Serial.begin(115200);
   uno.begin(115200);
@@ -208,11 +185,9 @@ void loop() {
   }
 
   if (isNormal == 1) {
-    
     uno.write("1");
-    delay(500);
+    delay(700);
     client.publish("realtime-cycle", "{ \"sender\": \"belt\", \"status\": \"on\" }");
-    // normal_flag = 1;
     isNormal = 0; // 신호 한번만 전송 후 리셋
   }
   
