@@ -41,6 +41,6 @@ img {
 
 .humidity,
 .temperature {
-  justify-content: space-between;
+  justify-content: flex-end;
 }
 </style>

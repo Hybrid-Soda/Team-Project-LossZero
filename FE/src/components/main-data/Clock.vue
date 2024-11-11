@@ -51,7 +51,7 @@ onMounted(() => {
         {{ currentTime.date }}일 {{ week[currentTime.day] }}요일</span
       >
       <br />
-      <div style="margin: 10px 20px">
+      <div style="margin: 10px 34px">
         <span>{{ currentTime.period }}</span>
         <span class="time"
           >{{ currentTime.hours.toString().padStart(2, "0") }}:{{
