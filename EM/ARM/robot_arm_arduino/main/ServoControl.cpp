@@ -24,8 +24,10 @@ const char* axisNames[3] = { "Base (theta1)", "Shoulder (theta2)", "Elbow (theta
 
 // 모드별 각도 및 메시지
 const ModeAngles modes[] = {
-  { {18.5, 10.0, 120.0}, "Conveyor1" },
-  { {18.5, 50.0, 180.0}, "Conveyor2" },
+  { {8.5, 20.0, 120.25}, "Conveyor1-1" },
+  { {18.5, 20.0, 120.25}, "Conveyor1-2" },
+  { {8.5, 50.0, 180.0}, "Conveyor2-1" },
+  { {18.5, 50.0, 180.0}, "Conveyor2-2" },
   { {80.0, 60.0, 0.0},   "Standby" },
   { {125.0, 35.0, 180.0}, "Recycle" },
   { {170.0, 35.0, 180.0}, "Defective" },
@@ -110,23 +112,32 @@ void setElectromagnetAndDisplay(bool activate, const char* message) {
 }
 
 void executeSequence(int sequenceType, int conveyorPosition) {
-  // 컨베이어 위치에 따라 상태 메시지를 설정
-  const char* stateMessage = (conveyorPosition == 1) ? "Conveyor 1" : "Conveyor 2";
+  Mode modeIndex1 = (conveyorPosition == 1) ? CONVEYOR1_1 : CONVEYOR2_1;
+  Mode modeIndex2 = (conveyorPosition == 1) ? CONVEYOR1_2 : CONVEYOR2_2;
 
-  // 컨베이어 위치로 이동 후 전자석 비활성 상태로 OLED 업데이트
-  moveAndDisplay((conveyorPosition == 1) ? CONVEYOR1 : CONVEYOR2, stateMessage, false);
+  const char* stateMessage1 = (conveyorPosition == 1) ? "Conveyor 1-1" : "Conveyor 2-1";
+  const char* stateMessage2 = (conveyorPosition == 1) ? "Conveyor 1-2" : "Conveyor 2-2";
 
-  // 전자석 활성화 후 OLED 업데이트
-  setElectromagnetAndDisplay(true, stateMessage);
-  delay(300);
+  float prevSpeed = speed;
+  // 첫 번째 위치로 이동 후 OLED 업데이트 및 전자석 활성화
+  moveAndDisplay(modeIndex1, stateMessage1, true);
+  setElectromagnetAndDisplay(true, stateMessage1);
+  delay(200);
+  speed = 0.1;
+
+  // 두 번째 위치로 이동 후 OLED 업데이트
+  moveServoSmoothly(servos[0], theta_current[0], modes[modeIndex2].theta[0], axisNames[0]);
+  delay(200);
+
+  speed = prevSpeed;
 
   // 거점으로 역순 이동 후 OLED 업데이트
   moveAndDisplay(WAYPOINT, "Waypoint", true, true);
   delay(150);
 
   // 재활용 또는 불량 위치로 이동 후 OLED 업데이트
-  stateMessage = (sequenceType == 1) ? "Recycle" : "Defective";
-  moveAndDisplay((sequenceType == 1) ? RECYCLE : DEFECTIVE, stateMessage, true);
+  const char* finalStateMessage = (sequenceType == 1) ? "Recycle" : "Defective";
+  moveAndDisplay((sequenceType == 1) ? RECYCLE : DEFECTIVE, finalStateMessage, true);
   delay(250);
 
   // 전자석 비활성화 후 대기 상태로 OLED 업데이트
