@@ -36,6 +36,7 @@ int on_off_flag = 0;
 
 // normal 인가 아닌가
 int isNormal = 0;
+int normal_flag = 0;
 
 // wifi 연결 설정
 void setup_wifi() {
@@ -206,16 +207,13 @@ void loop() {
     sensor_flag = 1;
   }
 
-  if (isNormal == 1 && digitalRead(sensor) == 0) {
+  if (isNormal == 1) {
     
-    uno.write("2");
-    Serial.print("노멀");
-    // isNormal = 0; // 신호 한번만 전송 후 리셋
-  }
-  else if (isNormal == 1) {
+    uno.write("1");
+    delay(500);
     client.publish("realtime-cycle", "{ \"sender\": \"belt\", \"status\": \"on\" }");
-    isNormal = 0;
+    // normal_flag = 1;
+    isNormal = 0; // 신호 한번만 전송 후 리셋
   }
-  // Serial.print("sensor : ");
-  // Serial.println(digitalRead(sensor));
-}
+  
+} 
