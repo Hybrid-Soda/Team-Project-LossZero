@@ -20,7 +20,8 @@ onMounted(() => {
 });
 
 function countScrap() {
-  console.log(cntStore.Scrap);
+  // console.log(cntStore.Scrap);
+  // console.log(cntStore.sumDefective + cntStore.sumReusable);
   scrapVal.value = 0;
   let counting = setInterval(() => {
     if (scrapVal.value >= cntStore.Scrap) {

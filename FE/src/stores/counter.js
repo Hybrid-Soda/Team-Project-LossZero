@@ -21,7 +21,7 @@ export const useCounterStore = defineStore(
     );
 
     const Scrap = computed(() =>
-      sumDefective + sumReusable
+      sumDefective + sumReusable > 0
         ? Math.ceil(
             100 *
               (sumDefective.value / (sumReusable.value + sumDefective.value))
