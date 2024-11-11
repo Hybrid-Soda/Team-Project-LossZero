@@ -15,7 +15,7 @@ const envStore = useEnvStore();
   <div class="real-time-con con shadow">
     <Mqtt />
     <div class="box-row title-con">
-      <img src="@/assets/img/log.svg" alt="실시간 " />
+      <img src="@/assets/img/log2.svg" alt="실시간 " />
       <span class="title pre-bt">실시간 정보</span>
       <div class="button b2" id="button-10">
         <input

@@ -37,7 +37,7 @@ function countDPO() {
 
 <template>
   <div class="content-con con shadow">
-    <img src="@/assets/img/DPO.svg" alt="공정 불량률" />
+    <img src="@/assets/img/DPO2.svg" alt="공정 불량률" />
 
     <div class="title">
       <div class="label pre-t">

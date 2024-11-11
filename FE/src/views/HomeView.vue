@@ -29,7 +29,8 @@ onMounted(() => {
   width: 100vw;
   height: 100vh;
 
-  background-color: #e1e8f8;
+  /* background-color: #e1e8f8; */
+  background-color: #ffffff;
 
   display: flex;
   flex-direction: column;

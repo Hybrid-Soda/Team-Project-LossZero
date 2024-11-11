@@ -54,7 +54,7 @@ function changeBtn() {
 
 <template>
   <div class="content-con con shadow">
-    <img src="@/assets/img/production.svg" alt="목표 생산량" />
+    <img src="@/assets/img/production2.svg" alt="목표 생산량" />
 
     <div class="title">
       <div class="box-row">

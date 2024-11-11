@@ -35,7 +35,7 @@ function countScrap() {
 
 <template>
   <div class="content-con con shadow">
-    <img src="@/assets/img/scrap.svg" alt="스크랩 비율" />
+    <img src="@/assets/img/scrap2.svg" alt="스크랩 비율" />
 
     <div class="title">
       <div class="label pre-t">

@@ -43,6 +43,7 @@ function logoutBtn() {
   width: 1500px;
   height: 50px;
   margin-top: 10px;
+  background-color: #4890ef;
 
   display: flex;
   justify-content: space-between;
