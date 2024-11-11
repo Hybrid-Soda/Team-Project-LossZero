@@ -2,7 +2,7 @@
 
 <template>
   <div class="content-con con shadow">
-    <img src="@/assets/img/OEE.svg" alt="설비 종합 효율" />
+    <img src="@/assets/img/OEE2.svg" alt="설비 종합 효율" />
 
     <div class="title">
       <div class="label pre-t">
