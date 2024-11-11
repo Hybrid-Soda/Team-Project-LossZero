@@ -17,23 +17,23 @@ void setup() {
   Serial.flush();
   digitalWrite(enablePin, LOW);
   stepperx.setMaxSpeed(1000);
-  stepperx.setSpeed(-800);
+  stepperx.setSpeed(-500);
 }
 
 void loop() {
   if(Serial.available()) {
     c = Serial.read();
-    if(c == '1') {
+    if(c == 'o') {
       Serial.println("ON");
       flag = 1;
       digitalWrite(enablePin, LOW);
-    } else if (c == '0') {
+    } else if (c == 'x') {
       Serial.println("OFF");
       flag = 0;
       digitalWrite(enablePin, HIGH);
     } else if (c == '2') {
       digitalWrite(enablePin, LOW);
-      stepperx.setSpeed(-800);
+      stepperx.setSpeed(-500);
       stepperx.runSpeed();
 
       // 특정 거리만큼 이동하도록 설정
@@ -45,7 +45,7 @@ void loop() {
   }
 
   if (flag) {
-    stepperx.setSpeed(-800);
+    stepperx.setSpeed(-500);
     stepperx.runSpeed();
     digitalWrite(enablePin, LOW);
   } else {
