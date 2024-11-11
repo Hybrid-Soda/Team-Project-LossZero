@@ -3,7 +3,7 @@
     <div class="icon-text">
       <div class="icon-box">
         <img
-          src="@/assets/img/mingcute_warning-line.svg"
+          src="@/assets/img/mingcute_warning-line2.svg"
           alt="Icon"
           class="icon-img"
         />
@@ -220,7 +220,7 @@ watch(
 .icon-box {
   width: 40px;
   height: 40px;
-  background-color: rgba(255, 74, 74, 1);
+  /* background-color: rgba(255, 74, 74, 1); */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -228,8 +228,8 @@ watch(
 }
 
 .icon-img {
-  width: 24px;
-  height: 24px;
+  width: 40px;
+  height: 40px;
 }
 
 .header-text {

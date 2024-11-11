@@ -37,9 +37,9 @@ const envStore = useEnvStore();
 
 <style scoped>
 .real-time-con {
-  width: 800px;
+  width: 787px;
   height: 100%;
-
+  margin-right: 13px;
   padding: 10px 20px;
 
   display: flex;
