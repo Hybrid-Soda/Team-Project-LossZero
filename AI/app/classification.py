@@ -3,8 +3,8 @@ from collections import Counter
 from ultralytics import YOLO
 
 
-# 프레임 캡처 함수 (10장)
-def capture_frames(frame_count=10):
+# 프레임 캡처 함수
+def capture_frames(frame_count=5):
     cap = cv2.VideoCapture(0)
     frames = []
 
@@ -12,19 +12,20 @@ def capture_frames(frame_count=10):
         ret, frame = cap.read()
         if ret:
             frames.append(frame)
+
     cap.release()
 
     return frames
 
 
 # YOLO 모델을 사용하여 객체를 인식하는 함수
-def detect_objects():
-    model = YOLO('best.pt')
+def detect_objects(model='yolov11.pt'):
+    model = YOLO(model)
     frames = capture_frames()
     results = []
 
     for frame in frames:
-        detections = model(frame)
+        detections = model(frame, conf=0.6)
 
         for detection in detections:
             for result in detection.boxes:
@@ -42,12 +43,10 @@ def classification():
         "NUT_UNREUSABLE": "defective"
     }
 
-    detected_objects = detect_objects()
+    detected_objects = detect_objects('yolov11.pt')
 
     if detected_objects:
         most_common_obj = Counter(detected_objects).most_common(1)[0][0]
         return classification_map.get(most_common_obj, "unknown")
 
-    return classification_map["NUT_NORMAL"]
-
-print(classification())
+    return "unknown"
