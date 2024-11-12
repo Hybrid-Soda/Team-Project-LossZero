@@ -1,4 +1,5 @@
 <script setup>
+import { useEnvStore } from "@/stores/environment";
 import { useLogStore } from "@/stores/logdata";
 import { useOperateStore } from "@/stores/operate";
 import { watch } from "vue";
@@ -9,6 +10,7 @@ var mqtt;
 
 const logStore = useLogStore();
 const operateStore = useOperateStore();
+const envStore = useEnvStore();
 
 watch(
   () => operateStore.machineOnOff,
@@ -97,6 +99,12 @@ function onMessageArrived(message) {
     if (status === "off") {
       operateStore.cameraOn();
       operateStore.coveyerOff();
+    }
+  } else if (sender === "rasberry-pi") {
+    if (data["circumstance"]) {
+      envStore.mqttData(data["circumstance"]);
+    } else {
+      logStore.createIssue();
     }
   }
 
