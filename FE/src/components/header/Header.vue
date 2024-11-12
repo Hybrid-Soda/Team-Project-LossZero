@@ -27,7 +27,7 @@ function logoutBtn() {
     <div class="header-con">
       <div class="left">
         <!-- 로고와 유저 정보를 함께 배치 -->
-        <img src="@/assets/img/icon8.svg" alt="아이콘" class="icon" />
+        <img src="@/assets/img/icon9.svg" alt="아이콘" class="icon" />
         <div class="user-info">
           <UserInfo />
         </div>
@@ -71,7 +71,7 @@ function logoutBtn() {
 .icon {
   position: absolute; /* 위치를 절대값으로 설정 */
   top: -40px;
-  right: 1100px; /* 화면 왼쪽으로부터 10px만큼 이동 */
+  right: 1200px; /* 화면 왼쪽으로부터 10px만큼 이동 */
   scale: 0.30;
   margin-right: 10px; /* 로고와 유저 정보 사이 간격 */
 }
