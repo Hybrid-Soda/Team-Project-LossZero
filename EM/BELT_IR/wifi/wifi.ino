@@ -16,20 +16,24 @@ const char* mqtt_server = "k11e202.p.ssafy.io";
 WiFiClient espClient;
 PubSubClient client(espClient);
 
-#define MSG_BUFFER_SIZE    (50)
+#define MSG_BUFFER_SIZE (50)
 char msg[MSG_BUFFER_SIZE];
 #define sensor D7
 
 
 StaticJsonDocument<200> doc;
 // 센서 상태
-int sensor_flag = 0; 
+int sensor_flag = 0;
 // 전원 on,off
-int on_off_flag = 0; 
+int on_off_flag = 0;
 // 0 : off
 // 1 : on
 // normal 인가 아닌가
 int isNormal = 0;
+
+// web 상에서의 on, off 관리 (제일 쎔)
+bool web_status = false;
+
 
 // wifi 연결 설정
 void setup_wifi() {
@@ -61,14 +65,14 @@ void callback(char* topic, byte* payload, unsigned int length) {
   Serial.print("Message arrived [");
   Serial.print(topic);
   Serial.print("] ");
-  String message; 
+  String message;
 
   for (int i = 0; i < length; i++) {
     message += (char)payload[i];
   }
 
   DeserializationError error = deserializeJson(doc, message);
-  
+
   if (error) {
     Serial.print(F("deserializeJson() 실패: "));
     Serial.println(error.f_str());
@@ -88,14 +92,20 @@ void callback(char* topic, byte* payload, unsigned int length) {
       Serial.println("가동해야함!");
       uno.write("1");
       on_off_flag = 1;
+      web_status = true;
 
     } else if (String(message) == "off") {
       Serial.println("멈춰야함!");
       uno.write("0");
-      on_off_flag = 0;   
+      on_off_flag = 0;
+      web_status = false;
+      sensor_flag = 0;
     }
 
-  } else if (sender_str == "camera") {
+  }
+  if (web_status) {
+
+   if (sender_str == "camera") {
     const char* status = doc["status"];
     if (String(status) == "reusable" || String(status) == "defective") {
       Serial.println("멈춰야함!");
@@ -114,7 +124,7 @@ void callback(char* topic, byte* payload, unsigned int length) {
       uno.write("1");
       on_off_flag = 1;
       sensor_flag = 0;
-    } 
+    }
   } else if (sender_str == "belt") {
     const char* status = doc["status"];
     if (String(status) == "off") {
@@ -126,7 +136,8 @@ void callback(char* topic, byte* payload, unsigned int length) {
       uno.write("1");
       on_off_flag = 1;
       sensor_flag = 0;
-    } 
+    }
+  }
   }
 
   // 추출한 값을 출력합니다.
@@ -175,7 +186,7 @@ void loop() {
     Serial.println("연결 안됨");
     reconnect();
   }
-  
+
   client.loop();
 
   if (on_off_flag && digitalRead(sensor) == 0 && sensor_flag == 0) {
@@ -186,9 +197,8 @@ void loop() {
 
   if (isNormal == 1) {
     uno.write("1");
-    delay(700);
+    delay(600);
     client.publish("realtime-cycle", "{ \"sender\": \"belt\", \"status\": \"on\" }");
-    isNormal = 0; // 신호 한번만 전송 후 리셋
+    isNormal = 0;  // 신호 한번만 전송 후 리셋
   }
-  
-} 
+}
