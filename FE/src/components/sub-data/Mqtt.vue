@@ -80,7 +80,7 @@ function onMessageArrived(message) {
 
     operateStore.cameraOff();
 
-    if (status === "defect" || status === "reusable") {
+    if (status === "defective" || status === "reusable") {
       operateStore.armOn();
     } else if (status === "normal") {
       operateStore.coveyerOn();
