@@ -31,15 +31,7 @@
             <img :src="loginIcon" alt="login_icon" class="loginIcon" />
           </button>
         </div>
-        <div class="additionalOptions">
-          <div class="id-save">
-            <input type="checkbox" id="saveId" />
-            <label for="saveId" class="pre-t" style="margin-left: 5px"
-              >아이디 저장</label
-            >
-          </div>
-          <a href="#" class="password-recovery pre-t">비밀번호 찾기</a>
-        </div>
+        <div class="additionalOptions"></div>
       </form>
     </div>
     <div class="welcome-message">
