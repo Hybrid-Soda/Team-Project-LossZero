@@ -82,7 +82,7 @@ onMounted(async () => {
             type: "line", // 설비 종합 효율은 라인 차트로 유지
             data: oeeData.value, // 랜덤한 설비 종합 효율 데이터
             fill: true, // 배경 채우기
-            borderColor: "rgb(183, 255, 59)", // 라인 색상
+            borderColor: "rgba(255, 34, 34, 0.775)", // 라인 색상
             backgroundColor: "rgba(25, 118, 210, 0.1)", // 배경 색상
             tension: 0.4, // 곡선 스무딩
             pointBackgroundColor: "white", // 포인트 색상
