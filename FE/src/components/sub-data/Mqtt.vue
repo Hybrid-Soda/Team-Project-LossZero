@@ -125,18 +125,15 @@ function subscribe(topic) {
 
 //mqtt 통신을 관리하기 위한 사용자 정의 함수
 function MQTTConnect() {
-  console.log("mqtt 접속 : " + host + ", " + port);
   const clientId =
     "javascript_client" + Math.floor(Math.random() * (10 - 0) + 1);
-  console.log(clientId);
   mqtt = new Paho.MQTT.Client(host, port, clientId);
-  // mqtt = new Paho.MQTT.Client(host, "javascript_client");
-
   mqtt.onMessageArrived = onMessageArrived;
-
+  mqtt.onConnectionLost = onConnectionLost;
   var options = {
     timeout: 3,
     useSSL: true,
+    keepAliveInterval: 60, // 여기에 원하는 초 단위로 설정합니다.
     onSuccess: function () {
       onConnect();
       subscribe("realtime-oper");
@@ -149,6 +146,13 @@ function MQTTConnect() {
   };
 
   mqtt.connect(options);
+}
+
+function onConnectionLost(responseObject) {
+  if (responseObject.errorCode !== 0) {
+    console.log("연결 끊김: " + responseObject.errorMessage);
+    setTimeout(MQTTConnect, 3000); // 3초 후에 다시 연결 시도
+  }
 }
 
 MQTTConnect();
