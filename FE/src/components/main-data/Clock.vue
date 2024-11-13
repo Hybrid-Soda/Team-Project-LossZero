@@ -76,7 +76,7 @@ onMounted(() => {
 }
 
 .time {
-  font-size: 35px;
+  font-size: 32px;
   margin-left: 15px;
 }
 </style>
