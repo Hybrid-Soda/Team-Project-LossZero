@@ -4,7 +4,7 @@
   <div class="info-con">
     <img src="@/assets/img/profile.svg" alt="프로필" class="profile-img" />
     <div class="info-t">
-      <span class="name pre-t">강현성</span>
+      <span class="name pre-t">이창호</span>
       <span class="position pre-t">Admin</span>
     </div>
   </div>
