@@ -100,7 +100,7 @@ function onMessageArrived(message) {
       operateStore.cameraOn();
       operateStore.coveyerOff();
     }
-  } else if (sender === "rasberry-pi") {
+  } else if (sender === "raspberry-pi") {
     if (data["circumstance"]) {
       envStore.mqttData(data["circumstance"]);
     } else {
