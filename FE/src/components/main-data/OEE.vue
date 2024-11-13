@@ -1,4 +1,39 @@
-<script setup></script>
+<script setup>
+import { useCounterStore } from "@/stores/counter";
+import { useLogStore } from "@/stores/logdata";
+import { onMounted, ref, watch } from "vue";
+
+const cntStore = useCounterStore();
+const logStore = useLogStore();
+const oeeVal = ref(0);
+
+watch(
+  () => logStore.issue,
+  () => {
+    // console.log("counting");
+    countOee();
+  }
+);
+
+onMounted(() => {
+  countOee();
+});
+
+function countOee() {
+  console.log(cntStore.OEE);
+  oeeVal.value = 0;
+  let counting = setInterval(() => {
+    if (oeeVal.value >= cntStore.OEE) {
+      oeeVal.value = cntStore.OEE;
+      clearInterval(counting);
+    } else {
+      oeeVal.value += 1;
+    }
+
+    // console.log(dpoVal.value);
+  }, 10);
+}
+</script>
 
 <template>
   <div class="content-con con shadow">
@@ -11,7 +46,7 @@
       </div>
 
       <div class="value pre-t">
-        <span> 72% </span>
+        <span> {{ oeeVal }}% </span>
       </div>
     </div>
   </div>
