@@ -12,44 +12,6 @@ const targetCnt = ref(cntStore.targetCnt);
 defineProps({
   sumNormal: Number,
 });
-
-onMounted(() => {
-  // 목표 생산량 받아오기
-  // lineState()
-  //   .then((res) => {
-  //     console.log(res.data);
-  //   })
-  //   .catch((err) => {
-  //     console.log(err);
-  //   });
-});
-
-// watch(
-//   () => logStore.issue,
-//   () => {
-//     loadRealtimeProd();
-//   }
-// );
-
-// watch(())
-
-function changeBtn() {
-  if (changeTarget.value) {
-    // 목표 생산량 변경하기
-    setTargetProduction({
-      targetProduct: "120",
-    })
-      .then((res) => {
-        console.log(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-
-    // cntStore.changeTargetCnt(targetCnt.value);
-  }
-  changeTarget.value = !changeTarget.value;
-}
 </script>
 
 <template>
@@ -59,18 +21,10 @@ function changeBtn() {
     <div class="title">
       <div class="box-row">
         <span class="label pre-t">목표 생산량</span>
-        <button class="change btn pre-t" @click="changeBtn">변경</button>
       </div>
       <div class="value pre-t">
         {{ sumNormal }} /
-        <input
-          type="number"
-          class="target pre-t"
-          v-if="changeTarget"
-          v-model="targetCnt"
-          @keydown.enter="changeBtn"
-        />
-        <span v-else>{{ cntStore.targetCnt }}</span>
+        <span>{{ cntStore.targetCnt }}</span>
         (개)
       </div>
     </div>

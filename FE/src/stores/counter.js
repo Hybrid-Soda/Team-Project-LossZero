@@ -4,7 +4,7 @@ import { defineStore } from "pinia";
 export const useCounterStore = defineStore(
   "counter",
   () => {
-    const targetCnt = ref(120);
+    const targetCnt = ref(200);
     const normalCnt = ref(0);
     const sumNormal = ref(0);
     const sumReusable = ref(0);
@@ -60,17 +60,6 @@ export const useCounterStore = defineStore(
       ];
     }
 
-    function changeTargetCnt(cnt) {
-      targetCnt.value = cnt;
-      doughnutData.value = [
-        normalCnt.value,
-        targetCnt.value - normalCnt.value < 0
-          ? 0
-          : targetCnt.value - normalCnt.value,
-      ];
-      // console.log(doughnutData.value);
-    }
-
     return {
       targetCnt,
       normalCnt,
@@ -82,7 +71,6 @@ export const useCounterStore = defineStore(
       DPO,
       Scrap,
       doughnutData,
-      changeTargetCnt,
       currentData,
     };
   },
