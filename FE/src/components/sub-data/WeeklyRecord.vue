@@ -22,6 +22,7 @@ import { useCounterStore } from "@/stores/counter";
 const values = ref([]);
 const labels = ref([]);
 const productData = ref([]);
+const oeeData = ref([]);
 const cntStore = useCounterStore();
 let myChart2 = null;
 
@@ -44,6 +45,9 @@ onMounted(async () => {
       });
       productData.value = values.value.map((element) => {
         return element.sumNormal;
+      });
+      oeeData.value = values.value.map((element) => {
+        return Math.ceil(100 * ((60 * element.sumNormal) / 7200));
       });
     })
     .catch((err) => {
@@ -76,9 +80,9 @@ onMounted(async () => {
           {
             label: "설비 종합 효율",
             type: "line", // 설비 종합 효율은 라인 차트로 유지
-            data: getRandomValues(60, 100, 6), // 랜덤한 설비 종합 효율 데이터
+            data: oeeData.value, // 랜덤한 설비 종합 효율 데이터
             fill: true, // 배경 채우기
-            borderColor: "rgba(25, 118, 210, 1)", // 라인 색상
+            borderColor: "rgb(183, 255, 59)", // 라인 색상
             backgroundColor: "rgba(25, 118, 210, 0.1)", // 배경 색상
             tension: 0.4, // 곡선 스무딩
             pointBackgroundColor: "white", // 포인트 색상
@@ -106,8 +110,8 @@ onMounted(async () => {
           y1: {
             beginAtZero: false, // 오른쪽 Y축 60부터 시작
             position: "right", // 오른쪽 Y축
-            min: 60,
-            max: 100, // 설비 종합 효율의 최대값에 맞춘 범위
+            min: 50,
+            max: 150, // 설비 종합 효율의 최대값에 맞춘 범위
             ticks: {
               font: {
                 size: 12,
