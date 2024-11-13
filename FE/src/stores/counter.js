@@ -52,7 +52,12 @@ export const useCounterStore = defineStore(
         sumReusable.value,
         sumDefective.value,
       ];
-      doughnutData.value = [sumNormal.value, targetCnt.value - sumNormal.value];
+      doughnutData.value = [
+        sumNormal.value,
+        targetCnt.value < sumNormal.value
+          ? 0
+          : targetCnt.value - sumNormal.value,
+      ];
     }
 
     function changeTargetCnt(cnt) {

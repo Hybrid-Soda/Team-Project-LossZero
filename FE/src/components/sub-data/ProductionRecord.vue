@@ -65,7 +65,7 @@ let myDonutChart = null;
 watch(
   () => [cntStore.totalCnt, cntStore.targetCnt],
   () => {
-    console.log("이슈!");
+    // console.log("이슈!");
     myBarChart.data.datasets[0].data = cntStore.productData;
     myDonutChart.data.datasets[0].data = cntStore.doughnutData;
     myBarChart.update();
@@ -138,34 +138,42 @@ onMounted(() => {
 
   // Donut Chart에 Center Text Plugin 추가
   const centerTextPlugin = {
-  id: 'centerText',
-  afterDraw: (chart) => {
-    const { ctx, chartArea: { left, top, right, bottom }, width, height } = chart;
-    const centerX = (left + right) / 2;
-    const centerY = (top + bottom) / 2;
+    id: "centerText",
+    afterDraw: (chart) => {
+      const {
+        ctx,
+        chartArea: { left, top, right, bottom },
+        width,
+        height,
+      } = chart;
+      const centerX = (left + right) / 2;
+      const centerY = (top + bottom) / 2;
 
-    ctx.save();
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.font = 'bold 16px Pretendard-Regular';
-    
-    const total = chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
-    const percentage = ((chart.data.datasets[0].data[0] / total) * 100).toFixed(1);
-    
-    ctx.fillText(`${percentage}%`, centerX, centerY);
-    ctx.restore();
-  }
-};
+      ctx.save();
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.font = "bold 16px Pretendard-Regular";
 
-watch(
-  () => [cntStore.totalCnt, cntStore.targetCnt],
-  () => {
-    myBarChart.data.datasets[0].data = cntStore.productData;
-    myDonutChart.data.datasets[0].data = cntStore.doughnutData;
-    myBarChart.update();
-    myDonutChart.update();
-  }
-);
+      const total = chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
+      const percentage = (
+        (chart.data.datasets[0].data[0] / total) *
+        100
+      ).toFixed(1);
+
+      ctx.fillText(`${percentage}%`, centerX, centerY);
+      ctx.restore();
+    },
+  };
+
+  watch(
+    () => [cntStore.totalCnt, cntStore.targetCnt],
+    () => {
+      myBarChart.data.datasets[0].data = cntStore.productData;
+      myDonutChart.data.datasets[0].data = cntStore.doughnutData;
+      myBarChart.update();
+      myDonutChart.update();
+    }
+  );
 
   // Donut Chart 생성 (30/120 비율)
   if (donutCanvas) {
@@ -198,7 +206,6 @@ watch(
     });
   }
 });
-
 </script>
 
 <style scoped>
