@@ -10,10 +10,10 @@ const operateStore = useOperateStore();
     <!-- 작동중일 때는 gif, 그렇지 않을 때는 이미지 출력 -->
     <img
       src="@/assets/img/gif/belt.gif"
-      alt="카메라"
+      alt="벨트"
       v-if="operateStore.coveyerOnOff"
     />
-    <img src="@/assets/img/belt.jpg" alt="카메라" v-else />
+    <img src="@/assets/img/belt.jpg" alt="벨트" v-else />
 
     <!-- 작동 상태 표시 -->
     <span class="is-operate pre-bt">
