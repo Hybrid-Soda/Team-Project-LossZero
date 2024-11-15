@@ -38,7 +38,7 @@
 - ### 제품 품질을 결정하는데 중요한 역할
 - ### 다양한 산업적 적용성
 <br/>
-<img src="./READMEIMG/service/4.png" width="550px">
+<img src="./READMEIMG/service/4.PNG" width="550px">
 
 <br/>
 
