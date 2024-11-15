@@ -97,8 +97,12 @@ function onMessageArrived(message) {
 
     if (onOff === "on") {
       operateStore.coveyerOn();
+      operateStore.armOff();
+      operateStore.cameraOff();
     } else if (onOff === "off") {
       operateStore.coveyerOff();
+      operateStore.armOff();
+      operateStore.cameraOff();
     }
   } else if (sender === "belt") {
     const status = data.status;
@@ -106,6 +110,11 @@ function onMessageArrived(message) {
     if (status === "off") {
       operateStore.cameraOn();
       operateStore.coveyerOff();
+      operateStore.armOff();
+    } else if (status === "on") {
+      operateStore.coveyerOn();
+      operateStore.cameraOff();
+      operateStore.armOff();
     }
   } else if (sender === "raspberry-pi") {
     if (data["circumstance"]) {
