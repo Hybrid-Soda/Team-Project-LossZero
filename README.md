@@ -26,7 +26,7 @@
 
 ### 😎 불량 너트 자동 선별 시스템 (정상, 재사용 가능, 불량)
 
-<img src="./READMEIMG/service/1.png" height="250px">
+<img src="./READMEIMG/service/1.PNG" height="250px">
 <img src="./READMEIMG/service/2.png" height="250px">
 <img src="./READMEIMG/service/3.png" height="250px">
 
