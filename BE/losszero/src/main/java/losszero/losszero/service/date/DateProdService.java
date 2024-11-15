@@ -19,7 +19,7 @@ public class DateProdService {
         List<DateProd> products = dateProdRepository.findByLineIdAndDateBetween(lineId, startDate, endDate);
 
         if (products.isEmpty()) {
-            return List.of();
+            return List.of(new ProductionSummaryDTO(0, 0, 0, 0));
         }
 
         return createSummaryList(products);

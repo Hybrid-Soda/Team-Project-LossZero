@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -19,42 +20,28 @@ public class OperationTimeService {
     public void startOperation(Long lineId) {
         LocalDate today = LocalDate.now();
 
-        OperationTimeDTO operationTimeDTO = operationTimeRepository.findByLineIdAndOperationDate(lineId, today)
-            .map(this::resumeOperation)
-            .orElseGet(() -> startNewOperation(lineId, today));
+        Optional<OperationTime> existingOperation = operationTimeRepository.findByLineIdAndOperationDate(lineId, today);
 
-        System.out.println(operationTimeDTO);
+        if (existingOperation.isEmpty()) {
+            startNewOperation(lineId, today);
+        } else {
+            resumeOperation(existingOperation.get());
+        }
     }
 
-    private OperationTimeDTO startNewOperation(Long lineId, LocalDate operationDate) {
+    private void startNewOperation(Long lineId, LocalDate operationDate) {
         OperationTime operationTime = OperationTime.builder()
                 .lineId(lineId)
                 .operationDate(operationDate)
                 .startTime(LocalDateTime.now())
                 .build();
-
-        operationTime = operationTimeRepository.save(operationTime);
-
-        return OperationTimeDTO.builder()
-                .lineId(lineId)
-                .id(operationTime.getId())
-                .operationDate(operationDate)
-                .startTime(operationTime.getStartTime())
-                .operationTime(Duration.ZERO)
-                .build();
+        operationTime.setAccumulatedTime(Duration.ZERO);
+        operationTimeRepository.save(operationTime);
     }
 
-    private OperationTimeDTO resumeOperation(OperationTime operationTime) {
+    private void resumeOperation(OperationTime operationTime) {
         operationTime.setStartTime(LocalDateTime.now());
-        operationTime = operationTimeRepository.save(operationTime);
-
-        return OperationTimeDTO.builder()
-                .lineId(operationTime.getLineId())
-                .id(operationTime.getId())
-                .operationDate(operationTime.getOperationDate())
-                .startTime(operationTime.getStartTime())
-                .operationTime(operationTime.getAccumulatedTime())
-                .build();
+        operationTimeRepository.save(operationTime);
     }
 
     public void endOperation(Long lineId) {
