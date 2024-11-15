@@ -19,6 +19,13 @@ export const useOperateStore = defineStore(
       // console.log(machineOnOff.value);
     }
 
+    function machineOff() {
+      machineOnOff.value = false;
+      armOff();
+      coveyerOff();
+      cameraOff();
+    }
+
     function armOn() {
       if (machineOnOff.value) {
         armOnOff.value = true;
@@ -61,6 +68,7 @@ export const useOperateStore = defineStore(
       cameraOnOff,
       machineOnOff,
       machineOnOffFun,
+      machineOff,
       armOn,
       armOff,
       coveyerOn,

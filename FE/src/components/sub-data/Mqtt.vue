@@ -84,6 +84,13 @@ function onMessageArrived(message) {
       operateStore.armOn();
     } else if (status === "normal") {
       operateStore.coveyerOn();
+    } else if (status === "error") {
+      operateStore.machineOff();
+      Swal.fire({
+        icon: "error",
+        title: "시스템 Error",
+        text: "공장 상태를 확인해주세요",
+      });
     }
   } else if (sender === "web") {
     const onOff = data.message;
@@ -107,8 +114,6 @@ function onMessageArrived(message) {
       logStore.createIssue();
     }
   }
-
-  // cntStore.issueProduct(parseStringToObject(message.payloadString));
 }
 
 // subscribe 함수
@@ -139,7 +144,6 @@ function MQTTConnect() {
       subscribe("realtime-oper");
       subscribe("realtime-prod");
       subscribe("realtime-circ");
-      subscribe("realtime-control");
       subscribe("realtime-cycle");
     },
     onFailure: onFailure,
