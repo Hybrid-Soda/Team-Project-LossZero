@@ -4,26 +4,21 @@ import { defineStore } from "pinia";
 export const useOperateStore = defineStore(
   "operate",
   () => {
-    const machineOnOff = ref(false);
+    const machineOnOff = ref(true);
     const coveyerOnOff = ref(false);
     const armOnOff = ref(false);
     const cameraOnOff = ref(false);
 
-    function machineOnOffFun() {
-      machineOnOff.value = !machineOnOff.value;
-      if (!machineOnOff.value) {
-        armOff();
-        coveyerOff();
-        cameraOff();
-      }
-      // console.log(machineOnOff.value);
-    }
-
     function machineOff() {
-      machineOnOff.value = false;
+      machineOnOff.value = true;
       armOff();
       coveyerOff();
       cameraOff();
+    }
+
+    function machineOn() {
+      machineOnOff.value = false;
+      coveyerOn();
     }
 
     function armOn() {
@@ -67,8 +62,9 @@ export const useOperateStore = defineStore(
       coveyerOnOff,
       cameraOnOff,
       machineOnOff,
-      machineOnOffFun,
+
       machineOff,
+      machineOn,
       armOn,
       armOff,
       coveyerOn,
