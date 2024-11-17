@@ -1,6 +1,6 @@
-# ⚙ **불량 Zero**
+### AI 기반 품질 선별 스마트 팩토리 시스템
 
-<img src="./READMEIMG/logo.png" width=100%>
+# <img src="./READMEIMG/logo.png" width=150> ⚙ 불량 Zero
 
 <br>
 
@@ -12,13 +12,97 @@
 
 <br>
 
+## 💪 사용 기술
+
+### INFRA
+
+<img src="https://img.shields.io/badge/-Jenkins-D24939?style=for-the-badge&logo=jenkins&logoColor=white">
+<img src="https://img.shields.io/badge/-Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white">
+<img src="https://img.shields.io/badge/-Nginx-009639?style=for-the-badge&logo=nginx&logoColor=white">
+<img src="https://img.shields.io/badge/-Eclipse_mosquitto-3C5280?style=for-the-badge&logo=eclipse-mosquitto&logoColor=white">
+
+### BACKEND
+
+<img src="https://img.shields.io/badge/java-007396?style=for-the-badge&logo=java&logoColor=white">
+<img src="https://img.shields.io/badge/spring_boot-6DB33F?style=for-the-badge&logo=spring-boot&logoColor=white">
+<img src="https://img.shields.io/badge/-JPA-6DB33F?style=for-the-badge&logo=spring&logoColor=white">
+<img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white">
+<img src="https://img.shields.io/badge/mqtt-660066?style=for-the-badge&logo=mqtt&logoColor=white">
+
+### FRONTEND
+
+<img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black">
+<img src="https://img.shields.io/badge/vue.js-4FC08D?style=for-the-badge&logo=vue.js&logoColor=white">
+<img src="https://img.shields.io/badge/mqtt-660066?style=for-the-badge&logo=mqtt&logoColor=white">
+
+### EMBEDDED
+
+<img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white">
+<img src="https://img.shields.io/badge/C++-00599C?style=for-the-badge&logo=cplusplus&logoColor=white">
+<img src="https://img.shields.io/badge/raspberrypi-A22846?style=for-the-badge&logo=raspberrypi&logoColor=white">
+<img src="https://img.shields.io/badge/arduino-00878F?style=for-the-badge&logo=arduino&logoColor=white">
+<img src="https://img.shields.io/badge/mqtt-660066?style=for-the-badge&logo=mqtt&logoColor=white">
+
+### AI
+
+<img src="https://img.shields.io/badge/jupyter-F37626?style=for-the-badge&logo=jupyter&logoColor=white">
+<img src="https://img.shields.io/badge/opencv-412991?style=for-the-badge&logo=opencv&logoColor=white">
+<img src="https://img.shields.io/badge/yolov11-1E96EB?style=for-the-badge&logo=yolo&logoColor=white">
+
+### Management
+
+<img src="https://img.shields.io/badge/-GitLab-FC6D26?style=for-the-badge&logo=gitlab&logoColor=white">
+<img src="https://img.shields.io/badge/-Notion-000000?style=for-the-badge&logo=notion">
+<img src="https://img.shields.io/badge/-Jira-0052CC?style=for-the-badge&logo=jira">
+
 ## 💪 Yes,Guys - 팀원 소개
 
-| <img src="./READMEIMG/Profile/khs.png" width="100%" height="150"> | <img src="./READMEIMG/Profile/lkt.png" width="100%" height="150"> | <img src="./READMEIMG/Profile/kgt.png" width="100%" height="150"> | <img src="./READMEIMG/Profile/swh.png" width="100%" height="150"> | <img src="./READMEIMG/Profile/yjh.png" width="100%" height="150"> | <img src="./READMEIMG/Profile/lch.png" width="100%" height="150"> |
-| :---------------------------------------------------------------: | :---------------------------------------------------------------: | :---------------------------------------------------------------: | :---------------------------------------------------------------: | :---------------------------------------------------------------: | :---------------------------------------------------------------: |
-|                              강현성                               |                              임경태                               |                              김구태                               |                              손우혁                               |                              어지민                               |                           이창호(보류)                            |
-|                            팀장<br>...                            |                                ...                                |                                ...                                |                                ...                                |                                ...                                |                                ...                                |
-|                                ...                                |                                ...                                |                                ...                                |                                ...                                |                                ...                                |                                ...                                |
+<table style="table-layout: fixed;">
+  <tr>
+    <td style="text-align: center;">
+        <img src="./READMEIMG/Profile/khs.png" width="100%" height="150">
+    </td>
+    <td style="text-align: center;">
+        <img src="./READMEIMG/Profile/lkt.png" width="100%" height="150">
+    </td>
+    <td style="text-align: center;">
+        <img src="./READMEIMG/Profile/kgt.png" width="100%" height="150">
+    </td>
+    <td style="text-align: center;">
+        <img src="./READMEIMG/Profile/swh.png" width="100%" height="150">
+    </td>
+    <td style="text-align: center;">
+        <img src="./READMEIMG/Profile/yjh.png" width="100%" height="150">
+    </td>
+    <td style="text-align: center;">
+        <img src="./READMEIMG/Profile/lch.png" width="100%" height="150">
+    </td>
+  </tr>
+  <tr>
+    <td style="text-align: center; word-wrap: break-word;">강현성</td>
+    <td style="text-align: center; word-wrap: break-word;">임경태</td>
+    <td style="text-align: center; word-wrap: break-word;">김구태</td>
+    <td style="text-align: center; word-wrap: break-word;">손우혁</td>
+    <td style="text-align: center; word-wrap: break-word;">어지민</td>
+    <td style="text-align: center; word-wrap: break-word;">이창호(보류)</td>
+  </tr>
+  <tr>
+    <td style="text-align: center; word-wrap: break-word;">팀장<br></td>
+    <td style="text-align: center; word-wrap: break-word;">...</td>
+    <td style="text-align: center; word-wrap: break-word;">...</td>
+    <td style="text-align: center; word-wrap: break-word;">...</td>
+    <td style="text-align: center; word-wrap: break-word;">...</td>
+    <td style="text-align: center; word-wrap: break-word;">...</td>
+  </tr>
+  <tr>
+    <td style="text-align: center; word-wrap: break-word;">...</td>
+    <td style="text-align: center; word-wrap: break-word;">...</td>
+    <td style="text-align: center; word-wrap: break-word;">...</td>
+    <td style="text-align: center; word-wrap: break-word;">...</td>
+    <td style="text-align: center; word-wrap: break-word;">...</td>
+    <td style="text-align: center; word-wrap: break-word;">...</td>
+  </tr>
+</table>
 
 <br/>
 
