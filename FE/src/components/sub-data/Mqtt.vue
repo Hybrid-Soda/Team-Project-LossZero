@@ -16,32 +16,45 @@ watch(
   () => operateStore.machineOnOff,
   () => {
     if (operateStore.machineOnOff) {
-      Swal.fire({
-        icon: "warning",
-        title: "작동 중지 하시겠습니까?",
-        text: "잦은 중지는 손실을 초래합니다.",
-        showCancelButton: true,
-        confirmButtonText: "예",
-        cancelButtonText: "아니오",
-        confirmButtonColor: "#429f50",
-        cancelButtonColor: "#d33",
-      }).then((result) => {
-        if (result.isConfirmed) {
-          operateStore.machineOff();
-          // 연결되어 있지 않다면 연결 시도
-          if (!mqtt.isConnected()) {
-            MQTTConnect();
-          }
-
-          sendMsg(
-            `{ "sender": "web", "lineId": 1, "message": "${
-              operateStore.machineOnOff ? "off" : "on"
-            }" }`
-          );
-        } else if (result.isDismissed) {
-          operateStore.machineOn();
+      if (operateStore.error) {
+        if (!mqtt.isConnected()) {
+          MQTTConnect();
         }
-      });
+
+        sendMsg(
+          `{ "sender": "web", "lineId": 1, "message": "${
+            operateStore.machineOnOff ? "off" : "on"
+          }" }`
+        );
+      } else {
+        Swal.fire({
+          icon: "warning",
+          title: "작동 중지 하시겠습니까?",
+          text: "잦은 중지는 손실을 초래합니다.",
+          showCancelButton: true,
+          confirmButtonText: "예",
+          cancelButtonText: "아니오",
+          confirmButtonColor: "#429f50",
+          cancelButtonColor: "#d33",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            operateStore.machineOff();
+            // 연결되어 있지 않다면 연결 시도
+            if (!mqtt.isConnected()) {
+              MQTTConnect();
+            }
+
+            sendMsg(
+              `{ "sender": "web", "lineId": 1, "message": "${
+                operateStore.machineOnOff ? "off" : "on"
+              }" }`
+            );
+          } else if (result.isDismissed) {
+            operateStore.machineOn();
+            operateStore.isError();
+          }
+        });
+      }
     } else {
       operateStore.machineOn();
 
@@ -122,6 +135,7 @@ function onMessageArrived(message) {
         title: "시스템 Error",
         text: "공장 상태를 확인해주세요",
       });
+      operateStore.isError();
     }
   } else if (sender === "web") {
     const onOff = data.message;

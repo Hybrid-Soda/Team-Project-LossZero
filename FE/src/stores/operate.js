@@ -5,9 +5,14 @@ export const useOperateStore = defineStore(
   "operate",
   () => {
     const machineOnOff = ref(true);
+    const error = ref(false);
     const coveyerOnOff = ref(false);
     const armOnOff = ref(false);
     const cameraOnOff = ref(false);
+
+    function isError() {
+      error.value = !error.value;
+    }
 
     function machineOff() {
       machineOnOff.value = true;
@@ -62,7 +67,8 @@ export const useOperateStore = defineStore(
       coveyerOnOff,
       cameraOnOff,
       machineOnOff,
-
+      error,
+      isError,
       machineOff,
       machineOn,
       armOn,
