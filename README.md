@@ -176,16 +176,16 @@
 <table style="table-layout: fixed;">
   <tr>
     <td style="text-align: center;">
-         <img src="./READMEIMG/HW/arduino.png" height="250px"> 
+         <img src="./READMEIMG/HW/arduino.png" style="max-height: 200px; max-width: 100%;"> 
     </td>
     <td style="text-align: center;">
-         <img src="./READMEIMG/HW/raspberrypi.png" height="250px">
+         <img src="./READMEIMG/HW/raspberrypi.png" style="max-height: 200px; max-width: 100%;">
     </td>
      <td style="text-align: center;">
-         <img src="./READMEIMG/HW/IR.PNG" height="200px">
+         <img src="./READMEIMG/HW/IR-sensor.PNG" style="max-height: 200px; max-width: 100%;">
     </td>
     <td style="text-align: center;">
-         <img src="./READMEIMG/HW/CAMERA.png" height="200px">
+         <img src="./READMEIMG/HW/CAMERA.png" style="max-height: 200px; max-width: 100%;">
     </td>
   </tr>
   <tr>
