@@ -58,6 +58,7 @@ watch(
       }
     } else {
       operateStore.machineOn();
+      operateStore.isNotError();
 
       // 연결되어 있지 않다면 연결 시도
       if (!mqtt.isConnected()) {
