@@ -21,8 +21,7 @@ const envStore = useEnvStore();
         <input
           type="checkbox"
           class="checkbox"
-          :checked="!operateStore.machineOnOff"
-          @click="operateStore.machineOnOffFun()"
+          v-model="operateStore.machineOnOff"
         />
         <div class="knobs">
           <span>ON</span>
