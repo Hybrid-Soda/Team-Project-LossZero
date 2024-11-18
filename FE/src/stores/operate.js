@@ -22,7 +22,7 @@ export const useOperateStore = defineStore(
     }
 
     function armOn() {
-      if (machineOnOff.value) {
+      if (!machineOnOff.value) {
         armOnOff.value = true;
       }
       // console.log(armOnOff.value);
@@ -34,7 +34,7 @@ export const useOperateStore = defineStore(
     }
 
     function coveyerOn() {
-      if (machineOnOff.value) {
+      if (!machineOnOff.value) {
         coveyerOnOff.value = true;
       }
       // console.log(coveyerOnOff.value);
@@ -46,7 +46,7 @@ export const useOperateStore = defineStore(
     }
 
     function cameraOn() {
-      if (machineOnOff.value) {
+      if (!machineOnOff.value) {
         cameraOnOff.value = true;
       }
       // console.log(cameraOnOff.value);

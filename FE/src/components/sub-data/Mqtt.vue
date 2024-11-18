@@ -17,9 +17,9 @@ watch(
   () => {
     if (operateStore.machineOnOff) {
       Swal.fire({
-        icon: "info",
-        title: "로그인 후 이용 가능합니다.",
-        text: "로그인 하시겠습니까?",
+        icon: "warning",
+        title: "작동 중지 하시겠습니까?",
+        text: "잦은 중지는 손실을 초래합니다.",
         showCancelButton: true,
         confirmButtonText: "예",
         cancelButtonText: "아니오",
