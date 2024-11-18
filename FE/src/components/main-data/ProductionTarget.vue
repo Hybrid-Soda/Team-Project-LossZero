@@ -1,61 +1,30 @@
 <script setup>
 import { useCounterStore } from "@/stores/counter";
-import { onMounted, ref } from "vue";
+import { onMounted, ref, watch } from "vue";
 import { setTargetProduction, lineState } from "@/api/data.js";
-onMounted(() => {
-  // 목표 생산량 받아오기
-  lineState()
-    .then((res) => {
-      console.log(res.data);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-});
+import { useLogStore } from "@/stores/logdata";
 
 const cntStore = useCounterStore();
-
+const logStore = useLogStore();
 const changeTarget = ref(false);
 const targetCnt = ref(cntStore.targetCnt);
 
-function changeBtn() {
-  if (changeTarget.value) {
-    // 목표 생산량 변경하기
-    setTargetProduction({
-      targetProduct: "120",
-    })
-      .then((res) => {
-        console.log(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-
-    // cntStore.changeTargetCnt(targetCnt.value);
-  }
-  changeTarget.value = !changeTarget.value;
-}
+defineProps({
+  sumNormal: Number,
+});
 </script>
 
 <template>
   <div class="content-con con shadow">
-    <img src="@/assets/img/production.svg" alt="목표 생산량" />
+    <img src="@/assets/img/production2.svg" alt="목표 생산량" />
 
     <div class="title">
       <div class="box-row">
         <span class="label pre-t">목표 생산량</span>
-        <button class="change btn pre-t" @click="changeBtn">변경</button>
       </div>
       <div class="value pre-t">
-        {{ cntStore.productCnt }} /
-        <input
-          type="number"
-          class="target pre-t"
-          v-if="changeTarget"
-          v-model="targetCnt"
-          @keydown.enter="changeBtn"
-        />
-        <span v-else>{{ cntStore.targetCnt }}</span>
+        {{ sumNormal }} /
+        <span>{{ cntStore.targetCnt }}</span>
         (개)
       </div>
     </div>

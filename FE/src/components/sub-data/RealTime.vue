@@ -4,71 +4,24 @@ import MachineOperation from "@/components/sub-data/MachineOperation.vue";
 import { useOperateStore } from "@/stores/operate";
 import { useCounterStore } from "@/stores/counter";
 import { useEnvStore } from "@/stores/environment";
+import Mqtt from "@/components/sub-data/Mqtt.vue";
 
 const operateStore = useOperateStore();
 const cntStore = useCounterStore();
 const envStore = useEnvStore();
-// 오늘 날짜 설정
-const today = new Date();
-const startDate = formatDate(today);
-const endDate = formatDate(today);
-// SSE 연결
-const eventSource = new EventSource(
-  // "http://k11e202.p.ssafy.io:8081/api/v1/realtime/prod?lineId=1",
-  "https://k11e202.p.ssafy.io/api/v1/realtime/prod?lineId=1",
-  {}
-);
-
-// 실시간 데이터 수신 (realtimeProd 이벤트)
-eventSource.addEventListener("realtimeProd", function (event) {
-  const data = JSON.parse(event.data);
-  // console.log(data);
-  cntStore.sseData(data);
-});
-
-// SSE 연결 에러 처리
-eventSource.onerror = function (event) {
-  // console.error("SSE connection error:", event);
-};
-
-// SSE for Environment Data
-const environmentEventSource = new EventSource(
-  // "http://k11e202.p.ssafy.io:8081/api/v1/realtime/circumstance?lineId=1"
-  "https://k11e202.p.ssafy.io/api/v1/realtime/circumstance?lineId=1"
-);
-
-environmentEventSource.addEventListener(
-  "realtimeCircumstance",
-  function (event) {
-    const data = JSON.parse(event.data);
-    envStore.sseData(data);
-    // console.log(data);
-  }
-);
-
-environmentEventSource.onerror = function (event) {
-  // console.error("SSE connection error (Environment):", event);
-};
-
-function formatDate(date) {
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  const day = String(date.getDate()).padStart(2, "0");
-  return `${year}-${month}-${day}`;
-}
 </script>
 
 <template>
   <div class="real-time-con con shadow">
+    <Mqtt />
     <div class="box-row title-con">
-      <img src="@/assets/img/log.svg" alt="실시간 " />
+      <img src="@/assets/img/log2.svg" alt="실시간 " />
       <span class="title pre-bt">실시간 정보</span>
       <div class="button b2" id="button-10">
         <input
           type="checkbox"
           class="checkbox"
-          :checked="!operateStore.machineOnOff"
-          @click="operateStore.machineOnOffFun()"
+          v-model="operateStore.machineOnOff"
         />
         <div class="knobs">
           <span>ON</span>
@@ -83,9 +36,9 @@ function formatDate(date) {
 
 <style scoped>
 .real-time-con {
-  width: 800px;
+  width: 787px;
   height: 100%;
-
+  margin-right: 13px;
   padding: 10px 20px;
 
   display: flex;

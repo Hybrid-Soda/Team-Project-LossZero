@@ -31,15 +31,7 @@
             <img :src="loginIcon" alt="login_icon" class="loginIcon" />
           </button>
         </div>
-        <div class="additionalOptions">
-          <div class="id-save">
-            <input type="checkbox" id="saveId" />
-            <label for="saveId" class="pre-t" style="margin-left: 5px"
-              >아이디 저장</label
-            >
-          </div>
-          <a href="#" class="password-recovery pre-t">비밀번호 찾기</a>
-        </div>
+        <div class="additionalOptions"></div>
       </form>
     </div>
     <div class="welcome-message">
@@ -56,25 +48,20 @@ import { login } from "@/api/user.js";
 import logoImage from "@/assets/Login/Logo_icon.png"; // 로고 이미지 경로
 import loginIcon from "@/assets/Login/Login_icon.png"; // 로그인 아이콘 경로
 import sampleImage from "@/assets/Login/Login_background_image.svg"; // 배경 이미지 경로
+import { useUserStore } from "@/stores/user";
 
 const router = useRouter();
+const userStore = useUserStore();
 const adminLoginId = ref("");
 const adminLoginPw = ref("");
 
 const handleLogin = () => {
-  // 로그인 로직 (아이디와 비밀번호 확인)
-  // 만약 로그인이 성공하면 다음 경로로 이동
-  // if (adminLoginId.value && adminLoginPw.value) {
-  //   router.push("/home");
-  // } else {
-  //   alert("아이디와 비밀번호를 입력하세요.");
-  // }
-
   login({
     username: adminLoginId.value,
     password: adminLoginPw.value,
   })
     .then((res) => {
+      userStore.loginFun();
       router.push("/home");
     })
     .catch((err) => {

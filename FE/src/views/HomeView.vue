@@ -2,6 +2,18 @@
 import Header from "@/components/header/Header.vue";
 import MainData from "@/components/main-data/MainData.vue";
 import SubData from "@/components/sub-data/SubData.vue";
+import { useUserStore } from "@/stores/user";
+import { onMounted } from "vue";
+import { useRouter } from "vue-router";
+
+const userStore = useUserStore();
+const router = useRouter();
+
+onMounted(() => {
+  if (!userStore.isLogin) {
+    router.replace({ name: "login" });
+  }
+});
 </script>
 
 <template>
@@ -17,7 +29,8 @@ import SubData from "@/components/sub-data/SubData.vue";
   width: 100vw;
   height: 100vh;
 
-  background-color: #e1e8f8;
+  /* background-color: #e1e8f8; */
+  background-color: #ffffff;
 
   display: flex;
   flex-direction: column;

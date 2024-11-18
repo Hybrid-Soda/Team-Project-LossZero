@@ -8,6 +8,7 @@ const downVal = ref(false);
 watch(
   () => logStore.issue,
   () => {
+    // console.log("이슈!");
     downVal.value = true;
     setTimeout(() => {
       downVal.value = false;
@@ -29,10 +30,10 @@ watch(
 <style scoped>
 .issue-con {
   position: absolute;
-  width: 350px;
-  height: 60px;
+  width: 250px;
+  height: 40px;
 
-  top: -70px;
+  top: -50px;
   right: 150px;
   /* background-color: red; */
 
@@ -40,7 +41,7 @@ watch(
 }
 
 .issue-icon {
-  width: 20px;
+  width: 25px;
 
   position: absolute;
   top: 8px;
@@ -49,18 +50,18 @@ watch(
 .title {
   position: absolute;
   width: 45px;
-  top: 8px;
-  left: 15px;
-  font-size: 12px;
+  top: 4px;
+  left: 25px;
+  font-size: 10px;
 }
 
 .content {
   position: absolute;
-  top: 28px;
-  left: 34px;
-  font-size: 20px;
+  top: 17px;
+  left: 43px;
+  font-size: 15px;
 }
 .down {
-  top: -5px;
+  top: 5px;
 }
 </style>

@@ -14,8 +14,17 @@
 </template>
 
 <script setup>
-import { onMounted } from "vue";
-import Chart from "chart.js/auto"; // Chart.js 자동 임포트
+import { onMounted, ref } from "vue";
+import { weeklyProduct } from "@/api/data";
+import Chart, { elements } from "chart.js/auto"; // Chart.js 자동 임포트
+import { useCounterStore } from "@/stores/counter";
+
+const values = ref([]);
+const labels = ref([]);
+const productData = ref([]);
+const oeeData = ref([]);
+const cntStore = useCounterStore();
+let myChart2 = null;
 
 // 랜덤 값 생성 함수
 function getRandomValues(min, max, count) {
@@ -26,29 +35,40 @@ function getRandomValues(min, max, count) {
   return values;
 }
 
-onMounted(() => {
+onMounted(async () => {
+  await weeklyProduct()
+    .then((res) => {
+      console.log(res.data);
+      values.value = res.data;
+      labels.value = values.value.map((element) => {
+        return element.date;
+      });
+      productData.value = values.value.map((element) => {
+        return element.sumNormal;
+      });
+      oeeData.value = values.value.map((element) => {
+        return Math.ceil(100 * ((60 * element.sumNormal) / 7200));
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+
   const canvas = document.getElementById("myChart2");
 
   if (canvas) {
     const ctx = canvas.getContext("2d");
 
     // 차트 생성
-    new Chart(ctx, {
+    myChart2 = new Chart(ctx, {
       type: "bar", // 메인 타입을 막대형으로 설정
       data: {
-        labels: [
-          "10월 17일",
-          "10월 18일",
-          "10월 19일",
-          "10월 20일",
-          "10월 21일",
-          "10월 22일",
-        ],
+        labels: labels.value,
         datasets: [
           {
             label: "생산량",
             type: "bar", // 생산량은 막대 차트로 설정
-            data: [3, 6, 4, 8, 7, 9], // 생산량 데이터
+            data: productData.value, // 생산량 데이터
             fill: true, // 배경 채우기
             backgroundColor: "rgba(85, 42, 254, 0.7)", // 막대 배경 색상
             backgroundColor: "rgba(237, 235, 253, 0.7)", // 배경 색상
@@ -60,10 +80,10 @@ onMounted(() => {
           {
             label: "설비 종합 효율",
             type: "line", // 설비 종합 효율은 라인 차트로 유지
-            data: getRandomValues(60, 100, 6), // 랜덤한 설비 종합 효율 데이터
+            data: oeeData.value, // 랜덤한 설비 종합 효율 데이터
             fill: true, // 배경 채우기
-            borderColor: "rgba(42, 254, 123, 1)", // 라인 색상
-            backgroundColor: "rgba(235, 253, 237, 0.7)", // 배경 색상
+            borderColor: "rgba(255, 34, 34, 0.775)", // 라인 색상
+            backgroundColor: "rgba(25, 118, 210, 0.1)", // 배경 색상
             tension: 0.4, // 곡선 스무딩
             pointBackgroundColor: "white", // 포인트 색상
             pointBorderWidth: 2, // 포인트 테두리 너비
@@ -79,7 +99,7 @@ onMounted(() => {
             beginAtZero: true, // 왼쪽 Y축 0부터 시작
             position: "left", // 왼쪽 Y축
             min: 0,
-            max: 10, // 생산량의 최대값에 맞춘 범위,
+            max: Math.max(productData.value) + 50, // 생산량의 최대값에 맞춘 범위,
             ticks: {
               font: {
                 size: 12,
@@ -90,8 +110,8 @@ onMounted(() => {
           y1: {
             beginAtZero: false, // 오른쪽 Y축 60부터 시작
             position: "right", // 오른쪽 Y축
-            min: 60,
-            max: 100, // 설비 종합 효율의 최대값에 맞춘 범위
+            min: 50,
+            max: 150, // 설비 종합 효율의 최대값에 맞춘 범위
             ticks: {
               font: {
                 size: 12,
@@ -159,7 +179,7 @@ onMounted(() => {
 .icon-box {
   width: 40px;
   height: 40px;
-  background-color: rgba(85, 42, 254, 1); /* 보라색 사각형 */
+  background-color: rgba(25, 118, 210, 1); /* 보라색 사각형 */
   display: flex;
   justify-content: center;
   align-items: center;

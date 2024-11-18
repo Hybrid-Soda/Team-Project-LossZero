@@ -1,12 +1,14 @@
 <script setup>
 import { useCounterStore } from "@/stores/counter";
+import { useLogStore } from "@/stores/logdata";
 import { onMounted, ref, watch } from "vue";
 
 const cntStore = useCounterStore();
+const logStore = useLogStore();
 const dpoVal = ref(0);
 
 watch(
-  () => cntStore.DPO,
+  () => logStore.issue,
   () => {
     // console.log("counting");
     countDPO();
@@ -35,7 +37,7 @@ function countDPO() {
 
 <template>
   <div class="content-con con shadow">
-    <img src="@/assets/img/DPO.svg" alt="공정 불량률" />
+    <img src="@/assets/img/DPO2.svg" alt="공정 불량률" />
 
     <div class="title">
       <div class="label pre-t">

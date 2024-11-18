@@ -3,7 +3,7 @@
     <div class="icon-text">
       <div class="icon-box">
         <img
-          src="@/assets/img/mingcute_warning-line.svg"
+          src="@/assets/img/mingcute_warning-line2.svg"
           alt="Icon"
           class="icon-img"
         />
@@ -20,21 +20,21 @@
               class="legend-color"
               style="background-color: rgb(54, 162, 235)"
             ></span>
-            정상품: {{ cntStore.productData[0] }}개
+            정상품: {{ cntStore.sumNormal }}개
           </li>
           <li>
             <span
               class="legend-color"
               style="background-color: rgb(255, 159, 64)"
             ></span>
-            재사용: {{ cntStore.productData[1] }}개
+            재사용: {{ cntStore.sumReusable }}개
           </li>
           <li>
             <span
               class="legend-color"
               style="background-color: rgb(255, 99, 132)"
             ></span>
-            불량품: {{ cntStore.productData[2] }}개
+            불량품: {{ cntStore.sumDefective }}개
           </li>
         </ul>
       </div>
@@ -59,6 +59,8 @@ import Chart from "chart.js/auto"; // Chart.js 자동 임포트
 import { useCounterStore } from "@/stores/counter";
 
 const cntStore = useCounterStore();
+let myBarChart = null;
+let myDonutChart = null;
 
 watch(
   () => [cntStore.totalCnt, cntStore.targetCnt],
@@ -71,12 +73,10 @@ watch(
   }
 );
 
-let myBarChart = null;
-let myDonutChart = null;
-
 onMounted(() => {
   const donutCanvas = document.getElementById("myDonutChart");
   const barCanvas = document.getElementById("myBarChart");
+  // console.log(cntStore.productData);
   // Bar Chart 생성
   if (barCanvas) {
     const ctx = barCanvas.getContext("2d");
@@ -135,6 +135,46 @@ onMounted(() => {
       },
     });
   }
+
+  // Donut Chart에 Center Text Plugin 추가
+  const centerTextPlugin = {
+    id: "centerText",
+    afterDraw: (chart) => {
+      const {
+        ctx,
+        chartArea: { left, top, right, bottom },
+        width,
+        height,
+      } = chart;
+      const centerX = (left + right) / 2;
+      const centerY = (top + bottom) / 2;
+
+      ctx.save();
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.font = "bold 16px Pretendard-Regular";
+
+      const total = chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
+      const percentage = (
+        (chart.data.datasets[0].data[0] / total) *
+        100
+      ).toFixed(1);
+
+      ctx.fillText(`${percentage}%`, centerX, centerY);
+      ctx.restore();
+    },
+  };
+
+  watch(
+    () => [cntStore.totalCnt, cntStore.targetCnt],
+    () => {
+      myBarChart.data.datasets[0].data = cntStore.productData;
+      myDonutChart.data.datasets[0].data = cntStore.doughnutData;
+      myBarChart.update();
+      myDonutChart.update();
+    }
+  );
+
   // Donut Chart 생성 (30/120 비율)
   if (donutCanvas) {
     const ctx = donutCanvas.getContext("2d");
@@ -162,6 +202,7 @@ onMounted(() => {
           },
         },
       },
+      plugins: [centerTextPlugin],
     });
   }
 });
@@ -186,7 +227,7 @@ onMounted(() => {
 .icon-box {
   width: 40px;
   height: 40px;
-  background-color: rgba(255, 74, 74, 1);
+  /* background-color: rgba(255, 74, 74, 1); */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -194,8 +235,8 @@ onMounted(() => {
 }
 
 .icon-img {
-  width: 24px;
-  height: 24px;
+  width: 40px;
+  height: 40px;
 }
 
 .header-text {

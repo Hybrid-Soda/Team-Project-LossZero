@@ -2,12 +2,7 @@
 import { useOperateStore } from "@/stores/operate";
 import { ref } from "vue";
 
-const isOperate = ref(true);
 const operateStore = useOperateStore();
-
-function onOff() {
-  isOperate.value = !isOperate.value;
-}
 </script>
 
 <template>
@@ -16,16 +11,16 @@ function onOff() {
     <img
       src="@/assets/img/gif/camera.gif"
       alt="카메라"
-      v-if="operateStore.machineOnOff"
+      v-if="operateStore.cameraOnOff"
     />
     <img src="@/assets/img/camera.jpg" alt="카메라" v-else />
 
     <!-- 작동 상태 표시 -->
     <span class="is-operate">
-      {{ isOperate ? "카메라 동작중" : "카메라 정지" }}
+      {{ operateStore.cameraOnOff ? "카메라 동작중" : "카메라 정지" }}
     </span>
 
-    <div v-if="operateStore.machineOnOff">
+    <div v-if="operateStore.cameraOnOff">
       <img
         src="@/assets/img/loading-2.svg"
         alt="톱니"
