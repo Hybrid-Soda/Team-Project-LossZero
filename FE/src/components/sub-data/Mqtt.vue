@@ -17,6 +17,7 @@ watch(
   () => {
     if (operateStore.machineOnOff) {
       if (operateStore.error) {
+        operateStore.isNotError();
         if (!mqtt.isConnected()) {
           MQTTConnect();
         }
@@ -51,7 +52,7 @@ watch(
             );
           } else if (result.isDismissed) {
             operateStore.machineOn();
-            operateStore.isError();
+            operateStore.isNotError();
           }
         });
       }
