@@ -158,13 +158,76 @@
 
 ## 🕋 하드웨어 (HW)
 
-### 인지
+<table style="table-layout: fixed;">
+  <tr>
+    <td style="text-align: center;">
+         <img src="./READMEIMG/HW/total.jpg" width="900px"> 
+    </td>
+  </tr>
+  <tr>
+    <td style="text-align: center; word-wrap: break-word;"> 불량 너트 자동 선별 시스템 (정상, 재사용 가능, 불량)   </td>
+  </tr>
+</table>
 
-| <img src="./READMEIMG/HW/IR.PNG" height="200px"> | <img src="./READMEIMG/HW/CAMERA.png" height="200px"> |
-| :----------------------------------------------: | :--------------------------------------------------: |
-|                 IR (적외선) 센서                 |                        카메라                        |
-|                     테스트1                      |                       테스트2                        |
+<br/>
 
-### 판단
+### 🕹 HW
 
-### 제어
+<table style="table-layout: fixed;">
+  <tr>
+    <td style="text-align: center;">
+         <img src="./READMEIMG/HW/arduino.png" height="250px"> 
+    </td>
+    <td style="text-align: center;">
+         <img src="./READMEIMG/HW/raspberrypi.png" height="250px">
+    </td>
+     <td style="text-align: center;">
+         <img src="./READMEIMG/HW/IR.PNG" height="200px">
+    </td>
+    <td style="text-align: center;">
+         <img src="./READMEIMG/HW/CAMERA.png" height="200px">
+    </td>
+  </tr>
+  <tr>
+    <td style="text-align: center; word-wrap: break-word;"> Arduino </td>
+    <td style="text-align: center; word-wrap: break-word;"> Raspberry-pi   </td>
+    <td style="text-align: center; word-wrap: break-word;"> IR (적외선) 센서   </td>
+    <td style="text-align: center; word-wrap: break-word;"> 카메라   </td>
+  </tr>
+  <tr>
+    <td style="text-align: center; word-wrap: break-word;">로봇팔,
+    컨베이어 벨트, 조명 & 온습도 센서 제어
+    <br></td>
+    <td style="text-align: center; word-wrap: break-word;"> AI 및 카메라 구동
+    <br></td>
+    <td style="text-align: center; word-wrap: break-word;">너트가 목표 지점 도착 시 감지<br></td>
+    <td style="text-align: center; word-wrap: break-word;"> 정상, 재사용, 불량 너트 판별<br></td>
+  </tr>
+</table>
+
+<br/>
+
+<table style="table-layout: fixed;">
+  <tr>
+    <td style="text-align: center;">
+         <img src="./READMEIMG/HW/nutsort.jpg" height="450px"> 
+    </td>
+    <td style="text-align: center;">
+         <img src="./READMEIMG/HW/arm.jpg" height="450px"> 
+    </td>
+  </tr>
+  <tr>
+    <td style="text-align: center; word-wrap: break-word;"> 너트 나열기 </td>
+    <td style="text-align: center; word-wrap: break-word;"> 로봇팔 </td>
+  </tr>
+  <tr>
+    <td style="text-align: center; word-wrap: break-word;"> 진동 기반 너트 정렬 <br/>
+    CATIA V5를 활용해 설계한 구조물을 3D 프린터로 출력하여 제작
+    <br></td>
+    <td style="text-align: center; word-wrap: break-word;"> 끝단에 전자석을 부착하여 금속 너트를 처리 <br>
+    CATIA V5를 활용해 설계한 구조물을 3D 프린터로 출력하여 제작
+    </td>
+  </tr>
+</table>
+
+### 🎮 SW
