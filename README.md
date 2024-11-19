@@ -300,15 +300,76 @@
 
 ### 🎮 Network
 
-#### 📌 MQTT
+#### 📌 MQTTv5
 
-- Broker : Eclipse Mosquitto
+<img src="./READMEIMG/SW/mqtt_structure.png" alt="mqtt structure" style="height: 300px;"><br>
+
+- **Broker : Eclipse Mosquitto (서버 PC에서 Docker Image로 사용)**
+- 선정 근거
+  - 경량 프로토콜 : 메시지 헤더가 작고 오버헤드가 적어 네트워크 대역폭과 리소스 사용량이 낮음
+  - 비동기 통신 지원 : Publisher-Subscriber 모델을 사용해 송신자와 수신자가 직접 연결되지 않아도 통신 가능
+  - 낮은 Latency : 기존 HTTP 방식보다 가벼운 통신 프로토콜 / 실시간 통신에서 빠르게 데이터를 주고받을 수 있음
+  - 뛰어난 확장성 : 많은 수의 IoT 기기나 센서가 확장 가능한 구조로 손쉽게 추가 가능
 
 #### 📌 토픽(topic) 구조
 
+- realtime-oper : Frontend-IoT 작동 제어 관련 topic
+- realtime-prod : IoT-FE, BE 생산 정보 통신 관련 topic
+- realtime-circ : IoT-FE, BE 환경 정보 통신 관련 topic
+- realtime-cycle : 생산 사이클 관련 topic
+
 #### 📌 메시지 포맷
+
+- JSON 형식
+```
+  {
+    sender: "sender_example",
+    message: "message_example"
+  }
+```
 
 #### 📌 QoS (Quality of Service) 레벨
 
+- 정확한 통신을 위해 QoS-2 사용
+
+<table style="table-layout: fixed;">
+  <tr style="background-color: #2E2E2E;">
+    <td style="text-align: center; word-wrap: break-word;">QoS</td>
+    <td style="text-align: center; word-wrap: break-word;">설명</td>
+    <td style="text-align: center; word-wrap: break-word;">전송 보장</td>
+    <td style="text-align: center; word-wrap: break-word;">중복 수신</td>
+    <td style="text-align: center; word-wrap: break-word;">전송 지연</td>
+    <td style="text-align: center; word-wrap: break-word;">사용 예시</td>
+  </tr>
+  <tr>
+    <td style="text-align: center; word-wrap: break-word;">0</td>
+    <td style="text-align: center; word-wrap: break-word;">At Most Once</td>
+    <td style="text-align: center; word-wrap: break-word;">전송 보장 없음</td>
+    <td style="text-align: center; word-wrap: break-word;">가능</td>
+    <td style="text-align: center; word-wrap: break-word;">최소</td>
+    <td style="text-align: center; word-wrap: break-word;">센서 데이터, 로그 수집</td>
+  </tr>
+  <tr>
+    <td style="text-align: center; word-wrap: break-word;">1</td>
+    <td style="text-align: center; word-wrap: break-word;">At Least Once</td>
+    <td style="text-align: center; word-wrap: break-word;">최소 한번 전송</td>
+    <td style="text-align: center; word-wrap: break-word;">가능</td>
+    <td style="text-align: center; word-wrap: break-word;">보통</td>
+    <td style="text-align: center; word-wrap: break-word;">알림 서비스, 채팅 메시지</td>
+  </tr>
+  <tr>
+    <td style="text-align: center; word-wrap: break-word;">2</td>
+    <td style="text-align: center; word-wrap: break-word;">Exactly Once</td>
+    <td style="text-align: center; word-wrap: break-word;">정확히 한번 전송</td>
+    <td style="text-align: center; word-wrap: break-word;">없음</td>
+    <td style="text-align: center; word-wrap: break-word;">최대</td>
+    <td style="text-align: center; word-wrap: break-word;">금융 거래, 주문 시스템</td>
+  </tr>
+</table>
+
 #### 📌 클라이언트 라이브러리 및 구현
 
+- Spring : `Eclipse Paho Java`
+- Vue : `Eclipse Paho HTML5 JavaScript over WebSocket`
+- Arduino : `PubSub Client`
+- Raspberry Pi : `Eclipse Paho Python`
