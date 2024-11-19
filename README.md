@@ -72,7 +72,7 @@
         <img src="./READMEIMG/Profile/swh.png" width="100%" height="150">
     </td>
     <td style="text-align: center;">
-        <img src="./READMEIMG/Profile/yjh.png" width="100%" height="150">
+        <img src="./READMEIMG/Profile/ejm.jpg" width="100%" height="150">
     </td>
     <td style="text-align: center;">
         <img src="./READMEIMG/Profile/lch.png" width="100%" height="150">
@@ -230,4 +230,49 @@
   </tr>
 </table>
 
-### 🎮 SW
+<br/>
+
+### 🧵 회로도
+
+<table style="table-layout: fixed;">
+  <tr>
+    <td style="text-align: center;">
+         <img src="./READMEIMG/HW/armdiagram.png" height="450px"> 
+    </td>
+    <td style="text-align: center;">
+         <img src="./READMEIMG/HW/beltdiagram.PNG" height="450px"> 
+    </td>
+  </tr>
+  <tr>
+    <td style="text-align: center; word-wrap: break-word;"> 로봇팔 부분 회로도 </td>
+    <td style="text-align: center; word-wrap: break-word;"> 컨베이어 벨트 부분 회로도 </td>
+  </tr>
+</table>
+
+## 🎮 SW
+
+## 🕶 기대효과
+
+### 1. 생산 효율성 향상
+
+- #### 자동화 시스템을 통해 불량품을 빠르고 정확하게 선별하여 수작업에 비해 생산 속도를 크게 향상시킬 수 있습니다.
+
+### 2.품질 관리 수준 강화
+
+- #### 고해상도 카메라, 머신러닝 알고리즘, 센서를 활용해 결함을 감지하여 제품의 품질 일관성을 높일 수 있습니다.
+
+### 3. 비용 절감
+
+- #### 불량품 유통 방지로 인해 재작업 비용 및 고객 클레임 비용을 줄일 수 있으며, 인력 비용도 절감 가능합니다.
+
+### 4. 고객 신뢰도 향상
+
+- #### 높은 품질의 제품 제공으로 인해 브랜드 신뢰도가 증가하며, 장기적으로 고객 만족도를 높일 수 있습니다.
+
+### 5. 데이터 기반 의사결정 가능
+
+- #### 시스템이 수집한 결함 및 생산 데이터를 분석해 불량 원인을 파악하고, 이를 기반으로 공정 개선이 가능합니다.
+
+### 6. 안정적인 작업 환경 조성
+
+- #### 작업자의 부담을 줄여 인적 오류를 감소시키고, 작업 환경을 더 안전하고 효율적으로 만들 수 있습니다.
