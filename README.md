@@ -230,4 +230,85 @@
   </tr>
 </table>
 
-### 🎮 SW
+### 🎮 AI
+
+#### 📌 모델 선정
+
+<img src="./READMEIMG/SW/yolo_logo.png" alt="yolo logo" style="width: 300px; max-width: 50%;">
+
+- 모델 : YOLOv11n
+- 전이 학습 수행
+- 선정 근거
+  - Edge Device에 적합한 경량 모델 YOLOv11n 사용
+  - YOLOv8 대비 22% 적은 파라미터로 더 높은 mAP 달성
+  - Backbone Network 후 바로 Image Classification을 수행하는 One-stage Detector 방식
+  - 실시간 객체 검출 및 즉각적인 반응이 필요한 스마트 팩토리에 제격
+
+#### 📌 데이터셋
+
+- 개수 : 5400여개
+- 이미지 증강
+  - 논문 참조
+    - Taylor, L., & Nitschke, G. (2017). Improving Deep Learning using Generic Data Augmentation. arXiv preprint arXiv:1708.06020.
+  - 기본 증강
+    - Flipping (좌우 반전)
+    - Rotating (회전)
+    - Cropping (자르기)
+    - Fancy PCA (주성분 활용 색 변환)
+    - Color Jittering (색상 변형)
+  - 사용 환경에 따른 추가
+    - Blurring (흐리기)
+    - Brightening (밝기 조정)
+
+#### 📌 성능 평가
+
+##### mAP50
+
+<img src="./READMEIMG/SW/yolo_mAP.png" alt="yolo mAP" style="width: 500px; max-width: 50%;"><br>
+- mAP 98.6% 달성
+
+##### before
+
+<img src="./READMEIMG/SW/before.png" alt="before" style="height: 300px; max-width: 50%;"><br>
+
+##### after
+
+<img src="./READMEIMG/SW/after.png" alt="after" style="height: 300px; max-width: 50%;"><br>
+
+##### Confusion Matrix
+
+<img src="./READMEIMG/SW/confusion_matrix.png" alt="confusion matrix" style="height: 400px; max-width: 50%;"><br>
+
+<details>
+<summary>HyperParameters</summary>
+
+- **batch**: `16` - 배치 크기
+- **imgsz**: `640` - 이미지 크기
+- **lr0**: `0.01` - 초기 학습률
+- **lrf**: `0.075` - 최종 학습률
+- **momentum**: `0.937` - 모멘텀 요인
+- **box**: `8.0` - 상자 손실 가중치
+- **cls**: `1.0` - 분류 손실 가중치
+- **dfl**: `2.0` - 초점 손실 가중치
+
+</details>
+
+#### 📌 한계점 및 개선사항
+
+- 이미지 증강 DCGAN 사용하여 진행하다 중단
+- 다양한 데이터셋이 더 있었으면 좋았을 것 같음
+
+### 🎮 Network
+
+#### 📌 MQTT
+
+- Broker : Eclipse Mosquitto
+
+#### 📌 토픽(topic) 구조
+
+#### 📌 메시지 포맷
+
+#### 📌 QoS (Quality of Service) 레벨
+
+#### 📌 클라이언트 라이브러리 및 구현
+
