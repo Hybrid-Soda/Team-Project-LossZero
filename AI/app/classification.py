@@ -2,6 +2,12 @@ import cv2
 from collections import Counter
 from ultralytics import YOLO
 
+colors = {
+    "NUT_NORMAL": (255, 0, 0),
+    "NUT_REUSABLE": (0, 255, 255),
+    "NUT_UNREUSABLE": (0, 0, 255)
+}
+
 
 # 프레임 캡처 함수
 def capture_frames(frame_count=5):
@@ -26,11 +32,21 @@ def detect_objects(model='yolov11.pt'):
 
     for frame in frames:
         detections = model(frame, conf=0.6)
+        annotated_frame = frame.copy()
 
         for detection in detections:
             for result in detection.boxes:
                 cls = int(result.cls[0])
-                results.append(model.names[cls])
+                label = model.names[cls]
+                results.append(label)
+                box = result.xyxy[0].cpu().numpy().astype(int)
+                cv2.rectangle(annotated_frame, (box[0], box[1]), (box[2], box[3]), colors[label], 2)
+                cv2.putText(annotated_frame, label, (box[0], box[1]-10),
+                            cv2.FONT_HERSHEY_SIMPLEX, 0.9, colors[label], 2)
+        
+        cv2.imshow('Detection', annotated_frame)
+        if cv2.waitKey(1) & 0xFF == ord('q'):
+            break
 
     return results
 
