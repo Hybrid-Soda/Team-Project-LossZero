@@ -7,8 +7,10 @@
 
 // 모드 정의
 enum Mode {
-  CONVEYOR1,
-  CONVEYOR2,
+  CONVEYOR1_1,
+  CONVEYOR1_2,
+  CONVEYOR2_1,
+  CONVEYOR2_2,
   STANDBY,
   RECYCLE,
   DEFECTIVE,
@@ -19,7 +21,7 @@ enum Mode {
 void initializeServos();
 
 // 서보 모터 부드럽게 이동 함수
-void moveServoSmoothly(Servo &servo, int &currentAngle, int targetAngle, const char* axisName);
+void moveServoSmoothly(Servo &servo, float &currentAngle, float targetAngle, const char* axisName);
 
 // 특정 모드로 이동하는 함수
 void setModeAngles(Mode mode);

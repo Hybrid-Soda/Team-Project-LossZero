@@ -1,30 +1,48 @@
-// main.ino
+// Arduino B Code
 
+#include <SoftwareSerial.h>
 #include "ServoControl.h"
 #include "ElectromagnetControl.h"
 #include "OLED.h"
 
-// 초기 설정 함수
+SoftwareSerial mySerial(10, 11); // RX, TX
+
 void setup() {
   Serial.begin(9600);
+  mySerial.begin(9600);
   initializeServos();
   initializeElectromagnet();
   initializeOLED();
   moveToStandby();
-  Serial.println("Setup complete.");
+  Serial.println("Arduino B ready.");
+  sendMessage("Arduino B ready.");
 }
 
-// 루프 함수
 void loop() {
-  executeSequence(1, 1); // 1번 시퀀스, 컨베이어 1번 위치
-  delay(2000); // 2초 대기
+  if (mySerial.available()) {
+    String command = mySerial.readStringUntil('\n');
+    command.trim();
+    Serial.println("Received: " + command);
 
-  executeSequence(1, 2); // 1번 시퀀스, 컨베이어 2번 위치
-  delay(2000); // 2초 대기
+    if (command == "Command1") {
+      executeSequence(1, 1);
+      sendMessage("Command1 Complete");
+    } else if (command == "Command2") {
+      executeSequence(1, 2);
+      sendMessage("Command2 Complete");
+    } else if (command == "Command3") {
+      executeSequence(2, 1);
+      sendMessage("Command3 Complete");
+    } else if (command == "Command4") {
+      executeSequence(2, 2);
+      sendMessage("Command4 Complete");
+    } else {
+      Serial.println("Unknown command received.");
+    }
+  }
+}
 
-  executeSequence(2, 1); // 2번 시퀀스, 컨베이어 1번 위치
-  delay(2000); // 2초 대기
-
-  executeSequence(2, 2); // 2번 시퀀스, 컨베이어 2번 위치
-  delay(2000); // 2초 대기
+void sendMessage(String message) {
+  mySerial.println(message);
+  Serial.println("Sent: " + message);
 }
