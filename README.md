@@ -1,18 +1,20 @@
-### AI 기반 품질 선별 스마트 팩토리 시스템
+ <img src="./READMEIMG/logo.png" width=250>
 
-# <img src="./READMEIMG/logo.png" width=150> ⚙ 불량 Zero
+### 목차
 
-<br>
+### 🦺 [개요](#-개요) | 🎓 [사용 기술](#-사용-기술) | 💪 [팀원 소개](#-yesguys---팀원-소개) | 🏭 [서비스 소개](#-서비스-소개) | 🕋 [하드웨어 (HW)](#-하드웨어-hw) | 🎮 [소프트웨어 (SW)](#-소프트웨어-sw) | 📈 [시스템 아키텍쳐](#-시스템-아키텍쳐) |🕶 [기대효과](#-기대효과) |
 
 ## 🦺 개요
 
-팀명: **Yes,Guys**  
- 서비스명: **불량 Zero**  
- 개발기간: **2024년 10월 14일 ~ 11월 19일 (6주)**
+### 팀명: **Yes,Guys**
+
+### 서비스명: **불량 Zero** (AI 기반 품질 선별 스마트 팩토리 시스템)
+
+### 개발기간: **2024년 10월 14일 ~ 11월 19일 (6주)**
 
 <br>
 
-## 💪 사용 기술
+## 🎓 사용 기술
 
 ### INFRA
 
@@ -26,7 +28,6 @@
 <img src="https://img.shields.io/badge/java-007396?style=for-the-badge&logo=java&logoColor=white">
 <img src="https://img.shields.io/badge/spring_boot-6DB33F?style=for-the-badge&logo=spring-boot&logoColor=white">
 <img src="https://img.shields.io/badge/-JPA-6DB33F?style=for-the-badge&logo=spring&logoColor=white">
-<img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white">
 <img src="https://img.shields.io/badge/mqtt-660066?style=for-the-badge&logo=mqtt&logoColor=white">
 
 ### FRONTEND
@@ -42,6 +43,10 @@
 <img src="https://img.shields.io/badge/raspberrypi-A22846?style=for-the-badge&logo=raspberrypi&logoColor=white">
 <img src="https://img.shields.io/badge/arduino-00878F?style=for-the-badge&logo=arduino&logoColor=white">
 <img src="https://img.shields.io/badge/mqtt-660066?style=for-the-badge&logo=mqtt&logoColor=white">
+
+### Database
+
+<img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white">
 
 ### AI
 
@@ -60,47 +65,48 @@
 <table style="table-layout: fixed;">
   <tr>
     <td style="text-align: center;">
-        <img src="./READMEIMG/Profile/khs.png" width="100%" height="150">
+        <img src="./READMEIMG/Profile/khs.png" width="150" height="150">
     </td>
     <td style="text-align: center;">
-        <img src="./READMEIMG/Profile/lkt.png" width="100%" height="150">
+        <img src="./READMEIMG/Profile/kgt.png" width="150" height="150">
     </td>
     <td style="text-align: center;">
-        <img src="./READMEIMG/Profile/kgt.png" width="100%" height="150">
+        <img src="./READMEIMG/Profile/swh.png" width="150" height="150">
     </td>
     <td style="text-align: center;">
-        <img src="./READMEIMG/Profile/swh.png" width="100%" height="150">
+        <img src="./READMEIMG/Profile/ejm.jpg" width="150" height="150">
     </td>
     <td style="text-align: center;">
-        <img src="./READMEIMG/Profile/ejm.jpg" width="100%" height="150">
+        <img src="./READMEIMG/Profile/lkt.png" width="150" height="150">
     </td>
     <td style="text-align: center;">
-        <img src="./READMEIMG/Profile/lch.png" width="100%" height="150">
+        <img src="./READMEIMG/Profile/lch.png" width="150" height="150">
     </td>
   </tr>
   <tr>
-    <td style="text-align: center; word-wrap: break-word;">강현성</td>
-    <td style="text-align: center; word-wrap: break-word;">임경태</td>
+    <td style="text-align: center; word-wrap: break-word;">강현성 (팀장)</td>
     <td style="text-align: center; word-wrap: break-word;">김구태</td>
     <td style="text-align: center; word-wrap: break-word;">손우혁</td>
     <td style="text-align: center; word-wrap: break-word;">어지민</td>
-    <td style="text-align: center; word-wrap: break-word;">이창호(보류)</td>
+    <td style="text-align: center; word-wrap: break-word;">임경태</td>
+    <td style="text-align: center; word-wrap: break-word;">이창호 (IM)</td>
   </tr>
   <tr>
-    <td style="text-align: center; word-wrap: break-word;">팀장<br></td>
-    <td style="text-align: center; word-wrap: break-word;">...</td>
-    <td style="text-align: center; word-wrap: break-word;">...</td>
-    <td style="text-align: center; word-wrap: break-word;">...</td>
-    <td style="text-align: center; word-wrap: break-word;">...</td>
-    <td style="text-align: center; word-wrap: break-word;">...</td>
+    <td style="text-align: center; word-wrap: break-word;">EM / FE<br></td>
+    <td style="text-align: center; word-wrap: break-word;">INFRA / EM</td>
+    <td style="text-align: center; word-wrap: break-word;">EM</td>
+    <td style="text-align: center; word-wrap: break-word;">EM / FE</td>
+    <td style="text-align: center; word-wrap: break-word;">AI / BE</td>
+    <td style="text-align: center; word-wrap: break-word;">BE / INFRA</td>
   </tr>
   <tr>
     <td style="text-align: center; word-wrap: break-word;">...</td>
+    <td style="text-align: center; word-wrap: break-word;">인프라 및 CI / CD 구축 <br/> HW 설계, 제작 <br/> 컨베이어 벨트 제어 <br/> MQTT 연결 보조</td>
+    <td style="text-align: center; word-wrap: break-word;">공장 HW 구축 및 통신 연결 <br/> 3DOF 로봇 팔 역기구학 시뮬레이션 개발 및 제어 <br/>
+네오 픽셀 LED, 전자석 등 주변 전자 부품 제어</td>
+    <td style="text-align: center; word-wrap: break-word;">대시보드 레이아웃 설계 및 제작 <br/> 컨베이어 벨트 제어<br/> MQTT 연결<br/> HW 제작 보조</td>
     <td style="text-align: center; word-wrap: break-word;">...</td>
-    <td style="text-align: center; word-wrap: break-word;">...</td>
-    <td style="text-align: center; word-wrap: break-word;">...</td>
-    <td style="text-align: center; word-wrap: break-word;">...</td>
-    <td style="text-align: center; word-wrap: break-word;">...</td>
+    <td style="text-align: center; word-wrap: break-word;">조력자</td>
   </tr>
 </table>
 
@@ -249,7 +255,11 @@
   </tr>
 </table>
 
-## 🎮 SW
+## 🎮 소프트웨어 (SW)
+
+## 📈 시스템 아키텍쳐
+
+ <img src="./READMEIMG/losszero_sys_arch.png" height="450px">
 
 ## 🕶 기대효과
 
