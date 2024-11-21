@@ -2,7 +2,7 @@
 
 ### 목차
 
-### 🦺 [개요](#-개요) | 🎓 [사용 기술](#-사용-기술) | 💪 [팀원 소개](#-yesguys---팀원-소개) | 🏭 [서비스 소개](#-서비스-소개) | 🕋 [하드웨어 (HW)](#-하드웨어-hw) | 🎮 [소프트웨어 (SW)](#-소프트웨어-sw) | 📈 [시스템 아키텍쳐](#-시스템-아키텍쳐) |🕶 [기대효과](#-기대효과) |
+### 🦺 [개요](#🦺-개요) | 🎓 [사용 기술](#🎓-사용-기술) | 💪 [팀원 소개](#💪-yesguys---팀원-소개) | 🏭 [서비스 소개](#🏭-서비스-소개) | 🕋 [하드웨어 (HW)](#🕋-하드웨어-hw) | 🎮 [AI](#🎮-ai) | ⚡ [Network](#⚡-network) |  📈 [시스템 아키텍쳐](#📈-시스템-아키텍쳐) |🕶 [기대효과](#🕶-기대효과) |
 
 ## 🦺 개요
 
@@ -10,9 +10,8 @@
 
 ### 서비스명: **불량 Zero**  
 
-### 개발기간: **2024년 10월 14일 ~ 11월 19일 (6주)**
+### 개발기간: **2024년 10월 14일 ~ 11월 19일**
 
-<br>
 
 ## 🎓 사용 기술
 
@@ -100,12 +99,12 @@
     <td style="text-align: center; word-wrap: break-word;">BE / INFRA</td>
   </tr>
   <tr>
-    <td style="text-align: center; word-wrap: break-word;">...</td>
+    <td style="text-align: center; word-wrap: break-word;">PM <br/> 온디바이스 시스템 구축 <br/> HW Sourcing</td>
     <td style="text-align: center; word-wrap: break-word;">인프라 및 CI / CD 구축 <br/> HW 설계, 제작 <br/> 컨베이어 벨트 제어 <br/> MQTT 연결 보조</td>
     <td style="text-align: center; word-wrap: break-word;">공장 HW 구축 및 통신 연결 <br/> 3DOF 로봇 팔 역기구학 시뮬레이션 개발 및 제어 <br/>
 네오 픽셀 LED, 전자석 등 주변 전자 부품 제어</td>
     <td style="text-align: center; word-wrap: break-word;">대시보드 레이아웃 설계 및 제작 <br/> 컨베이어 벨트 제어<br/> MQTT 연결<br/> HW 제작 보조</td>
-    <td style="text-align: center; word-wrap: break-word;">...</td>
+    <td style="text-align: center; word-wrap: break-word;">데이터 수집 및 AI 전이 학습 모델 생성 <br/> MQTT 인프라 구축 <br/> 실시간 생산 기능 Backend 구현 <br/> Raspberry-Pi 통신 및 이미지 탐지 서비스 구현 <br/> PPT 제작</td>
     <td style="text-align: center; word-wrap: break-word;">조력자</td>
   </tr>
 </table>
@@ -132,12 +131,11 @@
 
 <br/>
 
-### 🐱‍🏍 전체 Flow
+### 🐱‍🏍 동작 Flow
 
 <img src="./READMEIMG/service/5.gif" height="550px">
 <br />
 
-### 동작흐름
 
 ### 1. 컨베이어 벨트 이동
 
@@ -188,7 +186,7 @@
          <img src="./READMEIMG/HW/raspberrypi.png" style="max-height: 200px; max-width: 100%;">
     </td>
      <td style="text-align: center;">
-         <img src="./READMEIMG/HW/IR-sensor.PNG" style="max-height: 200px; max-width: 100%;">
+         <img src="./READMEIMG/HW/IR-sensor.png" style="max-height: 200px; max-width: 100%;">
     </td>
     <td style="text-align: center;">
          <img src="./READMEIMG/HW/CAMERA.png" style="max-height: 200px; max-width: 100%;">
@@ -255,7 +253,152 @@
   </tr>
 </table>
 
-## 🎮 소프트웨어 (SW)
+## 🎮 AI
+
+### 📌 모델 선정
+
+<img src="./READMEIMG/SW/yolo_logo.png" alt="yolo logo" style="width: 300px; max-width: 50%;">
+
+- 모델 : YOLOv11n
+- 전이 학습 수행
+- 선정 근거
+  - Edge Device에 적합한 경량 모델 YOLOv11n 사용
+  - YOLOv8 대비 22% 적은 파라미터로 더 높은 mAP 달성
+  - Backbone Network 후 바로 Image Classification을 수행하는 One-stage Detector 방식
+  - 실시간 객체 검출 및 즉각적인 반응이 필요한 스마트 팩토리에 제격
+
+### 📌 데이터셋
+
+- 개수 : 5400여개
+- 이미지 증강
+  - 논문 참조
+    - Taylor, L., & Nitschke, G. (2017). Improving Deep Learning using Generic Data Augmentation. arXiv preprint arXiv:1708.06020.
+  - 기본 증강
+    - Flipping (좌우 반전)
+    - Rotating (회전)
+    - Cropping (자르기)
+    - Fancy PCA (주성분 활용 색 변환)
+    - Color Jittering (색상 변형)
+  - 사용 환경에 따른 추가
+    - Blurring (흐리기)
+    - Brightening (밝기 조정)
+
+### 📌 성능 평가
+
+#### mAP50
+
+<img src="./READMEIMG/SW/yolo_mAP.png" alt="yolo mAP" style="width: 500px; max-width: 50%;"><br>
+- mAP 98.6% 달성
+
+#### before
+
+<img src="./READMEIMG/SW/before.png" alt="before" style="height: 300px; max-width: 50%;"><br>
+
+#### after
+
+<img src="./READMEIMG/SW/after.png" alt="after" style="height: 300px; max-width: 50%;"><br>
+
+#### Confusion Matrix
+
+<img src="./READMEIMG/SW/confusion_matrix.png" alt="confusion matrix" style="height: 400px; max-width: 50%;"><br>
+
+<details>
+<summary>HyperParameters</summary>
+
+- **batch**: `16` - 배치 크기
+- **imgsz**: `640` - 이미지 크기
+- **lr0**: `0.01` - 초기 학습률
+- **lrf**: `0.075` - 최종 학습률
+- **momentum**: `0.937` - 모멘텀 요인
+- **box**: `8.0` - 상자 손실 가중치
+- **cls**: `1.0` - 분류 손실 가중치
+- **dfl**: `2.0` - 초점 손실 가중치
+
+</details>
+
+### 📌 한계점 및 개선사항
+
+- 이미지 증강 DCGAN 사용하여 진행하다 중단
+- 다양한 데이터셋이 더 있었으면 좋았을 것 같음
+
+## ⚡ Network
+
+### 📌 MQTTv5
+
+<img src="./READMEIMG/SW/mqtt_structure.png" alt="mqtt structure" style="height: 300px;"><br>
+
+- **Broker : Eclipse Mosquitto (서버 PC에서 Docker Image로 사용)**
+- 선정 근거
+  - 경량 프로토콜 : 메시지 헤더가 작고 오버헤드가 적어 네트워크 대역폭과 리소스 사용량이 낮음
+  - 비동기 통신 지원 : Publisher-Subscriber 모델을 사용해 송신자와 수신자가 직접 연결되지 않아도 통신 가능
+  - 낮은 Latency : 기존 HTTP 방식보다 가벼운 통신 프로토콜 / 실시간 통신에서 빠르게 데이터를 주고받을 수 있음
+  - 뛰어난 확장성 : 많은 수의 IoT 기기나 센서가 확장 가능한 구조로 손쉽게 추가 가능
+
+### 📌 토픽(topic) 구조
+
+- realtime-oper : Frontend-IoT 작동 제어 관련 topic
+- realtime-prod : IoT-FE, BE 생산 정보 통신 관련 topic
+- realtime-circ : IoT-FE, BE 환경 정보 통신 관련 topic
+- realtime-cycle : 생산 사이클 관련 topic
+
+### 📌 메시지 포맷
+
+- JSON 형식
+```
+  {
+    sender: "sender_example",
+    message: "message_example"
+  }
+```
+
+### 📌 QoS (Quality of Service) 레벨
+
+- 정확한 통신을 위해 QoS-2 사용
+
+<table style="table-layout: fixed;">
+  <tr style="background-color: #2E2E2E;">
+    <td style="text-align: center; word-wrap: break-word;">QoS</td>
+    <td style="text-align: center; word-wrap: break-word;">설명</td>
+    <td style="text-align: center; word-wrap: break-word;">전송 보장</td>
+    <td style="text-align: center; word-wrap: break-word;">중복 수신</td>
+    <td style="text-align: center; word-wrap: break-word;">전송 지연</td>
+    <td style="text-align: center; word-wrap: break-word;">사용 예시</td>
+  </tr>
+  <tr>
+    <td style="text-align: center; word-wrap: break-word;">0</td>
+    <td style="text-align: center; word-wrap: break-word;">At Most Once</td>
+    <td style="text-align: center; word-wrap: break-word;">전송 보장 없음</td>
+    <td style="text-align: center; word-wrap: break-word;">가능</td>
+    <td style="text-align: center; word-wrap: break-word;">최소</td>
+    <td style="text-align: center; word-wrap: break-word;">센서 데이터, 로그 수집</td>
+  </tr>
+  <tr>
+    <td style="text-align: center; word-wrap: break-word;">1</td>
+    <td style="text-align: center; word-wrap: break-word;">At Least Once</td>
+    <td style="text-align: center; word-wrap: break-word;">최소 한번 전송</td>
+    <td style="text-align: center; word-wrap: break-word;">가능</td>
+    <td style="text-align: center; word-wrap: break-word;">보통</td>
+    <td style="text-align: center; word-wrap: break-word;">알림 서비스, 채팅 메시지</td>
+  </tr>
+  <tr>
+    <td style="text-align: center; word-wrap: break-word;">2</td>
+    <td style="text-align: center; word-wrap: break-word;">Exactly Once</td>
+    <td style="text-align: center; word-wrap: break-word;">정확히 한번 전송</td>
+    <td style="text-align: center; word-wrap: break-word;">없음</td>
+    <td style="text-align: center; word-wrap: break-word;">최대</td>
+    <td style="text-align: center; word-wrap: break-word;">금융 거래, 주문 시스템</td>
+  </tr>
+</table>
+
+---
+
+### 📌 클라이언트 라이브러리 및 구현
+
+- Spring : `Eclipse Paho Java`
+- Vue : `Eclipse Paho HTML5 JavaScript over WebSocket`
+- Arduino : `PubSub Client`
+- Raspberry Pi : `Eclipse Paho Python`
+
 
 ## 📈 시스템 아키텍쳐
 
