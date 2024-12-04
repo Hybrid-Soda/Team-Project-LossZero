@@ -130,6 +130,22 @@ SSAFY 전국 결선 141팀 중 3등 (지역 본선 1위) 수상 프로젝트
   <img src="./assets/service/3.PNG" height="200px">
 </div>
 
+#### 정상 너트
+
+  <img src="./assets/service/normal.gif" height="400px">
+
+#### 재사용 가능 너트
+
+  <img src="./assets/service/reusable.gif" height="400px">
+
+#### 불량 너트
+
+  <img src="./assets/service/defect.gif" height="400px">
+
+#### 업데이트 로그
+
+  <img src="./assets/service/update.gif" height="400px">
+
 <br/>
 
 ### 💎 너트를 사용한 이유
